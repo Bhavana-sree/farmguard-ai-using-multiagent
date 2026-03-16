@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - OTP Verification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 450px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 60px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #2e7d32;
+            margin-bottom: 5px;
+        }
+
+        .user-type-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: #f0f8f0;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 20px;
+            border: 2px solid #2e7d32;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #e0e0e0;
+            background: white;
+            font-size: 14px;
+        }
+
+        .progress-step.active {
+            border-color: #2e7d32;
+            background: #2e7d32;
+            color: white;
+        }
+
+        .step-label {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #666;
+            width: 70px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .otp-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .otp-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 60px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 24px;
+            text-align: center;
+            font-weight: bold;
+            outline: none;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .otp-input:focus {
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .timer {
+            text-align: center;
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .resend {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .resend a {
+            color: #2e7d32;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .resend a.disabled {
+            color: #ccc;
+            pointer-events: none;
+        }
+
+        .btn {
+            width: 100%;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+        }
+
+        .btn:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn.secondary {
+            background: white;
+            color: #2e7d32;
+            border: 2px solid #2e7d32;
+            margin-top: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: #f0f8f0;
+            transform: translateY(-2px);
+        }
+
+        .step-indicator {
+            text-align: center;
+            color: #2e7d32;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link a:hover {
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌱</div>
+            <h1>FarmGuard AI</h1>
+        </div>
+
+        <div class="user-type-badge" id="userTypeBadge">Farmer</div>
+
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-step active">
+                1
+                <span class="step-label">OTP</span>
+            </div>
+            <div class="progress-step" id="step2">
+                2
+                <span class="step-label" id="step2Label">Language</span>
+            </div>
+            <div class="progress-step" id="step3">
+                3
+                <span class="step-label" id="step3Label">Register</span>
+            </div>
+            <div class="progress-step" id="step4">
+                4
+                <span class="step-label" id="step4Label">Land</span>
+            </div>
+            <div class="progress-step" id="step5">
+                5
+                <span class="step-label" id="step5Label">Verify</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>📱 Phone Number</label>
+            <input type="tel" id="phoneNumber" placeholder="Enter your 10 digit mobile number" maxlength="10" onkeyup="validatePhone()">
+        </div>
+
+        <div id="otpSection" style="display: none;">
+            <div class="otp-title">Enter OTP sent to <span id="displayPhone"></span></div>
+
+            <div class="otp-inputs">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 1)" id="otp1">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 2)" id="otp2">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 3)" id="otp3">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 4)" id="otp4">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 5)" id="otp5">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 6)" id="otp6">
+            </div>
+
+            <div class="timer" id="timer"></div>
+
+            <div class="resend">
+                <a id="resendLink" onclick="resendOTP()">Resend OTP</a>
+            </div>
+        </div>
+
+        <button class="btn" id="mainBtn" onclick="handleClick()" disabled>
+            Send OTP
+        </button>
+
+        <button class="btn secondary" onclick="goBack()">
+            ← Back
+        </button>
+
+        <div class="step-indicator" id="stepIndicator">
+            Step 1 of 5: OTP Verification
+        </div>
+
+        <div class="back-link">
+            <a href="role-selection.html">← Change Role</a>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const userType = urlParams.get('type') || 'farmer';
+
+        const userTypeBadge = document.getElementById('userTypeBadge');
+        const stepIndicator = document.getElementById('stepIndicator');
+        const progressSteps = document.querySelectorAll('.progress-step');
+
+        // Configure UI based on user type
+        if (userType === 'company') {
+            // Company has 3 steps only
+            userTypeBadge.textContent = 'Company';
+            userTypeBadge.style.background = '#e3f2fd';
+            userTypeBadge.style.color = '#1565c0';
+            userTypeBadge.style.borderColor = '#1565c0';
+            
+            stepIndicator.textContent = 'Step 1 of 3: Company OTP Verification';
+            
+            // Hide steps 4 and 5 for company
+            document.getElementById('step4').style.display = 'none';
+            document.getElementById('step5').style.display = 'none';
+            
+            // Update labels for company
+            document.getElementById('step2Label').textContent = 'Company Info';
+            document.getElementById('step3Label').textContent = 'Preferences';
+            
+        } else if (userType === 'solar') {
+            // Solar has 3 steps only
+            userTypeBadge.textContent = 'Solar Producer';
+            userTypeBadge.style.background = '#fff3e0';
+            userTypeBadge.style.color = '#ff9800';
+            userTypeBadge.style.borderColor = '#ff9800';
+            
+            stepIndicator.textContent = 'Step 1 of 3: Solar Producer OTP Verification';
+            
+            // Hide steps 4 and 5 for solar
+            document.getElementById('step4').style.display = 'none';
+            document.getElementById('step5').style.display = 'none';
+            
+            // Update labels for solar
+            document.getElementById('step2Label').textContent = 'Installation';
+            document.getElementById('step3Label').textContent = 'Estimate';
+            
+        } else {
+            // Farmer has 5 steps
+            userTypeBadge.textContent = 'Farmer';
+            userTypeBadge.style.background = '#f0f8f0';
+            userTypeBadge.style.color = '#2e7d32';
+            userTypeBadge.style.borderColor = '#2e7d32';
+            
+            stepIndicator.textContent = 'Step 1 of 5: Farmer OTP Verification';
+            
+            // Show all steps for farmer
+            document.getElementById('step4').style.display = 'block';
+            document.getElementById('step5').style.display = 'block';
+            
+            // Update labels for farmer
+            document.getElementById('step2Label').textContent = 'Language';
+            document.getElementById('step3Label').textContent = 'Register';
+            document.getElementById('step4Label').textContent = 'Land';
+            document.getElementById('step5Label').textContent = 'Verify';
+        }
+
+        let timerInterval;
+        let timeLeft = 30;
+        let canResend = false;
+        let isOtpSent = false;
+
+        function validatePhone() {
+            const phone = document.getElementById('phoneNumber').value;
+            const btn = document.getElementById('mainBtn');
+            btn.disabled = !(phone.length === 10 && /^\d+$/.test(phone));
+        }
+
+        function handleClick() {
+            if (!isOtpSent) {
+                sendOTP();
+            } else {
+                verifyOTP();
+            }
+        }
+
+        function sendOTP() {
+            const phone = document.getElementById('phoneNumber').value;
+
+            document.getElementById('otpSection').style.display = 'block';
+            document.getElementById('displayPhone').textContent = '+91 ' + phone.replace(/(\d{5})(\d{5})/, '$1 $2');
+
+            const btn = document.getElementById('mainBtn');
+            btn.textContent = 'Verify OTP';
+            btn.disabled = true;
+
+            isOtpSent = true;
+            startTimer();
+            document.getElementById('otp1').focus();
+
+            alert('📱 Demo OTP: 123456');
+        }
+
+        function moveToNext(current, nextId) {
+            if (current.value.length === 1) {
+                if (nextId <= 6) {
+                    document.getElementById(`otp${nextId}`).focus();
+                }
+            }
+            checkOTPComplete();
+        }
+
+        function checkOTPComplete() {
+            let complete = true;
+            for (let i = 1; i <= 6; i++) {
+                if (!document.getElementById(`otp${i}`).value) {
+                    complete = false;
+                    break;
+                }
+            }
+            document.getElementById('mainBtn').disabled = !complete;
+        }
+
+        function startTimer() {
+            timeLeft = 30;
+            canResend = false;
+            document.getElementById('resendLink').classList.add('disabled');
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = `Resend OTP in 00:${timeLeft.toString().padStart(2, '0')}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    canResend = true;
+                    document.getElementById('resendLink').classList.remove('disabled');
+                    document.getElementById('timer').textContent = 'OTP expired';
+                }
+            }, 1000);
+        }
+
+        function resendOTP() {
+            if (!canResend) return;
+
+            alert('📱 New OTP: 123456');
+            startTimer();
+
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`otp${i}`).value = '';
+            }
+            document.getElementById('mainBtn').disabled = true;
+            document.getElementById('otp1').focus();
+        }
+
+        function verifyOTP() {
+            const otp = Array.from({ length: 6 }, (_, i) => document.getElementById(`otp${i + 1}`).value).join('');
+
+            if (otp === '123456') {
+                alert('✅ OTP Verified Successfully!');
+
+                localStorage.setItem('phoneNumber', document.getElementById('phoneNumber').value);
+                localStorage.setItem('userType', userType);
+
+                // UPDATED: Navigate to correct pages based on user type
+                if (userType === 'company') {
+                    window.location.href = 'company-register.html';
+                } else if (userType === 'solar') {
+                    window.location.href = 'solar-register.html';
+                } else {
+                    window.location.href = 'language.html';
+                }
+            } else {
+                alert('❌ Invalid OTP. Please try again. Demo OTP: 123456');
+            }
+        }
+
+        function goBack() {
+            if (isOtpSent) {
+                // If OTP is sent, go back to phone input
+                isOtpSent = false;
+                document.getElementById('otpSection').style.display = 'none';
+                document.getElementById('mainBtn').textContent = 'Send OTP';
+                document.getElementById('mainBtn').disabled = false;
+                document.getElementById('phoneNumber').focus();
+                clearInterval(timerInterval);
+            } else {
+                // Go back to role selection
+                window.location.href = 'role-selection.html';
+            }
+        }
+
+        document.addEventListener('paste', (e) => {
+            if (!isOtpSent) return;
+
+            const paste = e.clipboardData.getData('text');
+            if (paste.length === 6 && /^\d+$/.test(paste)) {
+                for (let i = 0; i < 6; i++) {
+                    document.getElementById(`otp${i + 1}`).value = paste[i];
+                }
+                checkOTPComplete();
+                document.getElementById('otp6').focus();
+            }
+        });
+
+        document.getElementById('phoneNumber').addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        });
+    </script>
+</body>
+</html>

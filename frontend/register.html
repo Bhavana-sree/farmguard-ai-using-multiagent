@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - Farmer Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #2e7d32;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            background: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #e0e0e0;
+        }
+
+        .progress-step.completed,
+        .progress-step.active {
+            border-color: #2e7d32;
+            background: #2e7d32;
+            color: white;
+        }
+
+        .progress-step.active {
+            box-shadow: 0 0 0 5px rgba(46, 125, 50, 0.2);
+        }
+
+        .step-label {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #666;
+            width: 70px;
+            text-align: center;
+        }
+
+        .phone-display {
+            background: #f0f8f0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid #2e7d32;
+        }
+
+        .phone-number {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+
+        .change-phone {
+            color: #667eea;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .language-display {
+            background: #eef4ff;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 20px;
+            border: 2px solid #667eea;
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .voice-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-secondary {
+            background: #667eea;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #5a67d8;
+        }
+
+        .footer {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .message.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            display: block;
+        }
+
+        .message.error {
+            background: #ffebee;
+            color: #c62828;
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌱</div>
+            <h1>Farmer Registration</h1>
+            <div class="subtitle">Complete your profile to continue</div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-step completed">
+                1
+                <span class="step-label">OTP</span>
+            </div>
+            <div class="progress-step completed">
+                2
+                <span class="step-label">Language</span>
+            </div>
+            <div class="progress-step active">
+                3
+                <span class="step-label">Register</span>
+            </div>
+            <div class="progress-step">
+                4
+                <span class="step-label">Land</span>
+            </div>
+            <div class="progress-step">
+                5
+                <span class="step-label">Verify</span>
+            </div>
+        </div>
+
+        <div class="phone-display">
+            <span>📱 Verified Phone</span>
+            <span class="phone-number" id="displayPhone">+91 98765 43210</span>
+            <span class="change-phone" onclick="changePhone()">Change</span>
+        </div>
+
+        <div class="language-display" id="languageDisplay">
+            🌐 Selected Language: English
+        </div>
+
+        <div class="voice-display" id="voiceDisplay">
+            🎤 Voice Assistant: Off
+        </div>
+
+        <div class="form-group">
+            <label>👤 Full Name *</label>
+            <input type="text" id="fullName_input" placeholder="Enter your full name">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>📅 Age</label>
+                <input type="number" id="age_input" placeholder="Age">
+            </div>
+            <div class="form-group">
+                <label>⚥ Gender</label>
+                <select id="gender_select">
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>🏠 Village *</label>
+            <input type="text" id="village_input" placeholder="Enter village name">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>📍 District</label>
+                <input type="text" id="district_input" placeholder="District">
+            </div>
+            <div class="form-group">
+                <label>🌏 State</label>
+                <select id="state_select">
+                    <option>Andhra Pradesh</option>
+                    <option>Telangana</option>
+                    <option>Tamil Nadu</option>
+                    <option>Karnataka</option>
+                    <option>Kerala</option>
+                    <option>Maharashtra</option>
+                    <option>Others</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn" type="button" onclick="registerAndContinue()">
+            Register & Continue →
+        </button>
+
+        <button class="btn btn-secondary" type="button" onclick="goBackToLanguage()">
+            ← Back to Language
+        </button>
+
+        <div id="messageBox" class="message"></div>
+
+        <div class="footer">
+            Step 3 of 5: Registration
+        </div>
+    </div>
+
+    <script>
+        const BACKEND_URL = "http://127.0.0.1:8000";
+
+        const savedPhone = localStorage.getItem("phoneNumber");
+        const savedLanguage = JSON.parse(localStorage.getItem("selectedLanguage") || "{}");
+        const voiceEnabled = localStorage.getItem("voiceEnabled") === "true";
+
+        function formatPhone(phone) {
+            if (!phone) return "";
+            return phone.length === 10
+                ? "+91 " + phone.replace(/(\d{5})(\d{5})/, "$1 $2")
+                : "+91 " + phone;
+        }
+
+        function showMessage(text, type) {
+            const box = document.getElementById("messageBox");
+            box.textContent = text;
+            box.className = `message ${type}`;
+        }
+
+        function changePhone() {
+            if (confirm("Go back to change phone number?")) {
+                window.location.href = "./otp.html?type=farmer";
+            }
+        }
+
+        function goBackToLanguage() {
+            window.location.href = "./language.html?type=farmer";
+        }
+
+        async function registerAndContinue() {
+            const fullName = document.getElementById("fullName_input").value.trim();
+            const age = document.getElementById("age_input").value;
+            const gender = document.getElementById("gender_select").value;
+            const village = document.getElementById("village_input").value.trim();
+            const district = document.getElementById("district_input").value.trim();
+            const state = document.getElementById("state_select").value;
+
+            if (!fullName) {
+                showMessage("Please enter your full name", "error");
+                return;
+            }
+
+            if (!village) {
+                showMessage("Please enter your village name", "error");
+                return;
+            }
+
+            if (!age || age < 18 || age > 120) {
+                showMessage("Please enter a valid age (18-120)", "error");
+                return;
+            }
+
+            const farmerData = {
+                fullName: fullName,
+                name: fullName,
+                age: age,
+                gender: gender,
+                village: village,
+                district: district,
+                state: state,
+                language: savedLanguage.name || "English",
+                languageCode: savedLanguage.code || "english",
+                voiceEnabled: voiceEnabled,
+                phone: savedPhone,
+                registeredAt: new Date().toISOString()
+            };
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/register_farmer`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name: fullName,
+                        phone: savedPhone,
+                        village: village,
+                        language: savedLanguage.name || "English"
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    showMessage(result.detail || "Registration failed", "error");
+                    return;
+                }
+
+                farmerData.farmer_id = result.farmer_id;
+
+                localStorage.setItem("farmerData", JSON.stringify(farmerData));
+                localStorage.setItem("farmerId", String(result.farmer_id));
+                localStorage.setItem("farmerName", fullName);
+                localStorage.setItem("farmerVillage", village);
+
+                showMessage(`Registration successful. Farmer ID: ${result.farmer_id}`, "success");
+
+                console.log("Redirecting to ./land.html");
+
+                setTimeout(() => {
+                    window.location.assign("./land.html");
+                }, 800);
+
+            } catch (error) {
+                console.error("Fetch error:", error);
+                showMessage("Could not connect to backend. Make sure backend is running on port 8000.", "error");
+            }
+        }
+
+        window.onload = function () {
+            if (!savedPhone) {
+                alert("Please verify OTP first");
+                window.location.href = "./otp.html?type=farmer";
+                return;
+            }
+
+            document.getElementById("displayPhone").textContent = formatPhone(savedPhone);
+
+            if (savedLanguage.name) {
+                document.getElementById("languageDisplay").textContent =
+                    `${savedLanguage.flag || "🌐"} Selected Language: ${savedLanguage.name}`;
+            }
+
+            document.getElementById("voiceDisplay").textContent =
+                `🎤 Voice Assistant: ${voiceEnabled ? "On" : "Off"}`;
+
+            const existingData = localStorage.getItem("farmerData");
+            if (existingData) {
+                try {
+                    const data = JSON.parse(existingData);
+                    document.getElementById("fullName_input").value = data.fullName || data.name || "";
+                    document.getElementById("age_input").value = data.age || "";
+                    document.getElementById("village_input").value = data.village || "";
+                    document.getElementById("district_input").value = data.district || "";
+
+                    if (data.gender) {
+                        document.getElementById("gender_select").value = data.gender;
+                    }
+
+                    if (data.state) {
+                        document.getElementById("state_select").value = data.state;
+                    }
+                } catch (e) {
+                    console.log("No old farmer data restored");
+                }
+            }
+        };
+    </script>
+</body>
+</html>

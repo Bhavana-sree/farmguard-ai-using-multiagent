@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - Carbon Marketplace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .topbar {
+            background: white;
+            border-radius: 20px;
+            padding: 16px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .top-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .home-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #f0f8f0;
+            border: 2px solid #2e7d32;
+            color: #2e7d32;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .home-btn:hover {
+            background: #2e7d32;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .brand-text h2 {
+            color: #1b5e20;
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .brand-text p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .company-badge {
+            background: #2e7d32;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .profile-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            border: 2px solid #2e7d32;
+            cursor: pointer;
+        }
+
+        /* Marketplace Header */
+        .market-header {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-title h1 {
+            color: #2e7d32;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header-title p {
+            color: #64748b;
+        }
+
+        .market-stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-chip {
+            background: #f0f8f0;
+            border: 2px solid #2e7d32;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .tab:hover {
+            background: #f0f8f0;
+        }
+
+        .tab.active {
+            background: #2e7d32;
+            color: white;
+            border-color: #1b5e20;
+        }
+
+        /* Solar Credits Special Section */
+        .solar-section {
+            background: linear-gradient(135deg, #ffb347, #ff8c00);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            color: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            box-shadow: 0 15px 35px rgba(255,140,0,0.3);
+        }
+
+        .solar-info h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .solar-info p {
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .solar-stats {
+            display: flex;
+            gap: 30px;
+        }
+
+        .solar-stat {
+            text-align: center;
+        }
+
+        .solar-stat .big {
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .solar-stat .small {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .solar-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .solar-price {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .solar-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .solar-features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .buy-solar-btn {
+            width: 100%;
+            background: white;
+            color: #ff8c00;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .buy-solar-btn:hover {
+            background: #f0f8f0;
+            transform: translateY(-2px);
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .apply-filters {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Marketplace Grid */
+        .market-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        /* Credit Cards */
+        .credits-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h3 {
+            color: #2e7d32;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .credit-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .credit-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            transition: 0.3s;
+            background: #f8fafc;
+        }
+
+        .credit-card:hover {
+            transform: translateY(-5px);
+            border-color: #2e7d32;
+        }
+
+        .credit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-orange {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .credit-type {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .credit-type-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #f0f8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .credit-details {
+            margin-bottom: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .detail-label {
+            color: #64748b;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .farmers-list {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 15px 0;
+        }
+
+        .farmer-tag {
+            display: inline-block;
+            background: #f0f8f0;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin: 2px;
+        }
+
+        .credit-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: 800;
+            color: #2e7d32;
+        }
+
+        .buy-btn {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .buy-btn:hover {
+            background: #1b5e20;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .summary-card h3 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .total-price {
+            font-size: 24px;
+            font-weight: 800;
+            color: #2e7d32;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .solar-section {
+                grid-template-columns: 1fr;
+            }
+
+            .market-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="top-left">
+                <a href="company-dashboard.html" class="home-btn">🏠</a>
+                <div class="brand">
+                    <div class="brand-logo">🏢</div>
+                    <div class="brand-text">
+                        <h2>FarmGuard AI</h2>
+                        <p>Carbon Marketplace</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <div class="company-badge">
+                    <span>✓</span>
+                    <span id="companyName">Verified Company</span>
+                </div>
+                <div class="profile-avatar" onclick="window.location.href='company-profile.html'">C</div>
+            </div>
+        </div>
+
+        <!-- Marketplace Header -->
+        <div class="market-header">
+            <div class="header-title">
+                <h1>Carbon Credit Marketplace</h1>
+                <p>Discover verified carbon credits from farmers and solar cooperatives</p>
+            </div>
+            <div class="market-stats">
+                <span class="stat-chip" id="totalFarmers">🌾 156 Farmers</span>
+                <span class="stat-chip" id="totalSolar">☀️ 12 Solar Groups</span>
+                <span class="stat-chip" id="totalCredits">🌿 45,890 Credits</span>
+            </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <button class="tab active" onclick="filterByType('all')">All Credits</button>
+            <button class="tab" onclick="filterByType('farmer')">🌾 Farmer Credits</button>
+            <button class="tab" onclick="filterByType('solar')">☀️ Solar Credits</button>
+            <button class="tab" onclick="filterByType('aggregated')">🔄 Aggregated (Small Owners)</button>
+        </div>
+
+        <!-- Solar Credits Special Section -->
+        <div class="solar-section" id="solarSection">
+            <div class="solar-info">
+                <h2>
+                    <span>☀️</span>
+                    Solar Credit Aggregation
+                </h2>
+                <p>Small solar farm owners have combined their credits into larger, easy-to-purchase bundles. Support local solar energy producers!</p>
+                
+                <div class="solar-stats">
+                    <div class="solar-stat">
+                        <div class="big" id="smallOwners">24</div>
+                        <div class="small">Small Owners</div>
+                    </div>
+                    <div class="solar-stat">
+                        <div class="big" id="aggregatedCredits">3,450</div>
+                        <div class="small">Total Credits</div>
+                    </div>
+                    <div class="solar-stat">
+                        <div class="big" id="avgPrice">₹845</div>
+                        <div class="small">Avg Price</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solar-card">
+                <div class="solar-price" id="bundlePrice">₹29,17,250</div>
+                <ul class="solar-features">
+                    <li>✅ 3,450 combined credits</li>
+                    <li>✅ 24 small solar owners</li>
+                    <li>✅ ₹845 avg price per credit</li>
+                    <li>✅ Single purchase, multiple beneficiaries</li>
+                    <li>✅ Solar renewable energy credits</li>
+                </ul>
+                <button class="buy-solar-btn" onclick="buySolarBundle()">Buy Aggregated Bundle →</button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filter-group">
+                <label>Credit Type</label>
+                <select id="typeFilter" onchange="applyFilters()">
+                    <option value="all">All Types</option>
+                    <option value="farmer">Farmer (Tree-based)</option>
+                    <option value="solar">Solar Energy</option>
+                    <option value="aggregated">Aggregated Solar</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Price Range</label>
+                <select id="priceFilter" onchange="applyFilters()">
+                    <option value="all">All Prices</option>
+                    <option value="low">Below ₹800</option>
+                    <option value="mid">₹800 - ₹900</option>
+                    <option value="high">Above ₹900</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Location</label>
+                <select id="locationFilter" onchange="applyFilters()">
+                    <option value="all">All Locations</option>
+                    <option value="north">North India</option>
+                    <option value="south">South India</option>
+                    <option value="east">East India</option>
+                    <option value="west">West India</option>
+                </select>
+            </div>
+
+            <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="market-grid">
+            <!-- Credit Cards Section -->
+            <div class="credits-section">
+                <div class="section-header">
+                    <h3>
+                        <span>🌿</span>
+                        Available Credits
+                    </h3>
+                    <span id="resultsCount">Showing 12 results</span>
+                </div>
+
+                <div class="credit-cards" id="creditCards">
+                    <!-- Dynamically filled by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="summary-card">
+                    <h3>
+                        <span>📊</span>
+                        Market Summary
+                    </h3>
+                    
+                    <div class="summary-item">
+                        <span>Farmer Credits</span>
+                        <span id="farmerTotal">32,440</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>Solar Credits</span>
+                        <span id="solarTotal">10,000</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>Aggregated Credits</span>
+                        <span id="aggregatedTotal">3,450</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>Average Price</span>
+                        <span id="avgMarketPrice">₹865</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>Total Value</span>
+                        <span class="total-price" id="totalValue">₹3.97Cr</span>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3>
+                        <span>👥</span>
+                        Top Aggregators
+                    </h3>
+                    
+                    <div class="summary-item">
+                        <span>Green Solar Coop</span>
+                        <span>1,250 credits</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>Rural Solar Group</span>
+                        <span>980 credits</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>Sunrise Collective</span>
+                        <span>720 credits</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>Village Solar Trust</span>
+                        <span>500 credits</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            FarmGuard AI • Verified Carbon Credits • Supporting Small Owners
+        </div>
+    </div>
+
+    <script>
+        // Load company data
+        const companyData = JSON.parse(localStorage.getItem('companyData') || '{}');
+        document.getElementById('companyName').textContent = companyData.companyName || 'Verified Company';
+        document.querySelector('.profile-avatar').textContent = (companyData.companyName || 'C').charAt(0);
+
+        // Sample data for credits
+        const credits = [
+            // Farmer Credits
+            { type: 'farmer', name: 'Ramesh Kumar', location: 'Maharashtra', credits: 250, price: 890, icon: '🌾' },
+            { type: 'farmer', name: 'Priya Singh', location: 'Uttar Pradesh', credits: 180, price: 875, icon: '🌾' },
+            { type: 'farmer', name: 'Suresh Patel', location: 'Gujarat', credits: 320, price: 895, icon: '🌾' },
+            { type: 'farmer', name: 'Lakshmi Devi', location: 'Tamil Nadu', credits: 150, price: 865, icon: '🌾' },
+            
+            // Solar Credits (Individual)
+            { type: 'solar', name: 'SunPower Energy', location: 'Rajasthan', credits: 500, price: 820, icon: '☀️' },
+            { type: 'solar', name: 'Green Solar', location: 'Gujarat', credits: 750, price: 830, icon: '☀️' },
+            { type: 'solar', name: 'SolarTech', location: 'Maharashtra', credits: 600, price: 815, icon: '☀️' },
+            
+            // Aggregated Solar Credits (Small owners combined)
+            { 
+                type: 'aggregated', 
+                name: 'Green Solar Cooperative', 
+                location: 'Multiple', 
+                credits: 1250, 
+                price: 840,
+                icon: '🔄',
+                farmers: ['Raju (50)', 'Gopal (45)', 'Meena (60)', 'Shanti (40)', '+8 more'],
+                description: '12 small solar owners combined'
+            },
+            { 
+                type: 'aggregated', 
+                name: 'Rural Solar Group', 
+                location: 'Uttar Pradesh', 
+                credits: 980, 
+                price: 845,
+                icon: '🔄',
+                farmers: ['Village A (120)', 'Village B (85)', '+6 villages'],
+                description: '8 village solar cooperatives'
+            },
+            { 
+                type: 'aggregated', 
+                name: 'Sunrise Collective', 
+                location: 'Bihar', 
+                credits: 720, 
+                price: 850,
+                icon: '🔄',
+                farmers: ['Small farmers (15)', 'Households (23)'],
+                description: '38 small solar installations'
+            },
+            { 
+                type: 'aggregated', 
+                name: 'Village Solar Trust', 
+                location: 'Odisha', 
+                credits: 500, 
+                price: 855,
+                icon: '🔄',
+                farmers: ['Panchayat solar (200)', 'School (150)', 'Health center (150)'],
+                description: 'Community solar projects'
+            }
+        ];
+
+        let currentFilter = { type: 'all', price: 'all', location: 'all' };
+
+        function displayCredits(filteredCredits) {
+            const container = document.getElementById('creditCards');
+            let html = '';
+
+            filteredCredits.forEach(credit => {
+                if (credit.type === 'aggregated') {
+                    // Display aggregated credit card
+                    html += `
+                        <div class="credit-card" data-type="${credit.type}" data-location="${credit.location}" data-price="${credit.price}">
+                            <div class="credit-header">
+                                <span class="badge badge-orange">🔄 Aggregated</span>
+                                <span class="badge badge-green">${credit.credits} credits</span>
+                            </div>
+                            
+                            <div class="credit-type">
+                                <div class="credit-type-icon">${credit.icon}</div>
+                                <div>
+                                    <h4>${credit.name}</h4>
+                                    <p style="color: #64748b; font-size: 13px;">${credit.description}</p>
+                                </div>
+                            </div>
+
+                            <div class="credit-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">📍 Location</span>
+                                    <span class="detail-value">${credit.location}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">👥 Small Owners</span>
+                                    <span class="detail-value">${credit.farmers.length}</span>
+                                </div>
+                            </div>
+
+                            <div class="farmers-list">
+                                ${credit.farmers.map(f => `<span class="farmer-tag">${f}</span>`).join('')}
+                            </div>
+
+                            <div class="credit-footer">
+                                <div class="price">₹${credit.price}/credit</div>
+                                <button class="buy-btn" onclick="buyAggregatedCredits('${credit.name}', ${credit.credits}, ${credit.price})">
+                                    Buy Bundle
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Display regular credit card
+                    html += `
+                        <div class="credit-card" data-type="${credit.type}" data-location="${credit.location}" data-price="${credit.price}">
+                            <div class="credit-header">
+                                <span class="badge ${credit.type === 'farmer' ? 'badge-green' : 'badge-blue'}">
+                                    ${credit.type === 'farmer' ? '🌾 Farmer' : '☀️ Solar'}
+                                </span>
+                                <span class="badge badge-green">${credit.credits} credits</span>
+                            </div>
+                            
+                            <div class="credit-type">
+                                <div class="credit-type-icon">${credit.icon}</div>
+                                <div>
+                                    <h4>${credit.name}</h4>
+                                    <p style="color: #64748b; font-size: 13px;">Individual producer</p>
+                                </div>
+                            </div>
+
+                            <div class="credit-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">📍 Location</span>
+                                    <span class="detail-value">${credit.location}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">📊 Credit Type</span>
+                                    <span class="detail-value">${credit.type === 'farmer' ? 'Tree-based' : 'Solar'}</span>
+                                </div>
+                            </div>
+
+                            <div class="credit-footer">
+                                <div class="price">₹${credit.price}/credit</div>
+                                <button class="buy-btn" onclick="buyCredits('${credit.name}', ${credit.credits}, ${credit.price})">
+                                    Buy
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            container.innerHTML = html;
+            document.getElementById('resultsCount').textContent = `Showing ${filteredCredits.length} results`;
+        }
+
+        function filterByType(type) {
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentFilter.type = type;
+            applyFilters();
+        }
+
+        function applyFilters() {
+            currentFilter.type = document.getElementById('typeFilter').value;
+            currentFilter.price = document.getElementById('priceFilter').value;
+            currentFilter.location = document.getElementById('locationFilter').value;
+
+            let filtered = credits;
+
+            // Filter by type
+            if (currentFilter.type !== 'all') {
+                filtered = filtered.filter(c => c.type === currentFilter.type);
+            }
+
+            // Filter by price
+            if (currentFilter.price !== 'all') {
+                filtered = filtered.filter(c => {
+                    if (currentFilter.price === 'low') return c.price < 800;
+                    if (currentFilter.price === 'mid') return c.price >= 800 && c.price <= 900;
+                    if (currentFilter.price === 'high') return c.price > 900;
+                });
+            }
+
+            // Filter by location
+            if (currentFilter.location !== 'all') {
+                filtered = filtered.filter(c => 
+                    c.location.toLowerCase().includes(currentFilter.location)
+                );
+            }
+
+            displayCredits(filtered);
+            updateMarketStats();
+        }
+
+        function buyCredits(name, credits, price) {
+            const total = credits * price;
+            alert(`Purchase initiated for ${credits} credits from ${name} for ₹${total.toLocaleString()}`);
+        }
+
+        function buyAggregatedCredits(name, credits, price) {
+            const total = credits * price;
+            const confirmBuy = confirm(
+                `Buy aggregated bundle from ${name}?\n\n` +
+                `Credits: ${credits}\n` +
+                `Price per credit: ₹${price}\n` +
+                `Total: ₹${total.toLocaleString()}\n\n` +
+                `This purchase will support multiple small solar owners!`
+            );
+            
+            if (confirmBuy) {
+                alert(`Purchase successful! You have bought ${credits} solar credits supporting small owners.`);
+            }
+        }
+
+        function buySolarBundle() {
+            const total = 3450 * 845;
+            const confirmBuy = confirm(
+                `Buy Complete Solar Bundle?\n\n` +
+                `Credits: 3,450\n` +
+                `Price per credit: ₹845\n` +
+                `Total: ₹29,17,250\n\n` +
+                `This supports 24 small solar owners across rural India!`
+            );
+            
+            if (confirmBuy) {
+                alert(`Thank you for supporting small solar owners! Your purchase helps 24 families.`);
+            }
+        }
+
+        function updateMarketStats() {
+            const farmerTotal = credits.filter(c => c.type === 'farmer').reduce((sum, c) => sum + c.credits, 0);
+            const solarTotal = credits.filter(c => c.type === 'solar').reduce((sum, c) => sum + c.credits, 0);
+            const aggregatedTotal = credits.filter(c => c.type === 'aggregated').reduce((sum, c) => sum + c.credits, 0);
+            const totalCredits = farmerTotal + solarTotal + aggregatedTotal;
+            
+            const avgPrice = Math.round(credits.reduce((sum, c) => sum + c.price, 0) / credits.length);
+            const totalValue = (farmerTotal * 880 + solarTotal * 820 + aggregatedTotal * 845) / 10000000; // in Cr
+            
+            document.getElementById('farmerTotal').textContent = farmerTotal.toLocaleString();
+            document.getElementById('solarTotal').textContent = solarTotal.toLocaleString();
+            document.getElementById('aggregatedTotal').textContent = aggregatedTotal.toLocaleString();
+            document.getElementById('avgMarketPrice').textContent = `₹${avgPrice}`;
+            document.getElementById('totalValue').textContent = `₹${totalValue.toFixed(2)}Cr`;
+        }
+
+        // Initialize
+        displayCredits(credits);
+        updateMarketStats();
+    </script>
+</body>
+</html>

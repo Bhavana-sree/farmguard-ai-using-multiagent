@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - Farmer Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 0 auto;
+        }
+
+        .topbar,
+        .hero,
+        .card,
+        .quick-card,
+        .activity-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 24px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+        }
+
+        .topbar {
+            padding: 16px 22px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-logo {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .brand h1 {
+            color: #1b5e20;
+            font-size: 24px;
+            margin-bottom: 3px;
+        }
+
+        .brand p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .top-btn {
+            border: none;
+            background: #f0f8f0;
+            color: #1b5e20;
+            padding: 11px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .top-btn:hover {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .hero {
+            padding: 28px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1.7fr 1fr;
+            gap: 20px;
+        }
+
+        .hero-left h2 {
+            font-size: 30px;
+            color: #1b5e20;
+            margin-bottom: 10px;
+        }
+
+        .hero-left p {
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        .hero-badge {
+            background: #ecfdf5;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 9px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            border: none;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+            font-size: 15px;
+        }
+
+        .hero-btn-primary {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .hero-btn-primary:hover {
+            background: #1b5e20;
+        }
+
+        .hero-btn-secondary {
+            background: #667eea;
+            color: white;
+        }
+
+        .hero-btn-secondary:hover {
+            background: #5364d9;
+        }
+
+        .hero-right {
+            background: linear-gradient(135deg, #2e7d32, #14532d);
+            color: white;
+            border-radius: 22px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-right .small {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .hero-right .big {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .hero-right .sub {
+            font-size: 15px;
+            opacity: 0.92;
+            margin-bottom: 18px;
+        }
+
+        .hero-mini-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .hero-mini {
+            background: rgba(255,255,255,0.14);
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .hero-mini-label {
+            font-size: 12px;
+            opacity: 0.85;
+            margin-bottom: 6px;
+        }
+
+        .hero-mini-value {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            padding: 22px;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 30px;
+            color: #1b5e20;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .stat-sub {
+            color: #16a34a;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: #1b5e20;
+            margin-bottom: 16px;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .quick-card {
+            padding: 20px;
+            border: 2px solid #eef2f7;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-4px);
+            border-color: #2e7d32;
+        }
+
+        .quick-icon {
+            font-size: 34px;
+            margin-bottom: 12px;
+        }
+
+        .quick-title {
+            color: #1e293b;
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .quick-text {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .activity-card {
+            padding: 22px;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .activity-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #e8f5e9;
+            color: #1b5e20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .activity-title {
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .activity-text {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .land-box,
+        .transaction-box {
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .land-title,
+        .transaction-title {
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .land-line,
+        .transaction-line {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .status-chip {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        .empty-note {
+            color: #64748b;
+            font-size: 14px;
+            background: #f8fafc;
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 22px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 1024px) {
+            .hero,
+            .main-grid,
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .stats-grid,
+            .quick-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-left h2 {
+                font-size: 24px;
+            }
+
+            .hero-right .big {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="topbar">
+            <div class="brand">
+                <div class="brand-logo">🌱</div>
+                <div>
+                    <h1>FarmGuard AI</h1>
+                    <p>Farmer Dashboard</p>
+                </div>
+            </div>
+
+            <div class="top-actions">
+                <button class="top-btn" onclick="goProfile()">👤 Profile</button>
+                <button class="top-btn" onclick="goReport()">📄 Report</button>
+                <button class="top-btn" onclick="goMarketplace()">🛒 Marketplace</button>
+                <button class="top-btn" onclick="goEarnings()">💰 Earnings</button>
+            </div>
+        </div>
+
+        <div class="hero">
+            <div class="hero-left">
+                <h2 id="welcomeTitle">Welcome Farmer</h2>
+                <p>
+                    Manage your farm registration, monitor vegetation analysis, track carbon credits,
+                    download reports, and connect with carbon credit buyers from one place.
+                </p>
+
+                <div class="hero-badges">
+                    <span class="hero-badge" id="locationBadge">📍 Location not set</span>
+                    <span class="hero-badge" id="languageBadge">🌐 Language</span>
+                    <span class="hero-badge" id="statusBadge">✅ Profile Ready</span>
+                </div>
+
+                <div class="hero-actions">
+                    <button class="hero-btn hero-btn-primary" onclick="startAnalysisFlow()">
+                        Start / Continue Analysis
+                    </button>
+                    <button class="hero-btn hero-btn-secondary" onclick="goProfile()">
+                        View Full Profile
+                    </button>
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <div class="small">Current Carbon Credit Status</div>
+                <div class="big" id="heroCredits">0 Credits</div>
+                <div class="sub" id="heroMarketStatus">Run analysis to see your marketplace readiness.</div>
+
+                <div class="hero-mini-grid">
+                    <div class="hero-mini">
+                        <div class="hero-mini-label">CO₂ Removed</div>
+                        <div class="hero-mini-value" id="heroCo2">0 kg</div>
+                    </div>
+                    <div class="hero-mini">
+                        <div class="hero-mini-label">Potential Value</div>
+                        <div class="hero-mini-value" id="heroValue">₹0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="card">
+                <div class="stat-label">Registered Lands</div>
+                <div class="stat-value" id="statLands">0</div>
+                <div class="stat-sub">Farm records linked</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">Trees Detected</div>
+                <div class="stat-value" id="statTrees">0</div>
+                <div class="stat-sub">From latest analysis</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">Carbon Credits</div>
+                <div class="stat-value" id="statCredits">0</div>
+                <div class="stat-sub">Eligible for sale</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">Potential Revenue</div>
+                <div class="stat-value" id="statRevenue">₹0</div>
+                <div class="stat-sub">Based on market analysis</div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="card">
+                <div class="section-title">Quick Actions</div>
+                <div class="quick-grid">
+                    <div class="quick-card" onclick="goRegister()">
+                        <div class="quick-icon">📝</div>
+                        <div class="quick-title">Farmer Registration</div>
+                        <div class="quick-text">Update or review your farmer identity and personal details.</div>
+                    </div>
+
+                    <div class="quick-card" onclick="goLand()">
+                        <div class="quick-icon">🗺️</div>
+                        <div class="quick-title">Register Land</div>
+                        <div class="quick-text">Mark your land using maps and save farm information.</div>
+                    </div>
+
+                    <div class="quick-card" onclick="goAnalysis()">
+                        <div class="quick-icon">🤖</div>
+                        <div class="quick-title">Run AI Analysis</div>
+                        <div class="quick-text">Use Sentinel Hub data, NDVI, and AI validation for farm analysis.</div>
+                    </div>
+
+                    <div class="quick-card" onclick="goReport()">
+                        <div class="quick-icon">📄</div>
+                        <div class="quick-title">Download Report</div>
+                        <div class="quick-text">Open your final carbon credit report and export the PDF.</div>
+                    </div>
+
+                    <div class="quick-card" onclick="goMarketplace()">
+                        <div class="quick-icon">🛒</div>
+                        <div class="quick-title">Carbon Marketplace</div>
+                        <div class="quick-text">Check buyers and sell your available carbon credits.</div>
+                    </div>
+
+                    <div class="quick-card" onclick="goEarnings()">
+                        <div class="quick-icon">💰</div>
+                        <div class="quick-title">Earnings Dashboard</div>
+                        <div class="quick-text">Track revenue, payments, and marketplace transactions.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="section-title">Recent Activity</div>
+                <div class="activity-list" id="activityList"></div>
+            </div>
+        </div>
+
+        <div class="bottom-grid">
+            <div class="card">
+                <div class="section-title">Latest Registered Land</div>
+                <div id="landSection"></div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">Latest Marketplace Transaction</div>
+                <div id="transactionSection"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            FarmGuard AI • Smart carbon credit management for farmers
+        </div>
+    </div>
+
+    <script>
+        const farmerData = JSON.parse(localStorage.getItem("farmerData") || "{}");
+        const landData = JSON.parse(localStorage.getItem("landData") || "{}");
+        const cropData = JSON.parse(localStorage.getItem("cropData") || "{}");
+        const analysisResult = JSON.parse(localStorage.getItem("analysisResult") || "{}");
+        const marketTransaction = JSON.parse(localStorage.getItem("marketTransaction") || "{}");
+
+        function safe(v, fallback = "-") {
+            return v !== undefined && v !== null && v !== "" ? v : fallback;
+        }
+
+        function toInr(usdValue) {
+            const usd = Number(usdValue || 0);
+            return Math.round(usd * 83);
+        }
+
+        function goProfile() { window.location.href = "profile.html"; }
+        function goReport() { window.location.href = "report.html"; }
+        function goMarketplace() { window.location.href = "marketplace.html"; }
+        function goEarnings() { window.location.href = "earnings.html"; }
+        function goRegister() { window.location.href = "register.html"; }
+        function goLand() { window.location.href = "land.html"; }
+        function goAnalysis() { window.location.href = "analysis.html"; }
+
+        function startAnalysisFlow() {
+            if (!farmerData.fullName && !farmerData.name) {
+                window.location.href = "register.html";
+                return;
+            }
+
+            if (!landData.latitude && !landData.longitude) {
+                window.location.href = "land.html";
+                return;
+            }
+
+            if (!cropData.method) {
+                window.location.href = "crops.html";
+                return;
+            }
+
+            window.location.href = "analysis.html";
+        }
+
+        function loadHero() {
+            const carbon = analysisResult.carbon_analysis || {};
+            const market = analysisResult.market_analysis || {};
+            const validation = analysisResult.validation_result || {};
+            const credits = Number(carbon.carbon_credits || 0);
+            const co2 = Number(carbon.co2_kg || 0);
+            const inr = toInr(market.total_value_usd || 0);
+
+            document.getElementById("welcomeTitle").textContent =
+                `Welcome ${safe(farmerData.fullName || farmerData.name, "Farmer")}`;
+
+            document.getElementById("locationBadge").textContent =
+                `📍 ${safe(farmerData.village, "Village")}, ${safe(farmerData.state, "State")}`;
+
+            document.getElementById("languageBadge").textContent =
+                `🌐 ${safe(farmerData.language, "English")}`;
+
+            document.getElementById("statusBadge").textContent =
+                `✅ ${safe(validation.status, "Profile Ready")}`;
+
+            document.getElementById("heroCredits").textContent = `${credits} Credits`;
+            document.getElementById("heroCo2").textContent = `${co2.toLocaleString()} kg`;
+            document.getElementById("heroValue").textContent = `₹${inr.toLocaleString()}`;
+            document.getElementById("heroMarketStatus").textContent =
+                safe(market.market_status, "Run analysis to see your marketplace readiness.");
+        }
+
+        function loadStats() {
+            const carbon = analysisResult.carbon_analysis || {};
+            const market = analysisResult.market_analysis || {};
+            const vision = analysisResult.vision_analysis || {};
+
+            document.getElementById("statLands").textContent = landData.surveyNumber ? "1" : "0";
+            document.getElementById("statTrees").textContent = Number(vision.estimated_trees || 0).toLocaleString();
+            document.getElementById("statCredits").textContent = Number(carbon.carbon_credits || 0).toLocaleString();
+            document.getElementById("statRevenue").textContent = `₹${toInr(market.total_value_usd || 0).toLocaleString()}`;
+        }
+
+        function loadActivity() {
+            const list = document.getElementById("activityList");
+            const items = [];
+
+            if (farmerData.fullName || farmerData.name) {
+                items.push({
+                    icon: "1",
+                    title: "Farmer profile created",
+                    text: `${safe(farmerData.fullName || farmerData.name)} registered successfully.`
+                });
+            }
+
+            if (landData.surveyNumber || landData.latitude) {
+                items.push({
+                    icon: "2",
+                    title: "Land registered",
+                    text: `Land survey ${safe(landData.surveyNumber, "N/A")} saved with map location.`
+                });
+            }
+
+            if (cropData.method) {
+                items.push({
+                    icon: "3",
+                    title: "Crop or tree input added",
+                    text: `Input method selected: ${safe(cropData.method)}.`
+                });
+            }
+
+            if (analysisResult.validation_result) {
+                items.push({
+                    icon: "4",
+                    title: "AI analysis completed",
+                    text: `Validation status: ${safe(analysisResult.validation_result.status)}.`
+                });
+            }
+
+            if (marketTransaction.buyer) {
+                items.push({
+                    icon: "5",
+                    title: "Marketplace transaction saved",
+                    text: `Latest buyer: ${marketTransaction.buyer}.`
+                });
+            }
+
+            if (!items.length) {
+                list.innerHTML = `
+                    <div class="empty-note">
+                        No activity yet. Start by registering farmer details and land information.
+                    </div>
+                `;
+                return;
+            }
+
+            let html = "";
+            items.forEach(item => {
+                html += `
+                    <div class="activity-item">
+                        <div class="activity-icon">${item.icon}</div>
+                        <div>
+                            <div class="activity-title">${item.title}</div>
+                            <div class="activity-text">${item.text}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        function loadLandSection() {
+            const box = document.getElementById("landSection");
+
+            if (!Object.keys(landData).length) {
+                box.innerHTML = `
+                    <div class="empty-note">
+                        No land has been registered yet. Add your land using the map to continue analysis.
+                    </div>
+                `;
+                return;
+            }
+
+            const trees = analysisResult.vision_analysis?.estimated_trees || 0;
+            box.innerHTML = `
+                <div class="land-box">
+                    <div class="land-title">Main Farm</div>
+                    <div class="land-line">Survey Number: ${safe(landData.surveyNumber, "N/A")}</div>
+                    <div class="land-line">Land Type: ${safe(landData.landType, "N/A")}</div>
+                    <div class="land-line">Area: ${safe(landData.areaAcres, 0)} acres</div>
+                    <div class="land-line">Water Source: ${safe(landData.waterSource, "N/A")}</div>
+                    <div class="land-line">Estimated Trees: ${trees}</div>
+                    <div class="status-chip">${safe(analysisResult.validation_result?.status, "Registered")}</div>
+                </div>
+            `;
+        }
+
+        function loadTransactionSection() {
+            const box = document.getElementById("transactionSection");
+
+            if (!marketTransaction.buyer) {
+                box.innerHTML = `
+                    <div class="empty-note">
+                        No marketplace transaction yet. Sell your credits in the marketplace to see earnings here.
+                    </div>
+                `;
+                return;
+            }
+
+            box.innerHTML = `
+                <div class="transaction-box">
+                    <div class="transaction-title">${marketTransaction.buyer}</div>
+                    <div class="transaction-line">Credits Sold: ${safe(marketTransaction.credits_sold, 0)}</div>
+                    <div class="transaction-line">Price / Credit: ₹${safe(marketTransaction.price_per_credit, 0)}</div>
+                    <div class="transaction-line">Total Amount: ₹${safe(marketTransaction.total_amount, 0)}</div>
+                    <div class="transaction-line">Seller: ${safe(marketTransaction.seller, "Farmer")}</div>
+                    <div class="status-chip">${safe(marketTransaction.status, "Completed")}</div>
+                </div>
+            `;
+        }
+
+        window.onload = function () {
+            loadHero();
+            loadStats();
+            loadActivity();
+            loadLandSection();
+            loadTransactionSection();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - AI Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header, .progress-bar, .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 42px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #2e7d32;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .step {
+            position: relative;
+            z-index: 2;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #e0e0e0;
+        }
+
+        .step.completed, .step.active {
+            border-color: #2e7d32;
+            background: #2e7d32;
+            color: white;
+        }
+
+        .step-label {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #666;
+            width: 80px;
+            text-align: center;
+        }
+
+        .analyze-box {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .analyze-icon {
+            font-size: 70px;
+            margin-bottom: 15px;
+        }
+
+        .analyze-title {
+            font-size: 26px;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .analyze-subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #eef2ff;
+            color: #4338ca;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #1b5e20;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-top: 30px;
+        }
+
+        .result-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .result-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .status-box {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 14px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .status-box.loading {
+            background: #fff7ed;
+            color: #9a3412;
+        }
+
+        .status-box.success {
+            background: #ecfdf5;
+            color: #166534;
+        }
+
+        .status-box.error {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .next-btn {
+            width: 100%;
+            margin-top: 25px;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🤖</div>
+            <h1>FarmGuard AI - AI Analysis</h1>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-steps">
+                <div class="step completed">1<span class="step-label">OTP</span></div>
+                <div class="step completed">2<span class="step-label">Language</span></div>
+                <div class="step completed">3<span class="step-label">Register</span></div>
+                <div class="step completed">4<span class="step-label">Land</span></div>
+                <div class="step active">5<span class="step-label">Analysis</span></div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="analyze-box">
+                <div class="analyze-icon">🛰️</div>
+                <div class="analyze-title">Run Farm Analysis</div>
+                <div class="analyze-subtitle">
+                    FarmGuard AI will process your selected input method and prepare verification results.
+                </div>
+
+                <div class="method-badge" id="methodBadge">Method: Auto</div>
+
+                <button class="btn" id="analyzeBtn" onclick="runAnalysis()">
+                    Start Analysis
+                </button>
+
+                <div id="statusBox" class="status-box loading" style="display:none;">
+                    Running analysis...
+                </div>
+
+                <div id="resultSection" style="display:none;">
+                    <div class="result-grid">
+                        <div class="result-card">
+                            <div class="result-label">NDVI</div>
+                            <div class="result-value" id="ndviValue">-</div>
+                        </div>
+
+                        <div class="result-card">
+                            <div class="result-label">Estimated Trees</div>
+                            <div class="result-value" id="treesValue">-</div>
+                        </div>
+
+                        <div class="result-card">
+                            <div class="result-label">CO₂ Removed</div>
+                            <div class="result-value" id="co2Value">-</div>
+                        </div>
+
+                        <div class="result-card">
+                            <div class="result-label">Carbon Credits</div>
+                            <div class="result-value" id="creditsValue">-</div>
+                        </div>
+
+                        <div class="result-card">
+                            <div class="result-label">Market Value</div>
+                            <div class="result-value" id="valueValue">-</div>
+                        </div>
+
+                        <div class="result-card">
+                            <div class="result-label">Blockchain Hash</div>
+                            <div class="result-value" id="hashValue" style="font-size:14px;">-</div>
+                        </div>
+                    </div>
+
+                    <button class="btn next-btn" onclick="goToVerification()">
+                        Continue to Verification →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            AI-based satellite and validation workflow
+        </div>
+    </div>
+
+    <script>
+        const BACKEND_URL = "http://127.0.0.1:8000";
+
+        window.onload = function() {
+            const cropData = JSON.parse(localStorage.getItem("cropData") || "{}");
+            const method = cropData.method || "auto";
+            document.getElementById("methodBadge").textContent =
+                "Method: " + method.charAt(0).toUpperCase() + method.slice(1);
+        };
+
+        async function runAnalysis() {
+            const landId = localStorage.getItem("landId");
+            const cropData = JSON.parse(localStorage.getItem("cropData") || "{}");
+
+            const analyzeBtn = document.getElementById("analyzeBtn");
+            const statusBox = document.getElementById("statusBox");
+            const resultSection = document.getElementById("resultSection");
+
+            analyzeBtn.disabled = true;
+            statusBox.style.display = "block";
+            statusBox.className = "status-box loading";
+            statusBox.textContent = "Running analysis...";
+
+            try {
+                if (cropData.method === "auto") {
+                    if (!landId) {
+                        alert("Land ID not found.");
+                        window.location.href = "land.html";
+                        return;
+                    }
+
+                    const response = await fetch(`${BACKEND_URL}/analyze_land/${landId}`, {
+                        method: "POST"
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        statusBox.className = "status-box error";
+                        statusBox.textContent = data.detail || "Analysis failed.";
+                        analyzeBtn.disabled = false;
+                        return;
+                    }
+
+                    const result = data.result;
+                    localStorage.setItem("analysisResult", JSON.stringify(result));
+                    localStorage.setItem("analysisId", data.analysis_id || "");
+
+                    fillResultCards(result);
+
+                    statusBox.className = "status-box success";
+                    statusBox.textContent = "Auto analysis completed successfully.";
+                    resultSection.style.display = "block";
+                    return;
+                }
+
+                if (cropData.method === "manual") {
+                    const totalTrees = Number(cropData.totalTrees || 0);
+                    const previewCredits = Number(cropData.previewCredits || 0);
+
+                    const manualResult = {
+                        vision_analysis: {
+                            ndvi: "Manual Entry",
+                            estimated_trees: totalTrees
+                        },
+                        carbon_analysis: {
+                            co2_kg: (previewCredits * 1000).toFixed(2),
+                            carbon_credits: previewCredits.toFixed(3)
+                        },
+                        validation_result: {
+                            status: "Pending Manual Review",
+                            reason: "Manual tree counts entered by user. Awaiting validation review."
+                        },
+                        blockchain_record: {
+                            block_hash: "manual-entry-pending"
+                        },
+                        market_analysis: {
+                            total_value_usd: (previewCredits * 10).toFixed(2),
+                            market_status: "Pending Review"
+                        }
+                    };
+
+                    localStorage.setItem("analysisResult", JSON.stringify(manualResult));
+                    fillResultCards(manualResult);
+
+                    statusBox.className = "status-box success";
+                    statusBox.textContent = "Manual analysis prepared successfully.";
+                    resultSection.style.display = "block";
+                    return;
+                }
+
+                if (cropData.method === "upload") {
+                    const uploadResult = {
+                        vision_analysis: {
+                            ndvi: "Photo Upload Mode",
+                            estimated_trees: cropData.totalTrees || "Pending"
+                        },
+                        carbon_analysis: {
+                            co2_kg: "Pending image analysis",
+                            carbon_credits: cropData.previewCredits || "Pending"
+                        },
+                        validation_result: {
+                            status: "Pending Image Review",
+                            reason: "Photos uploaded successfully. Automatic tree counting from images can be added in the backend next."
+                        },
+                        blockchain_record: {
+                            block_hash: "photo-upload-pending"
+                        },
+                        market_analysis: {
+                            total_value_usd: 0,
+                            market_status: "Pending Review"
+                        }
+                    };
+
+                    localStorage.setItem("analysisResult", JSON.stringify(uploadResult));
+                    fillResultCards(uploadResult);
+
+                    statusBox.className = "status-box success";
+                    statusBox.textContent = "Upload-based analysis prepared successfully.";
+                    resultSection.style.display = "block";
+                    return;
+                }
+
+                statusBox.className = "status-box error";
+                statusBox.textContent = "Unknown analysis method.";
+                analyzeBtn.disabled = false;
+
+            } catch (error) {
+                console.error(error);
+                statusBox.className = "status-box error";
+                statusBox.textContent = "Could not connect to backend.";
+                analyzeBtn.disabled = false;
+            }
+        }
+
+        function fillResultCards(result) {
+            const marketValue = result.market_analysis && result.market_analysis.total_value_usd !== undefined
+                ? "$" + result.market_analysis.total_value_usd
+                : "Pending";
+
+            const hashValue = result.blockchain_record && result.blockchain_record.block_hash
+                ? String(result.blockchain_record.block_hash).substring(0, 18) + "..."
+                : "Pending";
+
+            document.getElementById("ndviValue").textContent =
+                result.vision_analysis?.ndvi ?? "-";
+
+            document.getElementById("treesValue").textContent =
+                result.vision_analysis?.estimated_trees ?? "-";
+
+            document.getElementById("co2Value").textContent =
+                result.carbon_analysis?.co2_kg !== undefined
+                    ? result.carbon_analysis.co2_kg + (String(result.carbon_analysis.co2_kg).includes("Pending") ? "" : " kg")
+                    : "-";
+
+            document.getElementById("creditsValue").textContent =
+                result.carbon_analysis?.carbon_credits ?? "-";
+
+            document.getElementById("valueValue").textContent = marketValue;
+            document.getElementById("hashValue").textContent = hashValue;
+        }
+
+        function goToVerification() {
+            const analysisResult = localStorage.getItem("analysisResult");
+            if (!analysisResult) {
+                alert("No analysis result found. Please run analysis first.");
+                return;
+            }
+            window.location.href = "verify.html";
+        }
+    </script>
+</body>
+</html>

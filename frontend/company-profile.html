@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - Company Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        .topbar {
+            background: white;
+            border-radius: 20px;
+            padding: 16px 24px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .top-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Navigation Arrows - NEW */
+        .nav-arrows {
+            display: flex;
+            gap: 8px;
+            margin-right: 10px;
+        }
+
+        .nav-arrow {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f8f0;
+            border: 2px solid #2e7d32;
+            color: #2e7d32;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .nav-arrow:hover {
+            background: #2e7d32;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .home-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #f0f8f0;
+            border: 2px solid #2e7d32;
+            color: #2e7d32;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .home-btn:hover {
+            background: #2e7d32;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .brand-text h2 {
+            color: #1b5e20;
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .brand-text p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            border: 2px solid #2e7d32;
+        }
+
+        /* Main Content */
+        .profile-container {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .profile-header h1 {
+            color: #2e7d32;
+            font-size: 32px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .edit-btn {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+
+        /* Profile Grid */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* Left Column - Company Card */
+        .company-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 24px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(102,126,234,0.3);
+        }
+
+        .company-logo {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 50px;
+            color: #667eea;
+            font-weight: bold;
+            border: 4px solid rgba(255,255,255,0.3);
+        }
+
+        .company-card h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .company-type {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 15px;
+            border-radius: 30px;
+            display: inline-block;
+            font-size: 13px;
+            margin: 15px 0;
+        }
+
+        .verification-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            padding: 10px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        /* Right Column - Details */
+        .details-card {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 30px;
+        }
+
+        .section-title {
+            color: #2e7d32;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .info-label {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .info-value {
+            color: #1e293b;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .info-sub {
+            color: #2e7d32;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        /* Documents Section */
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .document-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .document-card:hover {
+            border-color: #2e7d32;
+            transform: translateY(-3px);
+        }
+
+        .document-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .document-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+
+        .document-status {
+            font-size: 12px;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        /* Preferences Section */
+        .preferences-card {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .pref-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .pref-item {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pref-icon {
+            width: 50px;
+            height: 50px;
+            background: #f0f8f0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #2e7d32;
+        }
+
+        .pref-content h4 {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .pref-content p {
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* Stats Cards */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-box {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .stat-box h3 {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .stat-box .number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #2e7d32;
+            margin-bottom: 5px;
+        }
+
+        .stat-box .label {
+            color: #10b981;
+            font-size: 12px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .documents-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pref-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .nav-arrows {
+                margin-right: 5px;
+            }
+            
+            .nav-arrow {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="top-left">
+                <!-- Navigation Arrows - ADDED HERE -->
+                <div class="nav-arrows">
+                    <a href="javascript:history.back()" class="nav-arrow" title="Go Back">←</a>
+                    <a href="javascript:history.forward()" class="nav-arrow" title="Go Forward">→</a>
+                </div>
+                
+                <a href="company-dashboard.html" class="home-btn" title="Go to Dashboard">🏠</a>
+                
+                <div class="brand">
+                    <div class="brand-logo">🏢</div>
+                    <div class="brand-text">
+                        <h2>FarmGuard AI</h2>
+                        <p>Company Profile</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <div class="profile-avatar" id="avatarDisplay">C</div>
+            </div>
+        </div>
+
+        <!-- Profile Content -->
+        <div class="profile-container">
+            <div class="profile-header">
+                <h1>
+                    <span>🏢</span>
+                    Company Profile
+                </h1>
+                <button class="edit-btn" onclick="editProfile()">
+                    <span>✏️</span>
+                    Edit Profile
+                </button>
+            </div>
+
+            <div class="profile-grid">
+                <!-- Left Column - Company Card -->
+                <div class="company-card">
+                    <div class="company-logo" id="companyLogoDisplay">🏢</div>
+                    <h2 id="companyNameDisplay">Company Name</h2>
+                    <div class="company-type" id="companyTypeDisplay">Private Limited</div>
+                    
+                    <div class="verification-badge">
+                        <span>✅</span>
+                        <span>Verified Company</span>
+                    </div>
+                    
+                    <div style="margin-top: 20px; font-size: 14px; opacity: 0.9;" id="memberSince">
+                        Member since 2026
+                    </div>
+                </div>
+
+                <!-- Right Column - Company Details -->
+                <div class="details-card">
+                    <div class="section-title">
+                        <span>📋</span>
+                        Company Information
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">📄 Registration Number</div>
+                            <div class="info-value" id="regNumberDisplay">-</div>
+                            <div class="info-sub">CIN / UIN</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">🔢 GST Number</div>
+                            <div class="info-value" id="gstDisplay">-</div>
+                            <div class="info-sub">22-character GSTIN</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">📅 Year Established</div>
+                            <div class="info-value" id="yearDisplay">-</div>
+                            <div class="info-sub">Operating since</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">🏭 Industry</div>
+                            <div class="info-value" id="industryDisplay">-</div>
+                            <div class="info-sub">Sector</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">📧 Email</div>
+                            <div class="info-value" id="emailDisplay">contact@company.com</div>
+                            <div class="info-sub">Primary contact</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">📞 Phone</div>
+                            <div class="info-value" id="phoneDisplay">+91 98765 43210</div>
+                            <div class="info-sub">Verified</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documents Section -->
+            <div class="section-title" style="margin-top: 20px;">
+                <span>📎</span>
+                Uploaded Documents
+            </div>
+
+            <div class="documents-grid">
+                <div class="document-card">
+                    <div class="document-icon">📄</div>
+                    <div class="document-name">PAN Card</div>
+                    <div class="document-status" id="panStatus">
+                        <span>✅</span>
+                        <span>Uploaded</span>
+                    </div>
+                </div>
+
+                <div class="document-card">
+                    <div class="document-icon">📋</div>
+                    <div class="document-name">GST Certificate</div>
+                    <div class="document-status" id="gstStatus">
+                        <span>✅</span>
+                        <span>Uploaded</span>
+                    </div>
+                </div>
+
+                <div class="document-card">
+                    <div class="document-icon">📑</div>
+                    <div class="document-name">Incorporation</div>
+                    <div class="document-status" id="incStatus">
+                        <span>✅</span>
+                        <span>Uploaded</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preferences Section -->
+            <div class="preferences-card">
+                <div class="section-title">
+                    <span>🌿</span>
+                    Carbon Credit Preferences
+                </div>
+
+                <div class="pref-grid">
+                    <div class="pref-item">
+                        <div class="pref-icon">🎯</div>
+                        <div class="pref-content">
+                            <h4>Primary Goal</h4>
+                            <p id="goalDisplay">Carbon offset</p>
+                        </div>
+                    </div>
+
+                    <div class="pref-item">
+                        <div class="pref-icon">📊</div>
+                        <div class="pref-content">
+                            <h4>Annual Requirement</h4>
+                            <p id="requirementDisplay">1000+ credits</p>
+                        </div>
+                    </div>
+
+                    <div class="pref-item">
+                        <div class="pref-icon">💰</div>
+                        <div class="pref-content">
+                            <h4>Price Range</h4>
+                            <p id="priceDisplay">₹800 - ₹900</p>
+                        </div>
+                    </div>
+
+                    <div class="pref-item">
+                        <div class="pref-icon">📍</div>
+                        <div class="pref-content">
+                            <h4>Preferred Location</h4>
+                            <p id="locationDisplay">India - All regions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 12px;">
+                    <h4 style="color: #64748b; margin-bottom: 8px;">Additional Preferences</h4>
+                    <p id="preferencesDisplay" style="color: #1e293b;">No additional preferences specified</p>
+                </div>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-row">
+                <div class="stat-box">
+                    <h3>Total Credits Purchased</h3>
+                    <div class="number" id="totalCredits">2,450</div>
+                    <div class="label">Lifetime</div>
+                </div>
+
+                <div class="stat-box">
+                    <h3>Active Investments</h3>
+                    <div class="number" id="activeInvestments">8</div>
+                    <div class="label">Farmers</div>
+                </div>
+
+                <div class="stat-box">
+                    <h3>CO₂ Offset</h3>
+                    <div class="number" id="totalCO2">125,000</div>
+                    <div class="label">kg</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            FarmGuard AI • Verified Carbon Credit Platform • Company Profile
+        </div>
+    </div>
+
+    <script>
+        // Load company data from localStorage
+        const companyData = JSON.parse(localStorage.getItem('companyData') || '{}');
+        const purchaseData = JSON.parse(localStorage.getItem('purchaseTransaction') || '{}');
+
+        console.log('Company Profile Loaded');
+        console.log('Company Data:', companyData);
+
+        // Display all company information
+        function loadCompanyProfile() {
+            // Get company name
+            const companyName = companyData.companyName || 'Your Company';
+            
+            // Display avatar and name
+            document.getElementById('avatarDisplay').textContent = companyName.charAt(0).toUpperCase();
+            document.getElementById('companyNameDisplay').textContent = companyName;
+            
+            // Company type
+            document.getElementById('companyTypeDisplay').textContent = companyData.companyType || 'Private Limited';
+            
+            // Registration details
+            document.getElementById('regNumberDisplay').textContent = companyData.regNumber || 'U12345DL2020PTC123456';
+            document.getElementById('gstDisplay').textContent = companyData.gst || '07AABCD1234E1Z5';
+            document.getElementById('yearDisplay').textContent = companyData.year || '2020';
+            document.getElementById('industryDisplay').textContent = companyData.industry || 'Technology';
+            
+            // Contact info (demo)
+            document.getElementById('emailDisplay').textContent = companyData.email || 'contact@' + companyName.toLowerCase().replace(/\s+/g, '') + '.com';
+            
+            // Member since
+            const regYear = companyData.year || '2020';
+            document.getElementById('memberSince').textContent = `Member since ${regYear}`;
+            
+            // Preferences
+            document.getElementById('goalDisplay').textContent = companyData.goal || 'Carbon offset';
+            document.getElementById('requirementDisplay').textContent = companyData.annualRequirement || '1000 - 5000 credits';
+            document.getElementById('priceDisplay').textContent = companyData.priceRange || '₹850 - ₹900';
+            document.getElementById('locationDisplay').textContent = companyData.preferredLocation || 'India - All regions';
+            document.getElementById('preferencesDisplay').textContent = companyData.preferences || 'No additional preferences specified';
+            
+            // Document status
+            if (companyData.documents) {
+                document.getElementById('panStatus').innerHTML = '<span>✅</span><span>' + (companyData.documents.pan || 'PAN_uploaded.pdf') + '</span>';
+                document.getElementById('gstStatus').innerHTML = '<span>✅</span><span>' + (companyData.documents.gst || 'GST_certificate.pdf') + '</span>';
+                document.getElementById('incStatus').innerHTML = '<span>✅</span><span>' + (companyData.documents.inc || 'Incorporation.pdf') + '</span>';
+            }
+            
+            // Stats
+            document.getElementById('totalCredits').textContent = '2,450';
+            document.getElementById('activeInvestments').textContent = '8';
+            document.getElementById('totalCO2').textContent = '125,000';
+        }
+
+        // Edit profile function
+        function editProfile() {
+            alert('Edit profile functionality will be available soon!');
+            // You can redirect to an edit page later
+            // window.location.href = 'company-edit-profile.html';
+        }
+
+        // Load on page load
+        window.onload = function() {
+            loadCompanyProfile();
+        };
+    </script>
+</body>
+</html>

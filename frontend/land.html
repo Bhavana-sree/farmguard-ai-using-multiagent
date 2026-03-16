@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - Select Your Land</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header, .progress-bar, .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 40px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #2e7d32;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .step {
+            position: relative;
+            z-index: 2;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #e0e0e0;
+        }
+
+        .step.completed, .step.active {
+            border-color: #2e7d32;
+            background: #2e7d32;
+            color: white;
+        }
+
+        .step.active {
+            box-shadow: 0 0 0 5px rgba(46, 125, 50, 0.2);
+        }
+
+        .step-label {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #666;
+            width: 70px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: #2e7d32;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #map {
+            height: 420px;
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 3px solid #2e7d32;
+        }
+
+        .map-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .map-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .map-btn-primary {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .map-btn-secondary {
+            background: #667eea;
+            color: white;
+        }
+
+        .map-btn-outline {
+            background: white;
+            border: 2px solid #2e7d32;
+            color: #2e7d32;
+        }
+
+        .coordinates-panel {
+            background: #f0f8f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .coord-box {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 16px;
+            border: 1px solid #2e7d32;
+        }
+
+        .coord-label {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .coord-value {
+            font-weight: 600;
+            color: #2e7d32;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+        }
+
+        .area-display {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .area-value {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .btn-continue {
+            width: 100%;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .btn-continue:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .message.success {
+            display: block;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .message.error {
+            display: block;
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌱</div>
+            <h1>FarmGuard AI - Select Your Land</h1>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-steps">
+                <div class="step completed">1<span class="step-label">OTP</span></div>
+                <div class="step completed">2<span class="step-label">Language</span></div>
+                <div class="step completed">3<span class="step-label">Register</span></div>
+                <div class="step active">4<span class="step-label">Land</span></div>
+                <div class="step">5<span class="step-label">Verify</span></div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="section-title">
+                <span>🗺️</span>
+                <span>Mark Your Farm on Map</span>
+            </div>
+
+            <div id="map"></div>
+
+            <div class="map-controls">
+                <button class="map-btn map-btn-primary" onclick="setDrawMode()">✏️ Draw Boundary</button>
+                <button class="map-btn map-btn-secondary" onclick="clearBoundary()">🗑️ Clear</button>
+                <button class="map-btn map-btn-outline" onclick="useCurrentLocation()">📍 Use My Location</button>
+                <button class="map-btn map-btn-outline" onclick="zoomToFarm()">🔍 Zoom to Farm</button>
+            </div>
+
+            <div class="coordinates-panel">
+                <div>
+                    <div class="coord-label">Center Latitude</div>
+                    <div class="coord-box" id="latDisplay">17.3850° N</div>
+                </div>
+                <div>
+                    <div class="coord-label">Center Longitude</div>
+                    <div class="coord-box" id="lngDisplay">78.4867° E</div>
+                </div>
+                <div>
+                    <div class="coord-label">Area</div>
+                    <div class="coord-box" id="areaDisplay">0.0 acres</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>📋 Survey Number</label>
+                    <input type="text" id="surveyNumber" placeholder="Enter survey number">
+                </div>
+                <div class="form-group">
+                    <label>🌾 Land Type</label>
+                    <select id="landType">
+                        <option>Agricultural</option>
+                        <option>Forest</option>
+                        <option>Barren</option>
+                        <option>Wetland</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>💧 Water Source</label>
+                    <select id="waterSource">
+                        <option>Borewell</option>
+                        <option>Canal</option>
+                        <option>River</option>
+                        <option>Rain-fed</option>
+                        <option>None</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>🌱 Soil Type</label>
+                    <select id="soilType">
+                        <option>Black soil</option>
+                        <option>Red soil</option>
+                        <option>Alluvial soil</option>
+                        <option>Clay soil</option>
+                        <option>Sandy soil</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="area-display">
+                <div>Selected Farm Area</div>
+                <div class="area-value" id="totalArea">0.0</div>
+                <div>acres</div>
+            </div>
+
+            <button class="btn-continue" id="continueBtn" onclick="saveLandAndContinue()" disabled>
+                Continue to Analysis →
+            </button>
+
+            <div id="messageBox" class="message"></div>
+        </div>
+
+        <div class="footer">
+            Step 4 of 5: Draw your farm boundary on map
+        </div>
+    </div>
+
+    <script>
+        const BACKEND_URL = "http://127.0.0.1:8000";
+
+        let map;
+        let drawingManager;
+        let selectedArea = null;
+        let markers = [];
+        let selectedLat = null;
+        let selectedLng = null;
+        let selectedAreaAcres = 0;
+
+        const farmerId = localStorage.getItem('farmerId');
+        if (!farmerId) {
+            alert('Please complete registration first');
+            window.location.href = 'register.html';
+        }
+
+        function showMessage(text, type) {
+            const box = document.getElementById('messageBox');
+            box.textContent = text;
+            box.className = `message ${type}`;
+        }
+
+        function initMap() {
+            const defaultLocation = { lat: 17.3850, lng: 78.4867 };
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: defaultLocation,
+                zoom: 15,
+                mapTypeId: 'hybrid',
+                mapTypeControl: true,
+                fullscreenControl: true,
+                streetViewControl: false
+            });
+
+            drawingManager = new google.maps.drawing.DrawingManager({
+                drawingMode: null,
+                drawingControl: true,
+                drawingControlOptions: {
+                    position: google.maps.ControlPosition.TOP_CENTER,
+                    drawingModes: ['polygon']
+                },
+                polygonOptions: {
+                    fillColor: '#2e7d32',
+                    fillOpacity: 0.3,
+                    strokeColor: '#2e7d32',
+                    strokeWeight: 2,
+                    editable: true,
+                    draggable: true
+                }
+            });
+
+            drawingManager.setMap(map);
+
+            map.addListener('click', (event) => {
+                placeMarker(event.latLng);
+            });
+
+            google.maps.event.addListener(drawingManager, 'polygoncomplete', (polygon) => {
+                if (selectedArea) selectedArea.setMap(null);
+                selectedArea = polygon;
+                calculateArea(polygon);
+                enableContinue();
+
+                google.maps.event.addListener(polygon.getPath(), 'set_at', () => calculateArea(polygon));
+                google.maps.event.addListener(polygon.getPath(), 'insert_at', () => calculateArea(polygon));
+            });
+        }
+
+        function placeMarker(location) {
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                title: 'Selected Location',
+                animation: google.maps.Animation.DROP
+            });
+
+            markers.push(marker);
+
+            selectedLat = location.lat();
+            selectedLng = location.lng();
+
+            document.getElementById('latDisplay').textContent = selectedLat.toFixed(4) + '° N';
+            document.getElementById('lngDisplay').textContent = selectedLng.toFixed(4) + '° E';
+
+            enableContinue();
+        }
+
+        function calculateArea(polygon) {
+            const areaSqM = google.maps.geometry.spherical.computeArea(polygon.getPath());
+            selectedAreaAcres = areaSqM / 4046.86;
+            document.getElementById('totalArea').textContent = selectedAreaAcres.toFixed(2);
+            document.getElementById('areaDisplay').textContent = selectedAreaAcres.toFixed(2) + ' acres';
+
+            const bounds = new google.maps.LatLngBounds();
+            polygon.getPath().forEach(latLng => bounds.extend(latLng));
+            const center = bounds.getCenter();
+
+            selectedLat = center.lat();
+            selectedLng = center.lng();
+
+            document.getElementById('latDisplay').textContent = selectedLat.toFixed(4) + '° N';
+            document.getElementById('lngDisplay').textContent = selectedLng.toFixed(4) + '° E';
+        }
+
+        function setDrawMode() {
+            drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+        }
+
+        function clearBoundary() {
+            if (selectedArea) {
+                selectedArea.setMap(null);
+                selectedArea = null;
+            }
+
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+
+            selectedLat = null;
+            selectedLng = null;
+            selectedAreaAcres = 0;
+
+            document.getElementById('totalArea').textContent = '0.0';
+            document.getElementById('areaDisplay').textContent = '0.0 acres';
+            document.getElementById('latDisplay').textContent = '17.3850° N';
+            document.getElementById('lngDisplay').textContent = '78.4867° E';
+            document.getElementById('continueBtn').disabled = true;
+        }
+
+        function useCurrentLocation() {
+            if (!navigator.geolocation) {
+                showMessage('Geolocation is not supported by your browser', 'error');
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    map.setCenter(pos);
+                    map.setZoom(18);
+                    placeMarker(new google.maps.LatLng(pos.lat, pos.lng));
+                    showMessage('Current location selected', 'success');
+                },
+                () => {
+                    showMessage('Unable to get your location. Please enable location services.', 'error');
+                }
+            );
+        }
+
+        function zoomToFarm() {
+            map.setZoom(20);
+        }
+
+        function enableContinue() {
+            document.getElementById('continueBtn').disabled = false;
+        }
+
+        async function saveLandAndContinue() {
+            const surveyNumber = document.getElementById('surveyNumber').value.trim();
+            if (!surveyNumber) {
+                showMessage('Please enter Survey Number', 'error');
+                return;
+            }
+
+            if (selectedLat === null || selectedLng === null) {
+                showMessage('Please select or draw your land on the map first', 'error');
+                return;
+            }
+
+            const landData = {
+                surveyNumber,
+                landType: document.getElementById('landType').value,
+                waterSource: document.getElementById('waterSource').value,
+                soilType: document.getElementById('soilType').value,
+                areaAcres: selectedAreaAcres,
+                latitude: selectedLat,
+                longitude: selectedLng
+            };
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/add_land`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        farmer_id: parseInt(farmerId),
+                        latitude: selectedLat,
+                        longitude: selectedLng,
+                        land_name: surveyNumber
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    showMessage(result.detail || 'Could not save land', 'error');
+                    return;
+                }
+
+                landData.land_id = result.land_id;
+                localStorage.setItem('landData', JSON.stringify(landData));
+                localStorage.setItem('landId', result.land_id);
+
+                showMessage(`Land saved successfully. Land ID: ${result.land_id}`, 'success');
+
+                setTimeout(() => {
+                    window.location.href = 'crops.html';
+                }, 1200);
+
+            } catch (error) {
+                showMessage('Could not connect to backend. Make sure backend is running.', 'error');
+            }
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqee2CkQaBhdjFmQilQzO31P_Rpgwi7gI&callback=initMap&libraries=drawing,geometry" async defer></script>
+</body>
+</html>

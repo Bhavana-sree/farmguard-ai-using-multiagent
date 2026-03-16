@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - Solar Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: white;
+            border-radius: 20px;
+            padding: 15px 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .nav-left { 
+            display: flex; 
+            align-items: center; 
+            gap: 20px; 
+        }
+
+        .nav-arrows { 
+            display: flex; 
+            gap: 10px; 
+        }
+
+        .nav-arrow {
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%;
+            background: #f0f8f0; 
+            display: flex; 
+            align-items: center;
+            justify-content: center; 
+            cursor: pointer; 
+            font-size: 20px;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            color: #2e7d32;
+        }
+        .nav-arrow:hover { 
+            background: #2e7d32; 
+            color: white; 
+        }
+
+        .home-icon { 
+            font-size: 28px; 
+            cursor: pointer; 
+            transition: transform 0.3s;
+            text-decoration: none;
+            color: #2e7d32;
+        }
+        .home-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-right { 
+            display: flex; 
+            align-items: center; 
+            gap: 20px; 
+        }
+
+        .dashboard-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            background: #ff9800;
+            border-radius: 50px;
+            cursor: pointer;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(255,152,0,0.3);
+        }
+
+        .profile-title h1 {
+            color: #ff9800;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .profile-title p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .badge {
+            background: #ff9800;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: #ff9800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #ff9800;
+            font-weight: 600;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff9800;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .btn-edit {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-edit:hover {
+            background: #f57c00;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navbar with Navigation Arrows -->
+        <div class="navbar">
+            <div class="nav-left">
+                <div class="nav-arrows">
+                    <a href="javascript:history.back()" class="nav-arrow" title="Go Back">←</a>
+                    <a href="javascript:history.forward()" class="nav-arrow" title="Go Forward">→</a>
+                </div>
+                <a href="index.html" class="home-icon" title="Go to Home">🏠</a>
+            </div>
+            <div class="nav-right">
+                <a href="solar-dashboard.html" class="dashboard-badge">
+                    <span>📊</span>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    ☀️
+                </div>
+                <div class="profile-title">
+                    <h1 id="profileName">Solar Producer</h1>
+                    <p id="profileLocation">Solar Village, India</p>
+                    <span class="badge" id="verificationStatus">✓ Verified Producer</span>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <!-- Personal Information -->
+                <div class="info-section">
+                    <div class="section-title">
+                        <span>👤</span>
+                        <h3>Personal Information</h3>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Full Name</span>
+                        <span class="info-value" id="fullName">Solar Producer</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Phone</span>
+                        <span class="info-value" id="phone">+91 98765 43210</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email</span>
+                        <span class="info-value" id="email">solar@example.com</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Language</span>
+                        <span class="info-value" id="language">English</span>
+                    </div>
+                </div>
+
+                <!-- Installation Details -->
+                <div class="info-section">
+                    <div class="section-title">
+                        <span>🔧</span>
+                        <h3>Installation Details</h3>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Installation Date</span>
+                        <span class="info-value" id="installDate">2026-01-15</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Panel Type</span>
+                        <span class="info-value" id="panelType">Monocrystalline</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Inverter Type</span>
+                        <span class="info-value" id="inverterType">Grid-Tie</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Grid Connected</span>
+                        <span class="info-value" id="gridStatus">Yes</span>
+                    </div>
+                </div>
+
+                <!-- Location Details -->
+                <div class="info-section">
+                    <div class="section-title">
+                        <span>📍</span>
+                        <h3>Location</h3>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Village/City</span>
+                        <span class="info-value" id="village">Solar Village</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Latitude</span>
+                        <span class="info-value" id="latitude">28.6139° N</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Longitude</span>
+                        <span class="info-value" id="longitude">77.2090° E</span>
+                    </div>
+                </div>
+
+                <!-- Plant Specifications -->
+                <div class="info-section">
+                    <div class="section-title">
+                        <span>⚡</span>
+                        <h3>Plant Specifications</h3>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Plant Capacity</span>
+                        <span class="info-value" id="capacity">5.0 kW</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Panel Count</span>
+                        <span class="info-value" id="panelCount">12</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Total Area</span>
+                        <span class="info-value" id="area">48 m²</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Tilt Angle</span>
+                        <span class="info-value" id="tilt">30°</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalEnergy">8,030</div>
+                    <div class="stat-label">Annual Energy (kWh)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalCO2">6.58</div>
+                    <div class="stat-label">CO₂ Avoided (tons)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalCredits">6.58</div>
+                    <div class="stat-label">Carbon Credits</div>
+                </div>
+            </div>
+
+            <!-- Edit Button -->
+            <button class="btn-edit" onclick="editProfile()">
+                ✏️ Edit Profile
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>FarmGuard AI • Solar Producer Profile • Verified & Secure</p>
+        </div>
+    </div>
+
+    <script>
+        // Load solar data from localStorage
+        window.onload = function() {
+            loadProfileData();
+        };
+
+        function loadProfileData() {
+            // Try to get data from localStorage
+            const solarId = localStorage.getItem('solarId') || '1';
+            const producerData = JSON.parse(localStorage.getItem('solarProducer') || '{}');
+            const estimateData = JSON.parse(localStorage.getItem('solarEstimate_' + solarId) || '{}');
+
+            // Update profile with data
+            document.getElementById('profileName').textContent = producerData.name || 'Solar Producer';
+            document.getElementById('fullName').textContent = producerData.name || 'Solar Producer';
+            document.getElementById('phone').textContent = producerData.phone || '+91 98765 43210';
+            document.getElementById('village').textContent = producerData.village || 'Solar Village';
+            document.getElementById('language').textContent = producerData.language || 'English';
+            document.getElementById('installDate').textContent = producerData.installation_date || '2026-01-15';
+            document.getElementById('panelType').textContent = producerData.panel_type || 'Monocrystalline';
+            document.getElementById('inverterType').textContent = producerData.inverter_type || 'Grid-Tie';
+            document.getElementById('gridStatus').textContent = producerData.grid_connected ? 'Yes' : 'No';
+            document.getElementById('capacity').textContent = (producerData.plant_capacity_kw || '5.0') + ' kW';
+            
+            // Update with estimate data
+            document.getElementById('panelCount').textContent = estimateData.panel_count || '12';
+            document.getElementById('area').textContent = (estimateData.roof_area || '48') + ' m²';
+            document.getElementById('latitude').textContent = (estimateData.latitude || '28.6139') + '° N';
+            document.getElementById('longitude').textContent = (estimateData.longitude || '77.2090') + '° E';
+            
+            // Stats
+            document.getElementById('totalEnergy').textContent = estimateData.annual_energy || '8,030';
+            
+            // Calculate CO2 and credits
+            const annualEnergy = parseFloat(estimateData.annual_energy) || 8030;
+            const co2 = (annualEnergy * 0.82 / 1000).toFixed(2);
+            document.getElementById('totalCO2').textContent = co2;
+            document.getElementById('totalCredits').textContent = co2;
+        }
+
+        function editProfile() {
+            alert('Edit profile feature coming soon!');
+        }
+    </script>
+</body>
+</html>

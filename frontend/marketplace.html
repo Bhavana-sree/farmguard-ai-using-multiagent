@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SOLUTION 1: Cache control meta tags to prevent caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>FarmGuard AI - Carbon Marketplace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .topbar,
+        .header,
+        .filter-section,
+        .content-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.10);
+        }
+
+        .topbar {
+            padding: 16px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .top-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: none;
+            background: #f0f8f0;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .nav-btn:hover {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .profile-btn {
+            border: none;
+            background: #f0f8f0;
+            color: #2e7d32;
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .profile-btn:hover {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .header {
+            padding: 28px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            color: #2e7d32;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .market-stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .stat-chip {
+            background: #f0f8f0;
+            color: #2e7d32;
+            border: 2px solid #2e7d32;
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .filter-section {
+            padding: 22px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 180px;
+        }
+
+        .filter-group label {
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            border-color: #2e7d32;
+        }
+
+        .search-btn {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 13px 22px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            height: fit-content;
+        }
+
+        .search-btn:hover {
+            background: #1b5e20;
+        }
+
+        .content-card {
+            padding: 24px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .loading-spinner {
+            border: 4px solid #e5e7eb;
+            border-top: 4px solid #2e7d32;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 18px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .buyers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .buyer-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .buyer-card:hover {
+            transform: translateY(-4px);
+            border-color: #2e7d32;
+            box-shadow: 0 12px 24px rgba(46,125,50,0.12);
+        }
+
+        .buyer-header {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .buyer-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .buyer-info h3 {
+            color: #1e293b;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .buyer-info p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .detail-box {
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 14px 0;
+            margin: 14px 0;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .detail-value {
+            color: #2e7d32;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .match-badge {
+            display: inline-block;
+            background: #22c55e;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .price-tag {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            color: #2e7d32;
+            margin-bottom: 14px;
+        }
+
+        .sell-btn {
+            width: 100%;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .sell-btn:hover {
+            background: #1b5e20;
+        }
+
+        .empty-box {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 24px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .buyers-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .buyers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 22px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="topbar">
+            <div class="top-left">
+                <!-- Home button - now with additional debug and cache prevention -->
+                <button class="nav-btn" onclick="console.log('Home clicked'); window.location.href='farmer_dashboard.html'; return false;">🏠</button>
+                <button class="nav-btn" onclick="history.back()">←</button>
+                <button class="nav-btn" onclick="history.forward()">→</button>
+            </div>
+
+            <button class="profile-btn" onclick="window.location.href='report.html'">
+                📄 Final Report
+            </button>
+        </div>
+
+        <div class="header">
+            <div>
+                <h1>Carbon Credit Marketplace</h1>
+                <p>Connect verified farmer carbon credits with sustainability buyers.</p>
+            </div>
+
+            <div class="market-stats" id="marketStats">
+                <span class="stat-chip">Loading...</span>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-group">
+                <label for="location">Location</label>
+                <select id="location">
+                    <option value="all">All Locations</option>
+                    <option value="India">India</option>
+                    <option value="USA">USA</option>
+                    <option value="UK">UK</option>
+                    <option value="Germany">Germany</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="price">Price Range</label>
+                <select id="price">
+                    <option value="all">All Prices</option>
+                    <option value="low">Below ₹800</option>
+                    <option value="mid">₹800 - ₹900</option>
+                    <option value="high">Above ₹900</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="credits">Credits Needed</label>
+                <select id="credits">
+                    <option value="all">Any</option>
+                    <option value="small">Below 100</option>
+                    <option value="medium">100 - 1000</option>
+                    <option value="large">1000+</option>
+                </select>
+            </div>
+
+            <button class="search-btn" onclick="applyFilters()">Apply Filters</button>
+        </div>
+
+        <div class="content-card">
+            <div id="loadingSection" class="loading">
+                <div class="loading-spinner"></div>
+                <h3>Loading marketplace buyers...</h3>
+            </div>
+
+            <div id="buyersSection" style="display:none;">
+                <div class="buyers-grid" id="buyersGrid"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            FarmGuard AI • Verified Carbon Credits • Blockchain Secured
+        </div>
+    </div>
+
+    <script>
+        // Add console log to verify script is running
+        console.log("Marketplace page loaded - " + new Date().toISOString());
+
+        let allBuyers = [];
+
+        function getFarmerCredits() {
+            const analysisResult = JSON.parse(localStorage.getItem("analysisResult") || "{}");
+            const carbon = analysisResult.carbon_analysis || {};
+            return Number(carbon.carbon_credits || 0);
+        }
+
+        function getFarmerName() {
+            const farmerData = JSON.parse(localStorage.getItem("farmerData") || "{}");
+            return farmerData.fullName || farmerData.name || "Farmer";
+        }
+
+        function updateMarketStats(buyers) {
+            const farmerCredits = getFarmerCredits();
+
+            const avgPrice = buyers.length
+                ? Math.round(buyers.reduce((sum, b) => sum + Number(b.price || 0), 0) / buyers.length)
+                : 0;
+
+            document.getElementById("marketStats").innerHTML = `
+                <span class="stat-chip">📊 Avg Price: ₹${avgPrice}</span>
+                <span class="stat-chip">🤝 ${buyers.length} Buyers</span>
+                <span class="stat-chip">🌿 Your Credits: ${farmerCredits}</span>
+            `;
+        }
+
+        function displayBuyers(buyers) {
+            const grid = document.getElementById("buyersGrid");
+            const farmerCredits = getFarmerCredits();
+
+            if (!buyers.length) {
+                grid.innerHTML = `
+                    <div class="empty-box">
+                        <h3>No matching buyers found</h3>
+                        <p>Try changing the marketplace filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = "";
+
+            buyers.forEach((buyer) => {
+                const match = buyer.match || Math.floor(Math.random() * 15) + 85;
+                const price = Number(buyer.price || 0);
+                const total = (farmerCredits * price).toFixed(2);
+
+                html += `
+                    <div class="buyer-card">
+                        <div class="buyer-header">
+                            <div class="buyer-avatar">${buyer.name.charAt(0)}</div>
+                            <div class="buyer-info">
+                                <h3>${buyer.name}</h3>
+                                <p>${buyer.country || "India"}</p>
+                            </div>
+                        </div>
+
+                        <span class="match-badge">${match}% Match</span>
+
+                        <div class="detail-box">
+                            <div class="detail-row">
+                                <span class="detail-label">Buyer Type</span>
+                                <span class="detail-value">${buyer.type || "ESG Buyer"}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Price / Credit</span>
+                                <span class="detail-value">₹${price}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Credits Needed</span>
+                                <span class="detail-value">${buyer.credits_needed || 0}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Your Potential</span>
+                                <span class="detail-value">₹${total}</span>
+                            </div>
+                        </div>
+
+                        <div class="price-tag">₹${price}/credit</div>
+
+                        <button class="sell-btn" onclick="sellCredits('${buyer.name}', ${price})">
+                            Sell Credits
+                        </button>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        function applyFilters() {
+            const location = document.getElementById("location").value;
+            const price = document.getElementById("price").value;
+            const credits = document.getElementById("credits").value;
+
+            let filtered = [...allBuyers];
+
+            if (location !== "all") {
+                filtered = filtered.filter(b => (b.country || "") === location);
+            }
+
+            if (price === "low") {
+                filtered = filtered.filter(b => Number(b.price) < 800);
+            } else if (price === "mid") {
+                filtered = filtered.filter(b => Number(b.price) >= 800 && Number(b.price) <= 900);
+            } else if (price === "high") {
+                filtered = filtered.filter(b => Number(b.price) > 900);
+            }
+
+            if (credits === "small") {
+                filtered = filtered.filter(b => Number(b.credits_needed || 0) < 100);
+            } else if (credits === "medium") {
+                filtered = filtered.filter(b => Number(b.credits_needed || 0) >= 100 && Number(b.credits_needed || 0) <= 1000);
+            } else if (credits === "large") {
+                filtered = filtered.filter(b => Number(b.credits_needed || 0) > 1000);
+            }
+
+            updateMarketStats(filtered);
+            displayBuyers(filtered);
+        }
+
+        function sellCredits(companyName, price) {
+            const farmerCredits = getFarmerCredits();
+            const total = (farmerCredits * price).toFixed(2);
+            const farmerName = getFarmerName();
+
+            if (farmerCredits <= 0) {
+                alert("No carbon credits available to sell.");
+                return;
+            }
+
+            const confirmSell = confirm(
+                `${farmerName}, do you want to sell ${farmerCredits} carbon credits to ${companyName} for ₹${total}?`
+            );
+
+            if (!confirmSell) return;
+
+            const transaction = {
+                buyer: companyName,
+                price_per_credit: price,
+                credits_sold: farmerCredits,
+                total_amount: total,
+                seller: farmerName,
+                sold_at: new Date().toISOString(),
+                status: "Demo Transaction Completed"
+            };
+
+            localStorage.setItem("marketTransaction", JSON.stringify(transaction));
+
+            alert(
+                `Transaction successful!\n\nBuyer: ${companyName}\nCredits Sold: ${farmerCredits}\nTotal Amount: ₹${total}\n\nThis demo transaction has been saved.`
+            );
+        }
+
+        async function loadMarketplaceData() {
+            document.getElementById("loadingSection").style.display = "block";
+            document.getElementById("buyersSection").style.display = "none";
+
+            try {
+                // Optional backend endpoint if you add it later
+                const response = await fetch("http://127.0.0.1:8000/marketplace_buyers");
+                if (!response.ok) {
+                    throw new Error("Marketplace API not ready");
+                }
+
+                const data = await response.json();
+                allBuyers = data.buyers || [];
+            } catch (error) {
+                // Fallback demo buyers
+                allBuyers = [
+                    {
+                        name: "GreenTech Corp",
+                        country: "India",
+                        price: 890,
+                        credits_needed: 500,
+                        type: "ESG Buyer",
+                        match: 95
+                    },
+                    {
+                        name: "EcoFuture Ltd",
+                        country: "USA",
+                        price: 920,
+                        credits_needed: 1000,
+                        type: "Offset Buyer",
+                        match: 89
+                    },
+                    {
+                        name: "CarbonClear",
+                        country: "UK",
+                        price: 870,
+                        credits_needed: 2000,
+                        type: "Sustainability Fund",
+                        match: 84
+                    },
+                    {
+                        name: "Sustainable Industries",
+                        country: "Germany",
+                        price: 905,
+                        credits_needed: 750,
+                        type: "Corporate Buyer",
+                        match: 87
+                    },
+                    {
+                        name: "NetZero Corp",
+                        country: "India",
+                        price: 860,
+                        credits_needed: 1500,
+                        type: "ESG Buyer",
+                        match: 92
+                    },
+                    {
+                        name: "BlueCarbon Partners",
+                        country: "India",
+                        price: 910,
+                        credits_needed: 300,
+                        type: "Climate Investor",
+                        match: 90
+                    }
+                ];
+            }
+
+            updateMarketStats(allBuyers);
+            displayBuyers(allBuyers);
+
+            document.getElementById("loadingSection").style.display = "none";
+            document.getElementById("buyersSection").style.display = "block";
+        }
+
+        window.onload = function () {
+            loadMarketplaceData();
+        };
+    </script>
+</body>
+</html>

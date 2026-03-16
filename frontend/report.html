@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - Final Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header, .progress-bar, .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.10);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 42px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #2e7d32;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .step {
+            position: relative;
+            z-index: 2;
+            background: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #e0e0e0;
+        }
+
+        .step.completed, .step.active {
+            border-color: #2e7d32;
+            background: #2e7d32;
+            color: white;
+        }
+
+        .step-label {
+            position: absolute;
+            top: 46px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #666;
+            width: 80px;
+            text-align: center;
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            color: white;
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .hero-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .hero-value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .hero-sub {
+            font-size: 15px;
+            opacity: 0.92;
+        }
+
+        .status-pill {
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.35);
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .card-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .card-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827;
+            word-break: break-word;
+        }
+
+        .section {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 24px;
+        }
+
+        .section h3 {
+            color: #2e7d32;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .section p {
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .tree-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .tree-item {
+            background: white;
+            border: 1px solid #dbe4ee;
+            border-radius: 12px;
+            padding: 12px;
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 220px;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1b5e20;
+        }
+
+        .btn-secondary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a67d8;
+        }
+
+        .btn-third {
+            background: #0f766e;
+            color: white;
+        }
+
+        .btn-third:hover {
+            background: #115e59;
+        }
+
+        .btn:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid, .tree-list {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-row {
+                flex-direction: column;
+            }
+
+            .hero-value {
+                font-size: 28px;
+            }
+
+            .btn {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">📄</div>
+            <h1>FarmGuard AI - Final Carbon Report</h1>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-steps">
+                <div class="step completed">1<span class="step-label">OTP</span></div>
+                <div class="step completed">2<span class="step-label">Language</span></div>
+                <div class="step completed">3<span class="step-label">Register</span></div>
+                <div class="step completed">4<span class="step-label">Land</span></div>
+                <div class="step active">5<span class="step-label">Report</span></div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="hero-card">
+                <div class="hero-top">
+                    <div>
+                        <div class="hero-label">Final Verified Credits</div>
+                        <div class="hero-value" id="summaryCredits">-</div>
+                        <div class="hero-sub" id="summaryStatus">Preparing report...</div>
+                    </div>
+                    <div class="status-pill" id="statusPill">-</div>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-label">NDVI</div>
+                    <div class="card-value" id="ndviValue">-</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Estimated Trees</div>
+                    <div class="card-value" id="treesValue">-</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">CO₂ Removed</div>
+                    <div class="card-value" id="co2Value">-</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Market Value</div>
+                    <div class="card-value" id="marketValue">-</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Validation Status</div>
+                    <div class="card-value" id="validationStatus">-</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Market Status</div>
+                    <div class="card-value" id="marketStatus">-</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Blockchain Hash</div>
+                    <div class="card-value" id="blockHash" style="font-size:14px;">-</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Farmer Name</div>
+                    <div class="card-value" id="farmerName">-</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Farmer & Land Details</h3>
+                <p id="farmerLandText">Loading farmer and land details...</p>
+            </div>
+
+            <div class="section">
+                <h3>Selected Trees / Crop Input</h3>
+                <div id="treeList" class="tree-list"></div>
+            </div>
+
+            <div class="section">
+                <h3>Verification Reason</h3>
+                <p id="reasonText">Loading verification reason...</p>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn btn-secondary" onclick="goBackToVerify()">
+                    ← Back to Verify
+                </button>
+
+                <button class="btn btn-primary" id="downloadBtn" onclick="downloadReport()">
+                    Download PDF Report
+                </button>
+
+                <button class="btn btn-third" onclick="goToMarketplace()">
+                    Go to Marketplace →
+                </button>
+            </div>
+        </div>
+
+        <div class="footer">
+            Final report generated from FarmGuard AI analysis pipeline
+        </div>
+    </div>
+
+    <script>
+        function goBackToVerify() {
+            window.location.href = "./verify.html";
+        }
+
+        function goToMarketplace() {
+            window.location.href = "./marketplace.html";
+        }
+
+        function safeValue(value, fallback = "-") {
+            return value !== undefined && value !== null && value !== "" ? value : fallback;
+        }
+
+        function setText(id, value) {
+            document.getElementById(id).textContent = value;
+        }
+
+        async function downloadReport() {
+            const farmerData = JSON.parse(localStorage.getItem("farmerData") || "{}");
+            const landData = JSON.parse(localStorage.getItem("landData") || "{}");
+            const cropData = JSON.parse(localStorage.getItem("cropData") || "{}");
+            const analysisResult = JSON.parse(localStorage.getItem("analysisResult") || "{}");
+
+            const btn = document.getElementById("downloadBtn");
+            btn.disabled = true;
+            btn.textContent = "Generating PDF...";
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/generate_full_report", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        farmer_data: farmerData,
+                        land_data: landData,
+                        crop_data: cropData,
+                        analysis_result: analysisResult
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.text();
+                    console.error(err);
+                    alert("Could not generate report PDF.");
+                    btn.disabled = false;
+                    btn.textContent = "Download PDF Report";
+                    return;
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "FarmGuard_AI_Report.pdf";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                window.URL.revokeObjectURL(url);
+                btn.disabled = false;
+                btn.textContent = "Download PDF Report";
+
+            } catch (error) {
+                console.error(error);
+                alert("Could not connect to backend for PDF generation.");
+                btn.disabled = false;
+                btn.textContent = "Download PDF Report";
+            }
+        }
+
+        window.onload = function () {
+            const analysisRaw = localStorage.getItem("analysisResult");
+            const farmerRaw = localStorage.getItem("farmerData");
+            const landRaw = localStorage.getItem("landData");
+            const cropRaw = localStorage.getItem("cropData");
+
+            if (!analysisRaw) {
+                alert("No report data found. Please run analysis first.");
+                window.location.href = "./analysis.html";
+                return;
+            }
+
+            const analysis = JSON.parse(analysisRaw);
+            const farmer = farmerRaw ? JSON.parse(farmerRaw) : {};
+            const land = landRaw ? JSON.parse(landRaw) : {};
+            const crop = cropRaw ? JSON.parse(cropRaw) : {};
+
+            const vision = analysis.vision_analysis || {};
+            const carbon = analysis.carbon_analysis || {};
+            const validation = analysis.validation_result || {};
+            const market = analysis.market_analysis || {};
+            const blockchain = analysis.blockchain_record || {};
+
+            const credits = safeValue(carbon.carbon_credits, "-");
+            const marketStatus = safeValue(market.market_status, "Ready for reporting");
+            const validationStatus = safeValue(validation.status, "-");
+
+            setText("summaryCredits", `${credits} Credits`);
+            setText("summaryStatus", marketStatus);
+            setText("statusPill", validationStatus);
+
+            setText("ndviValue", safeValue(vision.ndvi));
+            setText("treesValue", safeValue(vision.estimated_trees));
+
+            if (carbon.co2_kg !== undefined && carbon.co2_kg !== null) {
+                setText("co2Value", `${carbon.co2_kg} kg`);
+            } else {
+                setText("co2Value", "-");
+            }
+
+            if (market.total_value_usd !== undefined && market.total_value_usd !== null) {
+                setText("marketValue", `$${market.total_value_usd}`);
+            } else {
+                setText("marketValue", "-");
+            }
+
+            setText("validationStatus", validationStatus);
+            setText("marketStatus", marketStatus);
+            setText("blockHash", safeValue(blockchain.block_hash));
+            setText("farmerName", safeValue(farmer.fullName || farmer.name));
+
+            document.getElementById("farmerLandText").textContent =
+                `${safeValue(farmer.fullName || farmer.name, "Farmer")} from ${safeValue(farmer.village, "Unknown village")}, `
+                + `${safeValue(farmer.state, "Unknown state")} registered land survey number ${safeValue(land.surveyNumber, "N/A")}. `
+                + `Land type: ${safeValue(land.landType, "N/A")}, soil: ${safeValue(land.soilType, "N/A")}, `
+                + `water source: ${safeValue(land.waterSource, "N/A")}, area: ${safeValue(land.areaAcres, "N/A")} acres.`;
+
+            document.getElementById("reasonText").textContent =
+                safeValue(validation.reason, "No verification reason available.");
+
+            const treeList = document.getElementById("treeList");
+            treeList.innerHTML = "";
+
+            const selectedTrees = crop.selectedTrees || {};
+            const entries = Object.entries(selectedTrees);
+
+            if (entries.length === 0) {
+                treeList.innerHTML = `<div class="tree-item">No manual tree data available</div>`;
+            } else {
+                entries.forEach(([treeName, count]) => {
+                    const div = document.createElement("div");
+                    div.className = "tree-item";
+                    div.textContent = `${treeName}: ${count}`;
+                    treeList.appendChild(div);
+                });
+            }
+        };
+    </script>
+</body>
+</html>

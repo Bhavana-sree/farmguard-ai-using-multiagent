@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - Select Language</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 80px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0 30px;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .step {
+            position: relative;
+            z-index: 2;
+            background: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #e0e0e0;
+        }
+
+        .step.completed,
+        .step.active {
+            border-color: #2e7d32;
+            background: #2e7d32;
+            color: white;
+        }
+
+        .step-label {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #666;
+            width: 70px;
+            text-align: center;
+        }
+
+        .search-container {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #999;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 18px 18px 50px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            outline: none;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .search-input:focus {
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .languages-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            border: 1px solid #e0e0e0;
+            background: white;
+        }
+
+        .language-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .language-item:last-child {
+            border-bottom: none;
+        }
+
+        .language-item:hover {
+            background: #f5f5f5;
+        }
+
+        .language-item.selected {
+            background: #f0f8f0;
+            border-left: 5px solid #2e7d32;
+        }
+
+        .flag {
+            font-size: 30px;
+            margin-right: 15px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .language-info {
+            flex: 1;
+        }
+
+        .language-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .language-native {
+            font-size: 14px;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .check-icon {
+            color: #2e7d32;
+            font-size: 20px;
+            font-weight: bold;
+            opacity: 0;
+        }
+
+        .language-item.selected .check-icon {
+            opacity: 1;
+        }
+
+        .voice-section {
+            margin-bottom: 25px;
+        }
+
+        .voice-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .voice-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .voice-icon {
+            font-size: 32px;
+        }
+
+        .voice-text h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .voice-text p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .voice-arrow {
+            font-size: 24px;
+        }
+
+        .btn {
+            width: 100%;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 0;
+        }
+
+        .btn:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .footer {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .selected-preview {
+            background: #f0f8f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid #2e7d32;
+        }
+
+        .selected-preview.show {
+            display: flex;
+        }
+
+        .preview-flag {
+            font-size: 30px;
+        }
+
+        .preview-title {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .preview-language {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌱</div>
+            <h1>FarmGuard AI</h1>
+            <div class="subtitle">Select your preferred language</div>
+        </div>
+
+        <div class="progress-steps">
+            <div class="step completed">
+                1
+                <span class="step-label">OTP</span>
+            </div>
+            <div class="step active">
+                2
+                <span class="step-label">Language</span>
+            </div>
+            <div class="step">
+                3
+                <span class="step-label">Register</span>
+            </div>
+            <div class="step">
+                4
+                <span class="step-label">Land</span>
+            </div>
+            <div class="step">
+                5
+                <span class="step-label">Crops</span>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search for your language..." onkeyup="filterLanguages()">
+        </div>
+
+        <div class="languages-container" id="languagesContainer"></div>
+
+        <div class="selected-preview" id="selectedPreview">
+            <span class="preview-flag" id="previewFlag">🇬🇧</span>
+            <div class="preview-text">
+                <div class="preview-title">Selected Language</div>
+                <div class="preview-language" id="previewLanguage">English</div>
+            </div>
+            <span class="check-icon" style="opacity:1;">✓</span>
+        </div>
+
+        <div class="voice-section">
+            <div class="voice-card" onclick="toggleVoice()">
+                <div class="voice-left">
+                    <div class="voice-icon">🎤</div>
+                    <div class="voice-text">
+                        <h3>Voice Assistant</h3>
+                        <p>Enable voice commands in your language</p>
+                    </div>
+                </div>
+                <div class="voice-arrow" id="voiceArrow">▶</div>
+            </div>
+        </div>
+
+        <button class="btn" id="continueBtn" onclick="continueToRegistration()" disabled>
+            Continue to Registration →
+        </button>
+
+        <button class="btn" style="background:#667eea;margin-top:5px;" onclick="goBackToOTP()">
+            ← Back to OTP
+        </button>
+
+        <div class="footer">
+            Step 2 of 5: Select your language to continue
+        </div>
+    </div>
+
+    <script>
+        const languages = [
+            { code: 'english', name: 'English', native: 'English', flag: '🇬🇧' },
+            { code: 'hindi', name: 'Hindi', native: 'हिन्दी', flag: '🇮🇳' },
+            { code: 'telugu', name: 'Telugu', native: 'తెలుగు', flag: '🇮🇳' },
+            { code: 'tamil', name: 'Tamil', native: 'தமிழ்', flag: '🇮🇳' },
+            { code: 'kannada', name: 'Kannada', native: 'ಕನ್ನಡ', flag: '🇮🇳' },
+            { code: 'malayalam', name: 'Malayalam', native: 'മലയാളം', flag: '🇮🇳' },
+            { code: 'bengali', name: 'Bengali', native: 'বাংলা', flag: '🇮🇳' },
+            { code: 'marathi', name: 'Marathi', native: 'मराठी', flag: '🇮🇳' },
+            { code: 'gujarati', name: 'Gujarati', native: 'ગુજરાતી', flag: '🇮🇳' },
+            { code: 'punjabi', name: 'Punjabi', native: 'ਪੰਜਾਬੀ', flag: '🇮🇳' },
+            { code: 'odia', name: 'Odia', native: 'ଓଡ଼ିଆ', flag: '🇮🇳' },
+            { code: 'assamese', name: 'Assamese', native: 'অসমীয়া', flag: '🇮🇳' }
+        ].sort((a, b) => a.name.localeCompare(b.name));
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userType = urlParams.get('type') || 'farmer';
+
+        let selectedLanguage = null;
+        let voiceEnabled = localStorage.getItem('voiceEnabled') === 'true';
+
+        function displayLanguages(langArray) {
+            const container = document.getElementById('languagesContainer');
+
+            if (langArray.length === 0) {
+                container.innerHTML = '<div style="padding:30px;text-align:center;color:#999;">No languages found</div>';
+                return;
+            }
+
+            let html = '';
+            langArray.forEach(lang => {
+                const isSelected = selectedLanguage?.code === lang.code ? 'selected' : '';
+                html += `
+                    <div class="language-item ${isSelected}" onclick="selectLanguage('${lang.code}')">
+                        <span class="flag">${lang.flag}</span>
+                        <div class="language-info">
+                            <div class="language-name">${lang.name}</div>
+                            <div class="language-native">${lang.native}</div>
+                        </div>
+                        <span class="check-icon">✓</span>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function selectLanguage(code) {
+            selectedLanguage = languages.find(l => l.code === code);
+            displayLanguages(getFilteredLanguages());
+
+            document.getElementById('selectedPreview').classList.add('show');
+            document.getElementById('previewFlag').textContent = selectedLanguage.flag;
+            document.getElementById('previewLanguage').textContent = selectedLanguage.name;
+            document.getElementById('continueBtn').disabled = false;
+        }
+
+        function getFilteredLanguages() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!searchTerm) return languages;
+
+            return languages.filter(lang =>
+                lang.name.toLowerCase().includes(searchTerm) ||
+                lang.native.toLowerCase().includes(searchTerm) ||
+                lang.code.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        function filterLanguages() {
+            displayLanguages(getFilteredLanguages());
+        }
+
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            localStorage.setItem('voiceEnabled', voiceEnabled);
+
+            const voiceArrow = document.getElementById('voiceArrow');
+            const voiceCard = document.querySelector('.voice-card');
+
+            if (voiceEnabled) {
+                voiceArrow.textContent = '✓';
+                voiceCard.style.background = 'linear-gradient(135deg, #43a047 0%, #2e7d32 100%)';
+            } else {
+                voiceArrow.textContent = '▶';
+                voiceCard.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }
+        }
+
+        function continueToRegistration() {
+            if (!selectedLanguage) {
+                alert('Please select a language first');
+                return;
+            }
+
+            const phoneNumber = localStorage.getItem('phoneNumber');
+            if (!phoneNumber) {
+                alert('Session expired. Please verify OTP again.');
+                window.location.href = 'otp.html?type=' + userType;
+                return;
+            }
+
+            localStorage.setItem('selectedLanguage', JSON.stringify({
+                code: selectedLanguage.code,
+                name: selectedLanguage.name,
+                flag: selectedLanguage.flag
+            }));
+
+            window.location.href = 'register.html?type=' + userType;
+        }
+
+        function goBackToOTP() {
+            window.location.href = 'otp.html?type=' + userType;
+        }
+
+        window.onload = function() {
+            displayLanguages(languages);
+            document.getElementById('searchInput').focus();
+
+            if (voiceEnabled) {
+                document.getElementById('voiceArrow').textContent = '✓';
+                document.querySelector('.voice-card').style.background = 'linear-gradient(135deg, #43a047 0%, #2e7d32 100%)';
+            }
+
+            const savedLanguage = localStorage.getItem('selectedLanguage');
+            if (savedLanguage) {
+                try {
+                    const parsed = JSON.parse(savedLanguage);
+                    selectedLanguage = parsed;
+                    document.getElementById('selectedPreview').classList.add('show');
+                    document.getElementById('previewFlag').textContent = parsed.flag;
+                    document.getElementById('previewLanguage').textContent = parsed.name;
+                    document.getElementById('continueBtn').disabled = false;
+                    displayLanguages(languages);
+                } catch (e) {}
+            }
+        };
+    </script>
+</body>
+</html>

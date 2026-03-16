@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - Select Role</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            font-size: 80px;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .roles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .role-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .role-icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+
+        .role-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .farmer .role-title, .company .role-title {
+            color: #2e7d32;
+        }
+
+        .solar .role-title {
+            color: #ff9800;
+        }
+
+        .role-desc {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .role-features {
+            text-align: left;
+            margin-bottom: 30px;
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .role-features li {
+            margin-bottom: 12px;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .role-features li span {
+            font-size: 18px;
+        }
+
+        .select-btn {
+            display: inline-block;
+            padding: 16px 35px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .farmer .select-btn, .company .select-btn {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .farmer .select-btn:hover, .company .select-btn:hover {
+            background: #1b5e20;
+            transform: translateY(-3px);
+        }
+
+        .solar .select-btn {
+            background: #ff9800;
+            color: white;
+        }
+
+        .solar .select-btn:hover {
+            background: #f57c00;
+            transform: translateY(-3px);
+        }
+
+        .back-btn {
+            margin-top: 40px;
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            opacity: 0.8;
+            font-size: 18px;
+        }
+
+        .back-btn:hover {
+            opacity: 1;
+            color: white;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: white;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 900px) {
+            .roles {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .roles {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌱</div>
+            <h1>Select Your Role</h1>
+            <p>Choose how you want to use FarmGuard AI</p>
+        </div>
+
+        <div class="roles">
+            <!-- FARMER CARD -->
+            <div class="role-card farmer">
+                <div class="role-icon">👨‍🌾</div>
+                <div class="role-title">Farmer</div>
+                <div class="role-desc">
+                    Register your land, analyze trees, generate carbon credits and earn money by selling them to companies.
+                </div>
+                <ul class="role-features">
+                    <li><span>✔️</span> Register farmland using map</li>
+                    <li><span>🌳</span> AI tree detection</li>
+                    <li><span>💰</span> Carbon credit calculation</li>
+                    <li><span>📄</span> Generate verification reports</li>
+                    <li><span>🏪</span> Sell credits to companies</li>
+                </ul>
+                <a href="otp.html?type=farmer" class="select-btn">
+                    Continue as Farmer →
+                </a>
+            </div>
+
+            <!-- COMPANY CARD -->
+            <div class="role-card company">
+                <div class="role-icon">🏢</div>
+                <div class="role-title">Company</div>
+                <div class="role-desc">
+                    Buy verified carbon credits from farmers and offset your company's carbon emissions.
+                </div>
+                <ul class="role-features">
+                    <li><span>🔍</span> Browse verified credits</li>
+                    <li><span>🛒</span> Buy carbon offsets</li>
+                    <li><span>📊</span> Track sustainability impact</li>
+                    <li><span>🔗</span> Blockchain verified records</li>
+                    <li><span>📈</span> Corporate climate dashboard</li>
+                </ul>
+                <a href="otp.html?type=company" class="select-btn">
+                    Continue as Company →
+                </a>
+            </div>
+
+            <!-- SOLAR PRODUCER CARD - FIXED: Now goes to OTP -->
+            <div class="role-card solar">
+                <div class="role-icon">☀️</div>
+                <div class="role-title">Solar Producer</div>
+                <div class="role-desc">
+                    Register your solar installation, generate clean energy, earn carbon credits and sell them in the marketplace.
+                </div>
+                <ul class="role-features">
+                    <li><span>📍</span> Map-based location selection</li>
+                    <li><span>📡</span> Google Solar API estimation</li>
+                    <li><span>⚡</span> Energy generation calculation</li>
+                    <li><span>🌿</span> Carbon credit generation</li>
+                    <li><span>🏪</span> Sell credits to companies</li>
+                </ul>
+                <!-- FIXED: Now goes to OTP with type=solar -->
+                <a href="otp.html?type=solar" class="select-btn">
+                    Continue as Solar Producer →
+                </a>
+            </div>
+        </div>
+
+        <div style="text-align: center">
+            <a href="index.html" class="back-btn">
+                ← Back to Home
+            </a>
+        </div>
+
+        <div class="footer">
+            FarmGuard AI • Carbon Credit Platform for Farmers, Companies & Solar Producers
+        </div>
+    </div>
+
+    <script>
+        console.log("✅ Role selection page loaded");
+        console.log("📍 Current location: " + window.location.href);
+        
+        // Check if files exist
+        fetch('otp.html')
+            .then(response => {
+                if (response.ok) {
+                    console.log("✅ otp.html is accessible");
+                } else {
+                    console.log("❌ otp.html not found");
+                }
+            })
+            .catch(error => {
+                console.log("❌ Error checking otp.html:", error);
+            });
+
+        // Add click tracking
+        document.querySelectorAll('.select-btn').forEach(link => {
+            link.addEventListener('click', function(e) {
+                console.log("🔗 Navigating to: " + this.href);
+            });
+        });
+
+        // Make entire card clickable
+        document.querySelectorAll('.role-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Don't trigger if clicking on the button itself
+                if (!e.target.closest('a')) {
+                    const link = this.querySelector('a');
+                    if (link) {
+                        console.log("👆 Card clicked - navigating to: " + link.href);
+                        window.location.href = link.href;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

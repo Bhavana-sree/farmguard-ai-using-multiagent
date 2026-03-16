@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - Solar Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .navbar {
+            background: white;
+            border-radius: 20px;
+            padding: 15px 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .nav-left { display: flex; align-items: center; gap: 20px; }
+        .nav-arrows { display: flex; gap: 10px; }
+        .nav-arrow {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: #f0f8f0; display: flex; align-items: center;
+            justify-content: center; cursor: pointer; font-size: 20px;
+            text-decoration: none; color: #2e7d32;
+        }
+        .nav-arrow:hover { background: #2e7d32; color: white; }
+        .home-icon { font-size: 28px; cursor: pointer; text-decoration: none; color: #2e7d32; }
+        .home-icon:hover { transform: scale(1.1); }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            color: #ff9800;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 0 20px;
+        }
+
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .progress-step::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+
+        .progress-step:first-child::before { left: 50%; }
+        .progress-step:last-child::before { right: 50%; }
+
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            position: relative;
+            z-index: 2;
+            font-weight: bold;
+        }
+
+        .progress-step.active .step-circle {
+            border-color: #ff9800;
+            color: #ff9800;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff9800;
+            box-shadow: 0 0 0 4px rgba(255,152,0,0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: #f57c00;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <div class="nav-left">
+                <div class="nav-arrows">
+                    <a href="javascript:history.back()" class="nav-arrow">←</a>
+                    <a href="javascript:history.forward()" class="nav-arrow">→</a>
+                </div>
+                <a href="index.html" class="home-icon">🏠</a>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1>☀️ Solar Producer Registration</h1>
+            <p>Step 1 of 4: Personal Information</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-step active">
+                <div class="step-circle">1</div>
+                <div>Register</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">2</div>
+                <div>Installation</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">3</div>
+                <div>Estimate</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">4</div>
+                <div>Verify</div>
+            </div>
+        </div>
+
+        <div class="form-card">
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" value="Solar Producer" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone" placeholder="9876543210" value="9876543210" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="solar@example.com" value="solar@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Village/City</label>
+                    <input type="text" id="village" placeholder="Enter your village" value="Solar Village" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Language</label>
+                    <select id="language">
+                        <option value="English" selected>English</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Tamil">Tamil</option>
+                        <option value="Telugu">Telugu</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn" onclick="nextStep()">Next: Installation Details →</button>
+            </form>
+        </div>
+
+        <div class="footer">
+            FarmGuard AI • Step 1 of 4
+        </div>
+    </div>
+
+    <script>
+        function nextStep() {
+            const data = {
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                village: document.getElementById('village').value,
+                language: document.getElementById('language').value
+            };
+            
+            if (!data.fullName || !data.phone || !data.email || !data.village) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            localStorage.setItem('solarUser', JSON.stringify(data));
+            window.location.href = 'solar-installation.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmGuard AI - Verification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .header, .progress-bar, .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.10);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 42px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #2e7d32;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .step {
+            position: relative;
+            z-index: 2;
+            background: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #e0e0e0;
+        }
+
+        .step.completed, .step.active {
+            border-color: #2e7d32;
+            background: #2e7d32;
+            color: white;
+        }
+
+        .step.active {
+            box-shadow: 0 0 0 5px rgba(46, 125, 50, 0.2);
+        }
+
+        .step-label {
+            position: absolute;
+            top: 46px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #666;
+            width: 80px;
+            text-align: center;
+        }
+
+        .status-banner {
+            padding: 24px;
+            border-radius: 18px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .status-banner.valid {
+            background: linear-gradient(135deg, #dff5e3, #ecfdf3);
+            border: 2px solid #2e7d32;
+            color: #1b5e20;
+        }
+
+        .status-banner.pending {
+            background: linear-gradient(135deg, #fff3cd, #fff8e1);
+            border: 2px solid #f59e0b;
+            color: #92400e;
+        }
+
+        .status-banner.issue {
+            background: linear-gradient(135deg, #fee2e2, #fff1f2);
+            border: 2px solid #dc2626;
+            color: #991b1b;
+        }
+
+        .status-icon {
+            font-size: 54px;
+            margin-bottom: 10px;
+        }
+
+        .status-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .status-subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .reason-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 24px;
+        }
+
+        .reason-box h3 {
+            color: #2e7d32;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .reason-box p {
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .info-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .info-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .listing-box {
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .listing-box.ready {
+            background: #ecfdf5;
+            color: #166534;
+            border: 2px solid #22c55e;
+        }
+
+        .listing-box.review {
+            background: #fff7ed;
+            color: #9a3412;
+            border: 2px solid #fb923c;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 14px;
+        }
+
+        .btn {
+            flex: 1;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1b5e20;
+        }
+
+        .btn-secondary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a67d8;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">✅</div>
+            <h1>FarmGuard AI - Verification Status</h1>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-steps">
+                <div class="step completed">1<span class="step-label">OTP</span></div>
+                <div class="step completed">2<span class="step-label">Language</span></div>
+                <div class="step completed">3<span class="step-label">Register</span></div>
+                <div class="step completed">4<span class="step-label">Land</span></div>
+                <div class="step active">5<span class="step-label">Verify</span></div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div id="statusBanner" class="status-banner valid">
+                <div id="statusIcon" class="status-icon">✅</div>
+                <div id="statusTitle" class="status-title">Valid</div>
+                <div id="statusSubtitle" class="status-subtitle">Your farm analysis passed verification checks.</div>
+            </div>
+
+            <div class="reason-box">
+                <h3>Verification Reason</h3>
+                <p id="reasonText">Loading verification result...</p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-label">Validation Status</div>
+                    <div class="info-value" id="validationValue">-</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-label">Market Status</div>
+                    <div class="info-value" id="marketStatusValue">-</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-label">Carbon Credits</div>
+                    <div class="info-value" id="creditsValue">-</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-label">Estimated Value</div>
+                    <div class="info-value" id="valueValue">-</div>
+                </div>
+            </div>
+
+            <div id="listingBox" class="listing-box ready">
+                Ready for marketplace listing and report generation.
+            </div>
+
+            <div class="btn-row">
+                <button class="btn btn-secondary" onclick="goBackToAnalysis()">
+                    ← Back to Analysis
+                </button>
+                <button class="btn btn-primary" onclick="goToReport()">
+                    Continue to Report →
+                </button>
+            </div>
+        </div>
+
+        <div class="footer">
+            Verification completed using validation agent logic
+        </div>
+    </div>
+
+    <script>
+        function goBackToAnalysis() {
+            window.location.href = "./analysis.html";
+        }
+
+        function goToReport() {
+            window.location.href = "./report.html";
+        }
+
+        function setStatusUI(status, reason, marketStatus, credits, value) {
+            const banner = document.getElementById("statusBanner");
+            const icon = document.getElementById("statusIcon");
+            const title = document.getElementById("statusTitle");
+            const subtitle = document.getElementById("statusSubtitle");
+            const reasonText = document.getElementById("reasonText");
+            const validationValue = document.getElementById("validationValue");
+            const marketStatusValue = document.getElementById("marketStatusValue");
+            const creditsValue = document.getElementById("creditsValue");
+            const valueValue = document.getElementById("valueValue");
+            const listingBox = document.getElementById("listingBox");
+
+            validationValue.textContent = status || "-";
+            marketStatusValue.textContent = marketStatus || "-";
+            creditsValue.textContent = credits ?? "-";
+            valueValue.textContent = value ?? "-";
+            reasonText.textContent = reason || "No reason available.";
+
+            const normalized = String(status || "").toLowerCase();
+
+            if (normalized.includes("valid") || normalized.includes("approved")) {
+                banner.className = "status-banner valid";
+                icon.textContent = "✅";
+                title.textContent = status;
+                subtitle.textContent = "Your farm analysis passed verification checks.";
+                listingBox.className = "listing-box ready";
+                listingBox.textContent = "Ready for marketplace listing and report generation.";
+            } else if (normalized.includes("pending")) {
+                banner.className = "status-banner pending";
+                icon.textContent = "⏳";
+                title.textContent = status;
+                subtitle.textContent = "Your farm requires additional review before final approval.";
+                listingBox.className = "listing-box review";
+                listingBox.textContent = "Pending review. Listing will be enabled after approval.";
+            } else {
+                banner.className = "status-banner issue";
+                icon.textContent = "⚠️";
+                title.textContent = status || "Issue Found";
+                subtitle.textContent = "Some checks need attention before approval.";
+                listingBox.className = "listing-box review";
+                listingBox.textContent = "Needs review before marketplace listing.";
+            }
+        }
+
+        window.onload = function () {
+            const analysisResultRaw = localStorage.getItem("analysisResult");
+
+            if (!analysisResultRaw) {
+                alert("No analysis result found. Please run analysis first.");
+                window.location.href = "./analysis.html";
+                return;
+            }
+
+            try {
+                const result = JSON.parse(analysisResultRaw);
+
+                const validation = result.validation_result || {};
+                const market = result.market_analysis || {};
+                const carbon = result.carbon_analysis || {};
+
+                let displayValue = "-";
+                if (market.total_value_usd !== undefined && market.total_value_usd !== null) {
+                    displayValue = "$" + market.total_value_usd;
+                }
+
+                setStatusUI(
+                    validation.status || "Unknown",
+                    validation.reason || "No validation reason available.",
+                    market.market_status || "Not available",
+                    carbon.carbon_credits ?? "-",
+                    displayValue
+                );
+
+            } catch (error) {
+                alert("Invalid analysis result. Please run analysis again.");
+                window.location.href = "./analysis.html";
+            }
+        };
+    </script>
+</body>
+</html>
