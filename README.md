@@ -110,3 +110,58 @@ Generates audit-ready documentation using AI + IoT data, including land details,
 Records verified carbon credit data, ownership, and transaction history in a secure and tamper-proof way.
 **MARKET_AGENT**
 Matches verified carbon credits with companies that want to purchase offsets.
+## System Architecture
+FarmGuard AI uses a multi-layer architecture that connects farmers, solar producers, and companies through AI-driven automation. The platform combines satellite imagery, renewable energy data, AI agents, IoT-supported verification, and blockchain-based carbon credit records.
+
+### Architecture Diagram
+
+<p align="center">
+  <img src="architecture.png" width="900">
+</p>
+
+### Architecture Explanation
+The FarmGuard AI architecture consists of several layers that work together to automate carbon credit generation and trading.
+#### 1. User Applications Layer
+The platform provides three main user interfaces:
+- **Farmers App** – Farmers upload tree and land information.
+- **Homeowners / Solar Producers App** – Solar energy producers upload solar generation data.
+- **Company Portal** – Companies browse and purchase verified carbon credits.
+These applications allow different stakeholders to interact with the system.
+#### 2. AI Orchestration Layer
+At the center of the system is **Microsoft Semantic Kernel**, which acts as the **agent orchestrator**.
+Semantic Kernel manages communication between different AI agents and ensures that the workflow runs in the correct sequence.
+#### 3. AI Processing Layer
+The platform uses specialized AI agents for different tasks:
+- **Vision Agent** – Detects trees and vegetation using satellite imagery.
+- **Carbon Agent** – Calculates biomass, carbon storage, and carbon credits.
+- **Energy Agent** – Calculates avoided emissions from solar energy systems.
+- **Validation Agent** – Detects anomalies or incorrect environmental data.
+- **Market Agent** – Connects verified credits with companies that want to buy them.
+These agents work together to automate environmental analysis.
+#### 4. Data Analysis Layer
+FarmGuard AI integrates multiple environmental data sources:
+- **Azure AI Vision** – analyzes satellite images
+- **Sentinel-2 satellite data (Sentinel Hub)** – vegetation and land monitoring
+- **Google Maps** – farmer land registration and geolocation
+- **Solar production data** – renewable energy emission reduction analysis
+These data sources provide the environmental evidence needed for carbon calculations.
+#### 5. Documentation & Verification Layer
+FarmGuard AI automatically generates **audit-ready carbon verification documents** using **AI and IoT data**.
+The documentation includes:
+- satellite image evidence
+- vegetation analysis
+- carbon credit calculations
+- environmental monitoring data
+This significantly reduces the cost of traditional carbon credit auditing.
+#### 6. Blockchain Layer
+The **Blockchain Agent** records verified carbon credits and ownership information in a secure ledger.
+Blockchain provides:
+- tamper-proof records
+- transparent transactions
+- trusted carbon credit ownership
+#### 7. Data Storage Layer
+The system stores important platform data including:
+- farmer land information
+- carbon credit calculations
+- verification documentation
+- transaction history
