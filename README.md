@@ -5,7 +5,6 @@ FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture
 <p align="center">
   <img src="farmguardai logo.png" width="300">
 </p>
-<h2>Overview</h2>
 
 ## Overview
 
@@ -341,14 +340,15 @@ FarmGuard AI provides several powerful capabilities that make carbon credit gene
 ### Visualization
 ####Platform Overview
 <p align="center">
-  <img src="demo-p1.png" width="100%">
-</p>
-
-#### Farmer Registration
-
-<p align="center">
 <img src="./farmer-registration.png" width="800">
 </p>
+#### Farmer Registration
+
+<video src="demo-v1.mp4" width="800" controls></video>
+
+#### Carbon Credit Platform Interface
+
+<video src="demo-v2.mp4" width="800" controls></video>
 
 ### Conclusion
 FarmGuard AI demonstrates how **AI, satellite monitoring, and intelligent agent systems** can transform the carbon credit ecosystem.
@@ -356,7 +356,7 @@ By automating carbon measurement, verification, and marketplace access, the plat
 Through **Microsoft AI technologies, satellite data, and multi-agent orchestration**, FarmGuard AI provides a scalable solution for **climate action, sustainable agriculture, and transparent carbon credit generation**.
 ## Project URL
 https://github.com/Bhavana-sree/farmguard-ai-using-multiagent
-Demo Video:  
+##Demo Video:  
 [Watch the Demo](PASTE_YOUR_YOUTUBE_LINK)
 ## Team
 **Team Name:** Quantum Minds
