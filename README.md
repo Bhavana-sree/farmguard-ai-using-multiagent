@@ -113,12 +113,12 @@ Matches verified carbon credits with companies that want to purchase offsets.
 ## System Architecture
 FarmGuard AI uses a multi-layer architecture that connects farmers, solar producers, and companies through AI-driven automation. The platform combines satellite imagery, renewable energy data, AI agents, IoT-supported verification, and blockchain-based carbon credit records.
 
-### Architecture Diagram
-
 ## System Architecture
 
+### Architecture Diagram
+
 <p align="center">
-  <img src="farmguard-ai-using-multiagent/Architecture.png" width="900">
+<img src="./Architecture.png" width="900">
 </p>
 
 ### Architecture Explanation
