@@ -51,7 +51,7 @@ Because of these challenges, millions of small farmers cannot participate in the
 
 As a result, there is a strong need for an **automated, affordable, and accessible system** that can help farmers measure their environmental impact and convert it into **verified carbon credits**.
 
----
+
 
 ## Solution
 
@@ -120,7 +120,7 @@ By introducing microalgae cultivation on farms, the platform can:
 - Increase crop yield
 - Generate additional carbon credits for farmers
 
----
+
 
 ## Multi-Agent AI Workflow (Semantic Kernel)
 FarmGuard AI uses a **multi-agent architecture orchestrated with Microsoft Semantic Kernel** to automate carbon credit generation, validation, documentation, and marketplace connection for farmers, solar producers, and companies.
@@ -344,11 +344,17 @@ FarmGuard AI provides several powerful capabilities that make carbon credit gene
   <img src="demo-p1.png" width="100%">
 </p>
 #### Farmer Registration
-<video src="demo-v1.mp4" width="800" controls></video>
-#### Carbon Credit Platform Interface
+
 <p align="center">
-  <img src="demo-v2.mp4" width="100%">
+<img src="./farmer-registration.png" width="800">
 </p>
+
+#### Carbon Credit Platform Interface
+
+<p align="center">
+<img src="./carbon-credit-platform.png" width="800">
+</p>
+
 
 ### Conclusion
 FarmGuard AI demonstrates how **AI, satellite monitoring, and intelligent agent systems** can transform the carbon credit ecosystem.
