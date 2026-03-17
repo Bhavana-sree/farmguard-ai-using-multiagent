@@ -6,7 +6,7 @@ FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture
   <img src="farmguardai logo.png" width="300">
 </p>
 <h2>Overview</h2>
----
+
 ## Overview
 
 FarmGuard AI is an **AI-powered climate technology platform** designed to help **small farmers and renewable energy producers participate in the global carbon credit economy**.
@@ -32,19 +32,7 @@ The system automatically performs several key tasks:
 - Connects farmers directly with **companies looking to purchase carbon credits**
 
 By automating these processes, FarmGuard AI significantly **reduces the cost and complexity of carbon verification**, enabling small and rural farmers to earn sustainable income while contributing to **global climate action**.
----
 
-## Problem Statement
-Climate change and global pollution are increasing rapidly due to industrial activities. Many companies produce large amounts of **greenhouse gases** and are required to purchase **carbon credits** to offset their emissions.
-At the same time, millions of farmers across the world naturally capture carbon through **trees, vegetation, and sustainable agricultural practices**. Farmers who install **solar energy systems (agrivoltaics)** also help reduce carbon emissions by generating renewable energy.
-However, small and rural farmers are unable to benefit from the carbon credit economy due to several barriers:
-- **Lack of awareness** – Many farmers do not know that their trees and land can generate carbon credits.
-- **High verification costs** – Carbon credit validation requires expensive audits and technical documentation.
-- **Complex carbon calculations** – Measuring biomass, carbon sequestration, and avoided emissions requires scientific expertise.
-- **Difficult documentation processes** – Generating audit-ready reports is time-consuming and costly.
-- **Limited access to carbon markets** – Farmers often do not have platforms to connect with companies that buy carbon credits.
-Because of these challenges, millions of small farmers cannot participate in the global carbon credit market, even though their land contributes significantly to **carbon sequestration and climate protection**.
-As a result, there is a strong need for an **automated, affordable, and accessible system** that can help farmers measure their environmental impact and convert it into **verified carbon credits**.
 ## Problem Statement
 
 Climate change and global pollution are increasing rapidly due to industrial activities. Many companies produce large amounts of **greenhouse gases** and are required to purchase **carbon credits** to offset their emissions.
@@ -356,9 +344,7 @@ FarmGuard AI provides several powerful capabilities that make carbon credit gene
   <img src="demo-p1.png" width="100%">
 </p>
 #### Farmer Registration
-<p align="center">
-  <img src="demo-v1.mp4" width="100%">
-</p>
+<video src="demo-v1.mp4" width="800" controls></video>
 #### Carbon Credit Platform Interface
 <p align="center">
   <img src="demo-v2.mp4" width="100%">
