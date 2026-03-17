@@ -115,8 +115,10 @@ FarmGuard AI uses a multi-layer architecture that connects farmers, solar produc
 
 ### Architecture Diagram
 
+## System Architecture
+
 <p align="center">
-  <img src="architecture.png" width="900">
+  <img src="farmguard-ai-using-multiagent/Architecture.png" width="900">
 </p>
 
 ### Architecture Explanation
