@@ -345,7 +345,8 @@ FarmGuard AI provides several powerful capabilities that make carbon credit gene
 
 #### Farmer Registration
 
-<video src="./demo-v1.mp4" width="800" controls></video>
+<video src="./demo-v1.mp4" width="800" controls>
+</video>
 
 ### Conclusion
 FarmGuard AI demonstrates how **AI, satellite monitoring, and intelligent agent systems** can transform the carbon credit ecosystem.
