@@ -343,6 +343,7 @@ FarmGuard AI provides several powerful capabilities that make carbon credit gene
 <p align="center">
   <img src="demo-p1.png" width="100%">
 </p>
+
 #### Farmer Registration
 
 <p align="center">
