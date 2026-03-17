@@ -1,4 +1,4 @@
-# 🌱 FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture
+# 🌱 FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture Using Multi-Agent
 <h2>Project Name</h2>
 FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture
 <h2>Description</h2>
@@ -349,13 +349,6 @@ FarmGuard AI provides several powerful capabilities that make carbon credit gene
 <p align="center">
 <img src="./farmer-registration.png" width="800">
 </p>
-
-#### Carbon Credit Platform Interface
-
-<p align="center">
-<img src="./carbon-credit-platform.png" width="800">
-</p>
-
 
 ### Conclusion
 FarmGuard AI demonstrates how **AI, satellite monitoring, and intelligent agent systems** can transform the carbon credit ecosystem.
