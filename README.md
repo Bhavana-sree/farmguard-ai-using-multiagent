@@ -338,17 +338,13 @@ FarmGuard AI provides several powerful capabilities that make carbon credit gene
   Scale the platform to support **millions of farmers, renewable energy producers, and corporate sustainability programs worldwide**.
 
 ### Visualization
-####Platform Overview
+#### Platform Overview
 <p align="center">
 <img src="./farmer-registration.png" width="800">
 </p>
 #### Farmer Registration
 
 <video src="demo-v1.mp4" width="800" controls></video>
-
-#### Carbon Credit Platform Interface
-
-<video src="demo-v2.mp4" width="800" controls></video>
 
 ### Conclusion
 FarmGuard AI demonstrates how **AI, satellite monitoring, and intelligent agent systems** can transform the carbon credit ecosystem.
