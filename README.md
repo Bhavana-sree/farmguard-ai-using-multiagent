@@ -349,7 +349,7 @@ By automating carbon measurement, verification, and marketplace access, the plat
 Through **Microsoft AI technologies, satellite data, and multi-agent orchestration**, FarmGuard AI provides a scalable solution for **climate action, sustainable agriculture, and transparent carbon credit generation**.
 ## Project URL
 https://github.com/Bhavana-sree/farmguard-ai-using-multiagent
-##Demo Video:  
+## Demo Video:  
 https://www.youtube.com/channel/UCyAhmBHfftCY_gd_5c9k8Ag
 ## Team
 **Team Name:** Quantum Minds
