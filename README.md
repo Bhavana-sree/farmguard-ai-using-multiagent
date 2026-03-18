@@ -339,9 +339,17 @@ FarmGuard AI provides several powerful capabilities that make carbon credit gene
 
 ### Visualization
 #### Platform Overview
+
 <p align="center">
-<img src="./demo-p1.png" width="800">
+<img src="./demo-p1.png" width="700">
 </p>
+
+#### Farmer Dashboard
+
+<p align="center">
+<img src="./demo-p2.png" width="800">
+</p>
+
 
 ### Conclusion
 FarmGuard AI demonstrates how **AI, satellite monitoring, and intelligent agent systems** can transform the carbon credit ecosystem.
@@ -349,8 +357,15 @@ By automating carbon measurement, verification, and marketplace access, the plat
 Through **Microsoft AI technologies, satellite data, and multi-agent orchestration**, FarmGuard AI provides a scalable solution for **climate action, sustainable agriculture, and transparent carbon credit generation**.
 ## Project URL
 https://github.com/Bhavana-sree/farmguard-ai-using-multiagent
-## Demo Video:  
+
+## 🎥 Demo Videos
+
+### 1️⃣ Complete Platform Demo 
 https://www.youtube.com/channel/UCyAhmBHfftCY_gd_5c9k8Ag
+
+### 2️⃣ Problem & Solution Explanation
+https://youtu.be/1LX1ZPsKQcY
+
 ## Team
 **Team Name:** Quantum Minds
 Members:
