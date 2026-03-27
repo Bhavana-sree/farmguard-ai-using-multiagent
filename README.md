@@ -1,8 +1,9 @@
 <h2>Project Name</h2>
 FarmGuard AI
 <h2>Description</h2>
+
 <p align="center">
-  <img src="LOGO.png" width="300">
+  <img src="LOGO.png" width="500">
 </p>
 
 ## Overview
