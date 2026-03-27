@@ -21,7 +21,7 @@ FarmGuard AI solves this problem using a **multi-agent AI system** that automate
 -  Marketplace connection  
 
 By combining **satellite imagery, AI models, IoT data, and Microsoft AI technologies**, the platform converts environmental impact into **verified, transparent, and tradable carbon credits**.
-##  Key Capabilities
+###  Key Capabilities
 -  Detects trees and vegetation using satellite images  
 -  Analyzes crop health using NDVI  
 -  Calculates biomass, carbon, and CO₂  
@@ -73,7 +73,7 @@ It provides a **single platform** that connects farmers, solar producers, and co
 - Explore verified carbon credits  
 - Purchase directly through the platform  
 
-### 🤖 How the System Works
+#### How the System Works
 
 - Uses satellite and image data to analyze farms  
 - Processes environmental data using AI models  
@@ -91,7 +91,7 @@ FarmGuard AI uses a **multi-agent architecture orchestrated with Microsoft Seman
 #### 1. Farmer Data Input 
    Farmers upload land details, images, or sensor data.
 
-#### 2. **Orchestrator Agent**  
+#### 2. Orchestrator Agent 
   Controls the overall workflow and decides which agent should act next using **Semantic Kernel orchestration**.
 
 #### 3. **Vision Agent**  
@@ -100,7 +100,7 @@ FarmGuard AI uses a **multi-agent architecture orchestrated with Microsoft Seman
 #### 4. **Carbon Analyst Agent**  
    Calculates biomass, carbon storage, CO₂ equivalent, and estimated carbon credits.
    
-##### Tree-based Carbon Credit Calculation
+#### Tree-based Carbon Credit Calculation
 Above-Ground Biomass (AGB):
 ```
 AGB = 0.0673 × (ρ × DBH² × H)^0.976
@@ -125,7 +125,7 @@ Carbon credits:
 ```
 Credits = CO₂ / 1000
 ```
-##### Solar Carbon Credit Calculation
+#### Solar Carbon Credit Calculation
 Avoided emissions:
 ```
 Avoided CO₂ = Solar Energy Generated (kWh) × Grid Emission Factor
@@ -139,15 +139,14 @@ This allows the platform to calculate carbon credits for both **tree-based seque
 #### 5. Validation Agent
    Checks for **anomalies, incorrect reporting, sudden spikes, and possible fraud** in environmental or farm data.
 
-#### 6. **AI + IoT Documentation**  
+#### 6. AI + IoT Documentation
    Generates audit-ready reports using AI analysis and environmental sensor data.
 
-#### 7. **Blockchain Layer**  
+#### 7. Blockchain Layer  
    Stores verified carbon credit records securely and ensures data integrity.
 
-#### 8. **Market Agent**  
+#### 8. Market Agent  
    Connects verified carbon credits with companies for purchase.
-
 ###  Output
 
 - Verified Carbon Credits  
