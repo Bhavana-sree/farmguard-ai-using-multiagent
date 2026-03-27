@@ -364,7 +364,7 @@ https://github.com/Bhavana-sree/farmguard-ai-using-multiagent
 https://www.youtube.com/channel/UCyAhmBHfftCY_gd_5c9k8Ag
 
 ### 2️⃣ Problem & Solution Explanation
-https://youtu.be/1LX1ZPsKQcY
+https://youtu.be/lW2vDOKTd1w
 
 ## Team
 **Team Name:** Quantum Minds
