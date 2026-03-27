@@ -1,6 +1,6 @@
 # FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture Using Multi-Agent(Python, Azure Open Vision, Semantic Kernel, SQLite)
 <h3>Project Name</h3>
-FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture
+FarmGuard AI
 <h2>Description</h2>
 <p align="center">
   <img src="LOGO.png" width="300">
