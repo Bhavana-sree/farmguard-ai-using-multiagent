@@ -1,5 +1,4 @@
-# FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture Using Multi-Agent(Python, Azure Open Vision, Semantic Kernel, SQLite)
-<h3>Project Name</h3>
+<h2>Project Name</h2>
 FarmGuard AI
 <h2>Description</h2>
 <p align="center">
@@ -320,6 +319,49 @@ FarmGuard AI shows how **AI, satellite data, and multi-agent systems** can trans
 By automating carbon measurement, verification, and marketplace access, it enables **farmers, solar producers, and companies** to participate in a transparent and scalable carbon economy.
 
 The platform provides a practical solution for **climate action, sustainable agriculture, and digital carbon markets**.
+##  Quick Start
+
+### Prerequisites
+- Python 3.12
+- Node.js (for frontend)
+- Git
+
+### Installation
+```
+# Clone repository
+git clone https://github.com/your-username/farmguard-ai.git
+
+# Backend setup
+cd backend
+pip install -r requirements.txt
+
+# Run backend
+uvicorn app.main:app --reload
+
+# Frontend setup
+cd frontend
+npm install
+npm run dev
+```
+## ⚙️ Environment Setup
+```
+Create a `.env` file:
+# Azure OpenAI
+AZURE_BASE_URL=your_azure_endpoint
+AZURE_API_KEY=your_api_key
+AZURE_MODEL_NAME=gpt-4o-mini-farmguard
+
+# Azure AI Vision
+AZURE_VISION_ENDPOINT=your_vision_endpoint
+AZURE_VISION_KEY=your_vision_key
+
+# Google Maps API
+GOOGLE_API_KEY=your_google_maps_key
+
+# Sentinel Hub (Satellite Data)
+SENTINEL_HUB_API_KEY=your_sentinelhub_key
+```
+
 ## Project URL
 https://github.com/Bhavana-sree/farmguard-ai-using-multiagent
 
