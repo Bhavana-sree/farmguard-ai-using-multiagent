@@ -1,5 +1,5 @@
-# Project: FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture Using Multi-Agent
-<h2>Project Name</h2>
+# FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture Using Multi-Agent(Python, Azure Open Vision, Semantic Kernel, SQLite)
+<h3>Project Name</h3>
 FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture
 <h2>Description</h2>
 <p align="center">
