@@ -1,4 +1,4 @@
-# 🌱 FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture Using Multi-Agent
+# Project: FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture Using Multi-Agent
 <h2>Project Name</h2>
 FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture
 <h2>Description</h2>
@@ -60,8 +60,6 @@ FarmGuard AI is a **multi-agent AI platform** with **multi-language support** th
 
 It provides a **single platform** that connects farmers, solar producers, and companies, removing the need for complex tools and manual processes.
 
----
-
 ###  Who Uses the Platform
 
 ####  Farmers
@@ -76,8 +74,6 @@ It provides a **single platform** that connects farmers, solar producers, and co
 ####  Companies
 - Explore verified carbon credits  
 - Purchase directly through the platform  
-
----
 
 ### 🤖 How the System Works
 
@@ -154,162 +150,139 @@ This allows the platform to calculate carbon credits for both **tree-based seque
 8. **Market Agent**  
    Connects verified carbon credits with companies for purchase.
 
----
-
 ###  Output
 
 - Verified Carbon Credits  
 - Audit-Ready Documentation  
 - Marketplace Integration  
 
+##  System Architecture
 
-## System Architecture
+FarmGuard AI follows a **multi-layer architecture** that integrates AI, IoT, satellite data, and blockchain to automate carbon credit generation and trading.
 
-FarmGuard AI uses a **multi-layer architecture** that connects farmers, solar producers, and companies through AI-driven automation.
-The platform combines:
-- Satellite imagery
-- Renewable energy data
-- AI agents
-- IoT-supported verification
-- Blockchain-based carbon credit records
+The platform connects **farmers, solar producers, and companies** through an intelligent and scalable system.
 
 <p align="center">
-<img src="./Architecture.png" width="800">
+<img src="./Architecture.png" width="700">
 </p>
 
-### Architecture Explanation
-The FarmGuard AI architecture consists of several layers that work together to automate carbon credit generation and trading.
-#### 1. User Applications Layer
-The platform provides three main user interfaces:
-- **Farmers App** – Farmers upload tree and land information.
-- **Homeowners / Solar Producers App** – Solar energy producers upload solar generation data.
-- **Company Portal** – Companies browse and purchase verified carbon credits.
-These applications allow different stakeholders to interact with the system.
-#### 2. AI Orchestration Layer
-At the center of the system is **Microsoft Semantic Kernel**, which acts as the **agent orchestrator**.
-Semantic Kernel manages communication between different AI agents and ensures that the workflow runs in the correct sequence.
-#### 3. AI Processing Layer
-The platform uses specialized AI agents for different tasks:
-- **Vision Agent** – Detects trees and vegetation using satellite imagery.
-- **Carbon Agent** – Calculates biomass, carbon storage, and carbon credits.
-- **Energy Agent** – Calculates avoided emissions from solar energy systems.
-- **Validation Agent** – Detects anomalies or incorrect environmental data.
-- **Market Agent** – Connects verified credits with companies that want to buy them.
-These agents work together to automate environmental analysis.
-#### 4. Data Analysis Layer
-FarmGuard AI integrates multiple environmental data sources:
-- **Azure AI Vision** – analyzes satellite images
-- **Sentinel-2 satellite data (Sentinel Hub)** – vegetation and land monitoring
-- **Google Maps** – farmer land registration and geolocation
-- **Solar production data** – renewable energy emission reduction analysis
-These data sources provide the environmental evidence needed for carbon calculations.
-#### 5. Documentation & Verification Layer
-FarmGuard AI automatically generates **audit-ready carbon verification documents** using **AI and IoT data**.
-The documentation includes:
-- satellite image evidence
-- vegetation analysis
-- carbon credit calculations
-- environmental monitoring data
-This significantly reduces the cost of traditional carbon credit auditing.
-#### 6. Blockchain Layer
-The **Blockchain Agent** records verified carbon credits and ownership information in a secure ledger.
-Blockchain provides:
-- tamper-proof records
-- transparent transactions
-- trusted carbon credit ownership
-#### 7. Data Storage Layer
-The system stores important platform data including:
-- farmer land information
-- carbon credit calculations
-- verification documentation
-- transaction history
-## Technologies Used
+
+### 🔍 Architecture Overview
+
+The system is organized into multiple layers, each responsible for a specific function in the carbon credit lifecycle.
+
+### 1. User Application Layer
+
+Provides interfaces for different stakeholders:
+
+- **Farmer Application** – Upload land details, tree images, and view carbon reports  
+- **Solar Producer Application** – Upload energy data and track avoided emissions  
+- **Company Portal** – Browse and purchase verified carbon credits  
+
+### 2. AI Orchestration Layer
+
+At the core of the system is **Semantic Kernel**, which manages the workflow between all AI agents.
+
+- Controls execution flow  
+- Coordinates agent communication  
+- Ensures correct sequence of operations  
+
+### 3. AI Processing Layer
+
+Specialized agents perform different tasks:
+
+- **Vision Agent** – Detects vegetation using satellite and image data  
+- **Carbon Analyst Agent** – Calculates biomass, carbon, and CO₂  
+- **Energy Agent** – Computes avoided emissions from solar systems  
+- **Validation Agent** – Detects anomalies and ensures data accuracy  
+- **Market Agent** – Matches carbon credits with buyers  
+
+### 4. Data Analysis Layer
+
+The system integrates multiple environmental data sources:
+
+- **Satellite Data (Sentinel-2)** – vegetation and land monitoring  
+- **Azure AI Vision** – image and vegetation analysis  
+- **Geolocation (Maps API)** – land registration  
+- **Solar Data** – renewable energy generation  
+
+### 5. Documentation & Verification Layer
+
+The platform generates **audit-ready reports automatically** using **AI and IoT data**.
+
+Includes:
+
+- Satellite evidence  
+- Vegetation analysis  
+- Carbon calculations  
+- Sensor-based environmental data  
+
+This reduces the cost and complexity of traditional audits.
+
+### 6. Blockchain Layer
+
+Verified carbon credits are recorded in a **secure blockchain ledger**.
+
+Provides:
+
+- Tamper-proof records  
+- Transparent transactions  
+- Trusted ownership tracking  
+
+### 7. Data Storage Layer
+
+Stores all system data:
+
+- User and land information  
+- Carbon calculations  
+- Audit reports  
+- Transaction history
+  
+##  Technologies Used
+
 ### Backend Technologies
-The backend of FarmGuard AI powers AI orchestration, carbon credit calculations, satellite analysis, verification workflows, and marketplace connectivity.
-- **Python(3.12.6)**  
-  Core backend programming language used to implement AI agents, carbon credit calculations, and system logic.
-- **FastAPI**  
-  High-performance Python framework used to build backend APIs for communication between the frontend interface and AI services.
-- **Microsoft Semantic Kernel**  
-  Orchestrates the multi-agent AI workflow and manages communication between agents such as Vision Agent, Carbon Analyst Agent, Validation Agent, and Market Agent.
-- **Azure OpenAI Service**  
-  Provides natural language understanding, reasoning, report generation, and intelligent agent decision-making.
-- **Azure AI Vision**  
-  Analyzes satellite imagery to detect trees, vegetation cover, crop health, and land-use changes.
-- **Sentinel-2 Satellite Data (Sentinel Hub)**  
-  Provides high-resolution satellite imagery used for vegetation monitoring and NDVI analysis to estimate biomass and carbon sequestration.
-- **IoT Integration**  
-  Environmental sensors provide monitoring data such as soil conditions and climate parameters for audit-ready documentation.
-- **Blockchain Integration**  
-  Stores verified carbon credit records, ownership proof, and transaction history in a secure and tamper-proof ledger.
-- **Carbon Calculation Engine (IPCC Methodology)**  
-  Implements biomass estimation, carbon conversion, and avoided emission formulas for generating carbon credits.
+
+- **Python (3.12.6)** – Core language for backend logic, AI agents, and carbon calculations  
+- **FastAPI** – High-performance framework for building REST APIs  
+- **Microsoft Semantic Kernel** – Orchestrates multi-agent workflow and communication  
+- **Azure OpenAI Service** – Provides reasoning, report generation, and decision-making  
+- **Azure AI Vision** – Analyzes satellite images for vegetation and land detection  
+- **Sentinel-2 (Sentinel Hub)** – Provides satellite data for NDVI and vegetation monitoring  
+- **IoT Integration** – Collects soil and environmental data for validation and audits  
+- **Blockchain Integration** – Stores carbon credit records securely and transparently  
+- **IPCC-Based Calculation Engine** – Implements standard carbon estimation formulas
+  
 ### Frontend Technologies
-The frontend interface enables farmers, solar producers, and companies to interact with the FarmGuard AI platform.
-- **HTML5**  
-  Structures the web interface and user dashboards.
-- **CSS**  
-  Provides responsive and modern UI design.
-- **JavaScript**  
-  Enables dynamic interaction between the user interface and backend APIs.
-- **Google Maps API**  
-  Allows farmers to register their land by selecting geographic locations directly on the map.
-- **Solar Energy Data (Google Cloud Console)**  
-  Solar generation data is retrieved and processed to calculate avoided emissions and solar-based carbon credits.
+
+- **HTML5** – Structures the web interface and dashboards  
+- **CSS** – Provides responsive and modern UI design  
+- **JavaScript** – Enables dynamic interaction with backend APIs  
+- **Google Maps API** – Supports land registration and geolocation  
+- **Solar Data (Google Cloud)** – Provides solar generation data for emission calculations  
+
 ### Development Tools
-- **Git & GitHub** – Version control and project repository  
+
+- **Git & GitHub** – Version control and project hosting  
 - **Visual Studio Code** – Development environment  
-- **Draw.io** – Architecture diagram creation
-## Key Features
-FarmGuard AI provides several powerful capabilities that make carbon credit generation accessible to farmers and renewable energy producers.
-- **Automated Carbon Credit Calculation**  
-  Uses AI models and IPCC methodologies to calculate carbon sequestration from trees and avoided emissions from solar energy.
-- **Satellite-Based Environmental Monitoring**  
-  Integrates Sentinel-2 satellite data via Sentinel Hub to detect vegetation, monitor land conditions, and analyze NDVI.
-- **Multi-Agent AI Architecture**  
-  Uses Microsoft Semantic Kernel to orchestrate specialized AI agents for vision analysis, carbon calculation, validation, documentation, and marketplace matching.
-- **AI-Powered Fraud Detection**  
-  Validation agents detect anomalies, suspicious data patterns, and potential reporting errors.
-- **Automated Audit Documentation**  
-  Combines AI analysis with IoT environmental data to generate verification-ready carbon reports.
-- **Blockchain-Based Carbon Credit Records**  
-  Stores carbon credit ownership and transaction history securely to ensure transparency and trust.
-- **Integrated Carbon Marketplace**  
-  Connects farmers and solar producers directly with companies looking to purchase verified carbon credits.
-- **Land Registration via Map Interface**  
-  Uses Google Maps to allow farmers to easily register their land and agricultural assets.
-  ## Why FarmGuard AI is Unique
+- **Draw.io** – Architecture diagram design  
 
-- **Multi-Agent AI Architecture**  
-  Uses Microsoft Semantic Kernel to orchestrate multiple AI agents that automate carbon credit generation, validation, and marketplace operations.
+##  Key Features
 
-- **Satellite-Based Carbon Monitoring**  
-  Integrates Sentinel-2 satellite data via Sentinel Hub and NDVI analysis to detect vegetation health and estimate carbon sequestration.
+- **Automated Carbon Credit Calculation** – Calculates carbon from trees and solar energy using AI and IPCC methods  
+- **Satellite-Based Monitoring** – Uses Sentinel-2 and NDVI for vegetation and land analysis  
+- **Multi-Agent AI System** – Orchestrates agents using Semantic Kernel for automation  
+- **AI-Based Validation** – Detects errors, anomalies, and fraud in data  
+- **Automated Audit Reports** – Generates verification-ready documentation using AI + IoT  
+- **Blockchain-Based Records** – Ensures secure and tamper-proof carbon credit storage  
+- **Integrated Marketplace** – Connects farmers and companies for carbon trading  
+- **Easy Land Registration** – Uses map interface for simple land onboarding  
+ 
+ ## Future Scope
 
-- **Automated Carbon Verification**  
-  Combines AI analysis with IoT environmental monitoring to generate **audit-ready documentation**, reducing verification costs for farmers.
-
-- **Unified Carbon Marketplace**  
-  Connects **farmers, solar producers, and companies** on a single platform to generate and trade carbon credits transparently.
-
-- **Blockchain-Based Trust System**  
-  Stores carbon credit ownership and transaction records in a **tamper-proof blockchain ledger**, improving transparency and trust.
-
-- **Future Carbon Capture Innovation**  
-  Plans to integrate **microalgae carbon capture systems** to absorb CO₂ and methane while generating additional carbon credits.
-## Future Scope
-
-- **Microalgae Carbon Capture**  
-  Integrate microalgae cultivation systems to capture additional CO₂ and methane while generating extra carbon credits for farmers.
-
-- **NGO Collaboration**  
-  Partner with agricultural and environmental NGOs to educate farmers, promote sustainable practices, and support platform adoption in rural areas.
-
-- **Carbon Certification & Verification**  
-  Integrate with third-party auditors and global carbon registries such as **Verra** and **Gold Standard** to ensure internationally recognized carbon credit certification.
-
-- **Global Platform Expansion**  
-  Scale the platform to support **millions of farmers, renewable energy producers, and corporate sustainability programs worldwide**.
+- Microalgae-based carbon capture  
+- NGO collaboration for farmer awareness  
+- Integration with global carbon registries (Verra, Gold Standard)  
+- Expansion to support millions of users worldwide  
 
   ## Business Impact
 
@@ -332,10 +305,13 @@ FarmGuard AI provides several powerful capabilities that make carbon credit gene
 </p>
 
 
-### Conclusion
-FarmGuard AI demonstrates how **AI, satellite monitoring, and intelligent agent systems** can transform the carbon credit ecosystem.
-By automating carbon measurement, verification, and marketplace access, the platform makes the carbon economy accessible to **small farmers, renewable energy producers, and sustainability-focused companies**.
-Through **Microsoft AI technologies, satellite data, and multi-agent orchestration**, FarmGuard AI provides a scalable solution for **climate action, sustainable agriculture, and transparent carbon credit generation**.
+##  Conclusion
+
+FarmGuard AI shows how **AI, satellite data, and multi-agent systems** can transform the carbon credit ecosystem.
+
+By automating carbon measurement, verification, and marketplace access, it enables **farmers, solar producers, and companies** to participate in a transparent and scalable carbon economy.
+
+The platform provides a practical solution for **climate action, sustainable agriculture, and digital carbon markets**.
 ## Project URL
 https://github.com/Bhavana-sree/farmguard-ai-using-multiagent
 
