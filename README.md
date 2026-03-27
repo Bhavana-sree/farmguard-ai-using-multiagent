@@ -3,7 +3,7 @@
 FarmGuard AI: Intelligent Agrivoltaics & Carbon Capture
 <h2>Description</h2>
 <p align="center">
-  <img src="farmguardai logo.png" width="300">
+  <img src="LOGO.png" width="300">
 </p>
 
 ## Overview
