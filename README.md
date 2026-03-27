@@ -361,7 +361,7 @@ https://github.com/Bhavana-sree/farmguard-ai-using-multiagent
 ## 🎥 Demo Videos
 
 ### 1️⃣ Complete Platform Demo 
-https://www.youtu.be/dSF2wshk09Q
+https://youtu.be/dSF2wshk09Q?si=a0ie5H18kWZwEQ70
 
 ### 2️⃣ Problem & Solution Explanation
 https://youtu.be/lW2vDOKTd1w
