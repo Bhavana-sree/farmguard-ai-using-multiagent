@@ -374,10 +374,4 @@ https://youtu.be/dSF2wshk09Q?si=a0ie5H18kWZwEQ70
 ### 2️⃣ Problem & Solution Explanation
 https://youtu.be/lW2vDOKTd1w
 
-## Team
-**Team Name:** Quantum Minds
-Members:
-- Bhavanasree B
-- Sowmya N
 
-Hackathon: **Microsoft AI Dev Days Hackathon**
