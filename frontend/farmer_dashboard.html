@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FarmGuard AI - Farmer Home</title>
+    <title>FarmGuard AI - Farmer Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -87,6 +87,8 @@
             font-weight: 700;
             cursor: pointer;
             transition: 0.25s;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .top-btn:hover {
@@ -145,6 +147,8 @@
             cursor: pointer;
             transition: 0.25s;
             font-size: 15px;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .hero-btn-primary {
@@ -216,6 +220,7 @@
             font-weight: 800;
         }
 
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -246,6 +251,50 @@
             font-weight: 600;
         }
 
+        /* Algae Card Special Style */
+        .algae-card {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            color: white;
+            padding: 22px;
+            border-radius: 16px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .algae-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .algae-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .algae-value {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .algae-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .algae-sub {
+            font-size: 11px;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        /* Additional Algae Stats */
+        .algae-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
         .main-grid {
             display: grid;
             grid-template-columns: 1.35fr 1fr;
@@ -257,6 +306,9 @@
             font-size: 20px;
             color: #1b5e20;
             margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .quick-grid {
@@ -270,6 +322,8 @@
             border: 2px solid #eef2f7;
             transition: 0.25s;
             cursor: pointer;
+            border-radius: 18px;
+            background: white;
         }
 
         .quick-card:hover {
@@ -378,6 +432,17 @@
             margin-top: 6px;
         }
 
+        .algae-chip {
+            display: inline-block;
+            background: #ff9800;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
         .empty-note {
             color: #64748b;
             font-size: 14px;
@@ -401,13 +466,15 @@
                 grid-template-columns: 1fr;
             }
 
-            .stats-grid {
+            .stats-grid,
+            .algae-stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 700px) {
             .stats-grid,
+            .algae-stats-grid,
             .quick-grid {
                 grid-template-columns: 1fr;
             }
@@ -434,10 +501,10 @@
             </div>
 
             <div class="top-actions">
-                <button class="top-btn" onclick="goProfile()">👤 Profile</button>
-                <button class="top-btn" onclick="goReport()">📄 Report</button>
-                <button class="top-btn" onclick="goMarketplace()">🛒 Marketplace</button>
-                <button class="top-btn" onclick="goEarnings()">💰 Earnings</button>
+                <a href="profile.html" class="top-btn">👤 Profile</a>
+                <a href="report.html" class="top-btn">📄 Report</a>
+                <a href="marketplace.html" class="top-btn">🛒 Marketplace</a>
+                <a href="earnings.html" class="top-btn">💰 Earnings</a>
             </div>
         </div>
 
@@ -456,12 +523,12 @@
                 </div>
 
                 <div class="hero-actions">
-                    <button class="hero-btn hero-btn-primary" onclick="startAnalysisFlow()">
+                    <a href="register.html" class="hero-btn hero-btn-primary" onclick="startAnalysisFlow()">
                         Start / Continue Analysis
-                    </button>
-                    <button class="hero-btn hero-btn-secondary" onclick="goProfile()">
+                    </a>
+                    <a href="profile.html" class="hero-btn hero-btn-secondary">
                         View Full Profile
-                    </button>
+                    </a>
                 </div>
             </div>
 
@@ -483,6 +550,7 @@
             </div>
         </div>
 
+        <!-- Stats Grid with Algae Card -->
         <div class="stats-grid">
             <div class="card">
                 <div class="stat-label">Registered Lands</div>
@@ -502,10 +570,30 @@
                 <div class="stat-sub">Eligible for sale</div>
             </div>
 
+            <div class="algae-card" id="algaeCard">
+                <div class="algae-icon">🧫</div>
+                <div class="algae-value" id="algaeCredits">0</div>
+                <div class="algae-label">Microalgae Credits</div>
+                <div class="algae-sub" id="algaeMessage">No algae pond registered</div>
+            </div>
+        </div>
+
+        <!-- Additional Algae Stats -->
+        <div class="algae-stats-grid" id="algaeStatsGrid" style="display: none;">
             <div class="card">
-                <div class="stat-label">Potential Revenue</div>
-                <div class="stat-value" id="statRevenue">₹0</div>
-                <div class="stat-sub">Based on market analysis</div>
+                <div class="stat-label">Algae Pond Area</div>
+                <div class="stat-value" id="algaeArea">0</div>
+                <div class="stat-sub">square meters</div>
+            </div>
+            <div class="card">
+                <div class="stat-label">Annual Harvests</div>
+                <div class="stat-value" id="algaeHarvests">0</div>
+                <div class="stat-sub">harvests/year</div>
+            </div>
+            <div class="card">
+                <div class="stat-label">Trees Equivalent</div>
+                <div class="stat-value" id="treesEquivalent">0</div>
+                <div class="stat-sub">🌳 trees</div>
             </div>
         </div>
 
@@ -513,40 +601,47 @@
             <div class="card">
                 <div class="section-title">Quick Actions</div>
                 <div class="quick-grid">
-                    <div class="quick-card" onclick="goRegister()">
+                    <div class="quick-card" onclick="window.location.href='register.html'">
                         <div class="quick-icon">📝</div>
                         <div class="quick-title">Farmer Registration</div>
                         <div class="quick-text">Update or review your farmer identity and personal details.</div>
                     </div>
 
-                    <div class="quick-card" onclick="goLand()">
+                    <div class="quick-card" onclick="window.location.href='land.html'">
                         <div class="quick-icon">🗺️</div>
                         <div class="quick-title">Register Land</div>
                         <div class="quick-text">Mark your land using maps and save farm information.</div>
                     </div>
 
-                    <div class="quick-card" onclick="goAnalysis()">
+                    <div class="quick-card" onclick="window.location.href='analysis.html'">
                         <div class="quick-icon">🤖</div>
                         <div class="quick-title">Run AI Analysis</div>
                         <div class="quick-text">Use Sentinel Hub data, NDVI, and AI validation for farm analysis.</div>
                     </div>
 
-                    <div class="quick-card" onclick="goReport()">
+                    <div class="quick-card" onclick="window.location.href='report.html'">
                         <div class="quick-icon">📄</div>
                         <div class="quick-title">Download Report</div>
                         <div class="quick-text">Open your final carbon credit report and export the PDF.</div>
                     </div>
 
-                    <div class="quick-card" onclick="goMarketplace()">
+                    <div class="quick-card" onclick="window.location.href='marketplace.html'">
                         <div class="quick-icon">🛒</div>
                         <div class="quick-title">Carbon Marketplace</div>
                         <div class="quick-text">Check buyers and sell your available carbon credits.</div>
                     </div>
 
-                    <div class="quick-card" onclick="goEarnings()">
+                    <div class="quick-card" onclick="window.location.href='earnings.html'">
                         <div class="quick-icon">💰</div>
                         <div class="quick-title">Earnings Dashboard</div>
                         <div class="quick-text">Track revenue, payments, and marketplace transactions.</div>
+                    </div>
+
+                    <!-- NEW: Algae Quick Action -->
+                    <div class="quick-card" onclick="window.location.href='algae-dashboard.html'">
+                        <div class="quick-icon">🧫</div>
+                        <div class="quick-title">Microalgae Management</div>
+                        <div class="quick-text">Monitor your algae pond, harvest schedule, and carbon capture.</div>
                     </div>
                 </div>
             </div>
@@ -575,11 +670,18 @@
     </div>
 
     <script>
+        // Load data from localStorage
         const farmerData = JSON.parse(localStorage.getItem("farmerData") || "{}");
         const landData = JSON.parse(localStorage.getItem("landData") || "{}");
         const cropData = JSON.parse(localStorage.getItem("cropData") || "{}");
         const analysisResult = JSON.parse(localStorage.getItem("analysisResult") || "{}");
         const marketTransaction = JSON.parse(localStorage.getItem("marketTransaction") || "{}");
+        const algaeData = JSON.parse(localStorage.getItem("algaeData") || "{}");
+
+        console.log("Farmer Dashboard Loaded");
+        console.log("Farmer Data:", farmerData);
+        console.log("Land Data:", landData);
+        console.log("Algae Data:", algaeData);
 
         function safe(v, fallback = "-") {
             return v !== undefined && v !== null && v !== "" ? v : fallback;
@@ -589,14 +691,6 @@
             const usd = Number(usdValue || 0);
             return Math.round(usd * 83);
         }
-
-        function goProfile() { window.location.href = "profile.html"; }
-        function goReport() { window.location.href = "report.html"; }
-        function goMarketplace() { window.location.href = "marketplace.html"; }
-        function goEarnings() { window.location.href = "earnings.html"; }
-        function goRegister() { window.location.href = "register.html"; }
-        function goLand() { window.location.href = "land.html"; }
-        function goAnalysis() { window.location.href = "analysis.html"; }
 
         function startAnalysisFlow() {
             if (!farmerData.fullName && !farmerData.name) {
@@ -617,13 +711,67 @@
             window.location.href = "analysis.html";
         }
 
+        // Algae Credit Calculation
+        function calculateAlgaeCredits() {
+            if (!algaeData || !algaeData.biomass_kg || algaeData.biomass_kg <= 0) {
+                return 0;
+            }
+            
+            // Algae CO₂ capture formula: 1 kg algae = 2.0 kg CO₂ captured
+            // 1 credit = 1000 kg CO₂
+            const co2PerHarvest = algaeData.biomass_kg * 2.0;
+            const harvestsPerYear = 52; // Weekly harvests
+            const annualCO2 = co2PerHarvest * harvestsPerYear;
+            const credits = annualCO2 / 1000;
+            
+            return credits;
+        }
+
+        function calculateTreesEquivalent() {
+            if (!algaeData || !algaeData.biomass_kg || algaeData.biomass_kg <= 0) {
+                return 0;
+            }
+            const annualCO2 = algaeData.biomass_kg * 2.0 * 52;
+            const treesEquivalent = annualCO2 / 22.5; // 1 tree = 22.5 kg CO₂/year
+            return Math.round(treesEquivalent);
+        }
+
+        function loadAlgaeData() {
+            if (algaeData && algaeData.biomass_kg && algaeData.biomass_kg > 0) {
+                const credits = calculateAlgaeCredits();
+                const treesEq = calculateTreesEquivalent();
+                
+                document.getElementById('algaeCredits').textContent = credits.toFixed(2);
+                document.getElementById('algaeMessage').textContent = `🌊 Captures CO₂ 50x faster than trees!`;
+                document.getElementById('algaeStatsGrid').style.display = 'grid';
+                document.getElementById('algaeArea').textContent = algaeData.area_sqm || '0';
+                document.getElementById('algaeHarvests').textContent = '52';
+                document.getElementById('treesEquivalent').textContent = treesEq.toLocaleString();
+                
+                // Add algae to total credits in hero section
+                const treeCredits = parseFloat(analysisResult.carbon_credits || 0);
+                const totalCredits = treeCredits + credits;
+                document.getElementById('heroCredits').textContent = `${totalCredits.toFixed(2)} Credits`;
+            } else {
+                document.getElementById('algaeCredits').textContent = '0';
+                document.getElementById('algaeMessage').textContent = 'Add algae pond to earn extra credits!';
+                document.getElementById('algaeStatsGrid').style.display = 'none';
+            }
+        }
+
         function loadHero() {
             const carbon = analysisResult.carbon_analysis || {};
             const market = analysisResult.market_analysis || {};
             const validation = analysisResult.validation_result || {};
-            const credits = Number(carbon.carbon_credits || 0);
+            const treeCredits = Number(carbon.carbon_credits || 0);
+            const algaeCredits = calculateAlgaeCredits();
+            const totalCredits = treeCredits + algaeCredits;
             const co2 = Number(carbon.co2_kg || 0);
             const inr = toInr(market.total_value_usd || 0);
+            
+            // Add algae CO₂ to total
+            const algaeCO2 = algaeData.biomass_kg ? algaeData.biomass_kg * 2.0 * 52 : 0;
+            const totalCO2 = co2 + algaeCO2;
 
             document.getElementById("welcomeTitle").textContent =
                 `Welcome ${safe(farmerData.fullName || farmerData.name, "Farmer")}`;
@@ -637,8 +785,8 @@
             document.getElementById("statusBadge").textContent =
                 `✅ ${safe(validation.status, "Profile Ready")}`;
 
-            document.getElementById("heroCredits").textContent = `${credits} Credits`;
-            document.getElementById("heroCo2").textContent = `${co2.toLocaleString()} kg`;
+            document.getElementById("heroCredits").textContent = `${totalCredits.toFixed(2)} Credits`;
+            document.getElementById("heroCo2").textContent = `${Math.round(totalCO2).toLocaleString()} kg`;
             document.getElementById("heroValue").textContent = `₹${inr.toLocaleString()}`;
             document.getElementById("heroMarketStatus").textContent =
                 safe(market.market_status, "Run analysis to see your marketplace readiness.");
@@ -648,10 +796,13 @@
             const carbon = analysisResult.carbon_analysis || {};
             const market = analysisResult.market_analysis || {};
             const vision = analysisResult.vision_analysis || {};
+            const algaeCredits = calculateAlgaeCredits();
+            const treeCredits = Number(carbon.carbon_credits || 0);
+            const totalCredits = treeCredits + algaeCredits;
 
             document.getElementById("statLands").textContent = landData.surveyNumber ? "1" : "0";
             document.getElementById("statTrees").textContent = Number(vision.estimated_trees || 0).toLocaleString();
-            document.getElementById("statCredits").textContent = Number(carbon.carbon_credits || 0).toLocaleString();
+            document.getElementById("statCredits").textContent = totalCredits.toFixed(2);
             document.getElementById("statRevenue").textContent = `₹${toInr(market.total_value_usd || 0).toLocaleString()}`;
         }
 
@@ -672,6 +823,14 @@
                     icon: "2",
                     title: "Land registered",
                     text: `Land survey ${safe(landData.surveyNumber, "N/A")} saved with map location.`
+                });
+            }
+
+            if (algaeData && algaeData.biomass_kg && algaeData.biomass_kg > 0) {
+                items.push({
+                    icon: "🧫",
+                    title: "Algae pond registered",
+                    text: `${algaeData.area_sqm} sqm pond, harvesting ${algaeData.biomass_kg} kg weekly!`
                 });
             }
 
@@ -736,17 +895,32 @@
             }
 
             const trees = analysisResult.vision_analysis?.estimated_trees || 0;
-            box.innerHTML = `
-                <div class="land-box">
-                    <div class="land-title">Main Farm</div>
-                    <div class="land-line">Survey Number: ${safe(landData.surveyNumber, "N/A")}</div>
-                    <div class="land-line">Land Type: ${safe(landData.landType, "N/A")}</div>
-                    <div class="land-line">Area: ${safe(landData.areaAcres, 0)} acres</div>
-                    <div class="land-line">Water Source: ${safe(landData.waterSource, "N/A")}</div>
-                    <div class="land-line">Estimated Trees: ${trees}</div>
-                    <div class="status-chip">${safe(analysisResult.validation_result?.status, "Registered")}</div>
-                </div>
-            `;
+            const isAlgae = landData.asset_type === 'algae';
+            
+            if (isAlgae && algaeData) {
+                box.innerHTML = `
+                    <div class="land-box">
+                        <div class="land-title">🧫 Algae Pond</div>
+                        <div class="land-line">Type: ${algaeData.pond_type || 'Microalgae Pond'}</div>
+                        <div class="land-line">Area: ${algaeData.area_sqm || 0} sqm</div>
+                        <div class="land-line">Weekly Harvest: ${algaeData.biomass_kg || 0} kg</div>
+                        <div class="land-line">CO₂ Capture Rate: 2.0 kg per kg biomass</div>
+                        <div class="algae-chip">🌊 50x faster than trees!</div>
+                    </div>
+                `;
+            } else {
+                box.innerHTML = `
+                    <div class="land-box">
+                        <div class="land-title">Main Farm</div>
+                        <div class="land-line">Survey Number: ${safe(landData.surveyNumber, "N/A")}</div>
+                        <div class="land-line">Land Type: ${safe(landData.landType, "N/A")}</div>
+                        <div class="land-line">Area: ${safe(landData.areaAcres, 0)} acres</div>
+                        <div class="land-line">Water Source: ${safe(landData.waterSource, "N/A")}</div>
+                        <div class="land-line">Estimated Trees: ${trees}</div>
+                        <div class="status-chip">${safe(analysisResult.validation_result?.status, "Registered")}</div>
+                    </div>
+                `;
+            }
         }
 
         function loadTransactionSection() {
@@ -774,6 +948,7 @@
         }
 
         window.onload = function () {
+            loadAlgaeData();
             loadHero();
             loadStats();
             loadActivity();

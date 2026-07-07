@@ -25,12 +25,15 @@ from app.config import AZURE_BASE_URL, AZURE_API_KEY, AZURE_MODEL
 
 app = FastAPI(title="FarmGuard AI Backend")
 
+# ===========================================
+# CORS MIDDLEWARE - Allows frontend to connect
+# ===========================================
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],           # Allows all origins (for development)
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],            # Allows all methods including OPTIONS
+    allow_headers=["*"],            # Allows all headers
 )
 
 DB_PATH = "farmguard.db"
@@ -627,7 +630,6 @@ def register_company(data: CompanyRegistration):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         
-        # Insert company data
         cursor.execute("""
             INSERT INTO companies 
             (name, phone, email, village, language, registration_number, gst_number, company_type, industry, year_established)
@@ -813,76 +815,46 @@ def get_company_details(company_id: int):
 
 
 # ===========================================
-# FIXED COMPANIES ENDPOINT
+# COMPANIES ENDPOINT
 # ===========================================
 @app.get("/companies")
 def list_companies():
-    """List all registered companies - FIXED VERSION"""
+    """List all registered companies"""
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         
-        # First try the full query with purchases
-        try:
-            cursor.execute("""
-                SELECT c.id, c.name, c.village, c.company_type, c.industry, 
-                       COUNT(DISTINCT p.id) as purchase_count,
-                       COALESCE(SUM(p.credits_purchased), 0) as total_credits
-                FROM companies c
-                LEFT JOIN purchases p ON c.id = p.company_id
-                GROUP BY c.id
-                ORDER BY c.registered_at DESC
-            """)
-            
-            companies = cursor.fetchall()
-            
-            return {
-                "companies": [
-                    {
-                        "id": c[0],
-                        "name": c[1],
-                        "village": c[2] if c[2] else "Unknown",
-                        "type": c[3] if c[3] else "N/A",
-                        "industry": c[4] if c[4] else "N/A",
-                        "purchases": c[5] if c[5] else 0,
-                        "total_credits": c[6] if c[6] else 0
-                    } for c in companies
-                ]
-            }
-        except Exception as e:
-            # If the full query fails, return a simplified version
-            print(f"⚠️ Full companies query failed, using simplified version: {e}")
-            cursor.execute("""
-                SELECT id, name, village, company_type, industry 
-                FROM companies
-                ORDER BY registered_at DESC
-            """)
-            
-            companies = cursor.fetchall()
-            conn.close()
-            
-            return {
-                "companies": [
-                    {
-                        "id": c[0],
-                        "name": c[1],
-                        "village": c[2] if c[2] else "Unknown",
-                        "type": c[3] if c[3] else "N/A",
-                        "industry": c[4] if c[4] else "N/A",
-                        "purchases": 0,
-                        "total_credits": 0
-                    } for c in companies
-                ],
-                "note": "Purchase data temporarily unavailable"
-            }
+        cursor.execute("""
+            SELECT c.id, c.name, c.village, c.company_type, c.industry, 
+                   COUNT(DISTINCT p.id) as purchase_count,
+                   COALESCE(SUM(p.credits_purchased), 0) as total_credits
+            FROM companies c
+            LEFT JOIN purchases p ON c.id = p.company_id
+            GROUP BY c.id
+            ORDER BY c.registered_at DESC
+        """)
+        
+        companies = cursor.fetchall()
+        conn.close()
+        
+        return {
+            "companies": [
+                {
+                    "id": c[0],
+                    "name": c[1],
+                    "village": c[2] if c[2] else "Unknown",
+                    "type": c[3] if c[3] else "N/A",
+                    "industry": c[4] if c[4] else "N/A",
+                    "purchases": c[5] if c[5] else 0,
+                    "total_credits": c[6] if c[6] else 0
+                } for c in companies
+            ]
+        }
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# ===========================================
-# SIMPLE COMPANIES ENDPOINT (Backup)
-# ===========================================
 @app.get("/companies_simple")
 def list_companies_simple():
     """Simple company list without purchase data"""
@@ -957,3 +929,61 @@ def log_company_activity(company_id, activity_type, description):
         conn.close()
     except:
         pass  # Don't fail if logging fails
+
+
+# ===========================================
+# TEST ENDPOINT
+# ===========================================
+@app.get("/test")
+def test():
+    """Test endpoint to verify backend is reachable"""
+    return {"status": "ok", "message": "Backend is reachable"}
+
+
+# ===========================================
+# OPTIONS HANDLERS (For CORS preflight)
+# ===========================================
+@app.options("/analyze_land/{land_id}")
+async def options_analyze_land():
+    """Handle OPTIONS requests for CORS preflight"""
+    return {"message": "OK"}
+
+@app.options("/analyze_solar_plant/{plant_id}")
+async def options_analyze_solar_plant():
+    """Handle OPTIONS requests for CORS preflight"""
+    return {"message": "OK"}
+
+@app.options("/register_farmer")
+async def options_register_farmer():
+    """Handle OPTIONS requests for CORS preflight"""
+    return {"message": "OK"}
+
+@app.options("/register_company")
+async def options_register_company():
+    """Handle OPTIONS requests for CORS preflight"""
+    return {"message": "OK"}
+
+@app.options("/add_land")
+async def options_add_land():
+    """Handle OPTIONS requests for CORS preflight"""
+    return {"message": "OK"}
+
+@app.options("/add_solar_plant")
+async def options_add_solar_plant():
+    """Handle OPTIONS requests for CORS preflight"""
+    return {"message": "OK"}
+
+@app.options("/register_solar_producer")
+async def options_register_solar_producer():
+    """Handle OPTIONS requests for CORS preflight"""
+    return {"message": "OK"}
+
+@app.options("/generate_report")
+async def options_generate_report():
+    """Handle OPTIONS requests for CORS preflight"""
+    return {"message": "OK"}
+
+@app.options("/generate_full_report")
+async def options_generate_full_report():
+    """Handle OPTIONS requests for CORS preflight"""
+    return {"message": "OK"}

@@ -218,6 +218,32 @@
             font-weight: bold;
         }
 
+        /* Algae Section Styles */
+        .algae-section {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #2e7d32;
+        }
+
+        .algae-section h4 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-note {
+            font-size: 12px;
+            color: #2e7d32;
+            background: #f0f8f0;
+            padding: 8px;
+            border-radius: 8px;
+            margin-top: 5px;
+        }
+
         .btn-continue {
             width: 100%;
             background: #2e7d32;
@@ -310,42 +336,94 @@
                 </div>
             </div>
 
-            <div class="form-row">
+            <!-- ========================================= -->
+            <!-- ASSET TYPE SELECTION (ADDED HERE) -->
+            <!-- ========================================= -->
+            <div class="form-group">
+                <label>📋 Asset Type</label>
+                <select id="assetType" onchange="toggleAlgaeSection()">
+                    <option value="farmland">🌾 Farmland / Trees</option>
+                    <option value="solar">☀️ Solar Farm</option>
+                    <option value="algae">🧫 Microalgae Pond (NEW!)</option>
+                </select>
+            </div>
+
+            <!-- ========================================= -->
+            <!-- ALGAE SECTION (Shown only when algae is selected) -->
+            <!-- ========================================= -->
+            <div id="algaeSection" style="display: none;" class="algae-section">
+                <h4>🧫 Microalgae Carbon Capture</h4>
                 <div class="form-group">
-                    <label>📋 Survey Number</label>
-                    <input type="text" id="surveyNumber" placeholder="Enter survey number">
-                </div>
-                <div class="form-group">
-                    <label>🌾 Land Type</label>
-                    <select id="landType">
-                        <option>Agricultural</option>
-                        <option>Forest</option>
-                        <option>Barren</option>
-                        <option>Wetland</option>
+                    <label>Pond Type</label>
+                    <select id="pondType">
+                        <option value="raceway">Raceway Pond (Open)</option>
+                        <option value="bubble">Bubble Column (Closed)</option>
+                        <option value="tubular">Tubular Reactor</option>
                     </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Pond Area (square meters)</label>
+                    <input type="number" id="pondArea" placeholder="e.g., 10" step="0.1">
+                    <div class="info-note">💡 A 10 sqm pond (≈ 10ft x 10ft) can capture as much CO₂ as 50 trees!</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Upload Algae Photo</label>
+                    <input type="file" id="algaePhoto" accept="image/*">
+                    <div class="info-note">📸 Take a photo of your algae pond. GREEN = healthy, BROWN = not healthy</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Biomass per Harvest (kg)</label>
+                    <input type="number" id="algaeBiomass" placeholder="e.g., 50" step="1">
+                    <div class="info-note">🌊 How many kg of algae do you harvest? (A healthy pond yields 2-5 kg per sqm)</div>
+                </div>
+                
+                <div class="info-note">
+                    🌟 Did you know? Chlorella microalgae captures 2.6x more CO₂ than other algae types!
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label>💧 Water Source</label>
-                    <select id="waterSource">
-                        <option>Borewell</option>
-                        <option>Canal</option>
-                        <option>River</option>
-                        <option>Rain-fed</option>
-                        <option>None</option>
-                    </select>
+            <!-- Regular Land Form (shown when not algae) -->
+            <div id="landForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📋 Survey Number</label>
+                        <input type="text" id="surveyNumber" placeholder="Enter survey number">
+                    </div>
+                    <div class="form-group">
+                        <label>🌾 Land Type</label>
+                        <select id="landType">
+                            <option>Agricultural</option>
+                            <option>Forest</option>
+                            <option>Barren</option>
+                            <option>Wetland</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>🌱 Soil Type</label>
-                    <select id="soilType">
-                        <option>Black soil</option>
-                        <option>Red soil</option>
-                        <option>Alluvial soil</option>
-                        <option>Clay soil</option>
-                        <option>Sandy soil</option>
-                    </select>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>💧 Water Source</label>
+                        <select id="waterSource">
+                            <option>Borewell</option>
+                            <option>Canal</option>
+                            <option>River</option>
+                            <option>Rain-fed</option>
+                            <option>None</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🌱 Soil Type</label>
+                        <select id="soilType">
+                            <option>Black soil</option>
+                            <option>Red soil</option>
+                            <option>Alluvial soil</option>
+                            <option>Clay soil</option>
+                            <option>Sandy soil</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -388,6 +466,43 @@
             const box = document.getElementById('messageBox');
             box.textContent = text;
             box.className = `message ${type}`;
+        }
+
+        // =========================================
+        // ALGAE SECTION FUNCTIONS
+        // =========================================
+        function toggleAlgaeSection() {
+            const assetType = document.getElementById('assetType').value;
+            const algaeSection = document.getElementById('algaeSection');
+            const landForm = document.getElementById('landForm');
+            
+            if (assetType === 'algae') {
+                algaeSection.style.display = 'block';
+                landForm.style.display = 'none';
+                // Show algae-specific message
+                showMessage('🧫 Microalgae selected! Algae captures CO₂ 10-50x faster than trees!', 'success');
+            } else {
+                algaeSection.style.display = 'none';
+                landForm.style.display = 'block';
+                showMessage('', '');
+            }
+        }
+
+        function saveAlgaeData() {
+            const assetType = document.getElementById('assetType').value;
+            if (assetType === 'algae') {
+                const algaeData = {
+                    asset_type: 'algae',
+                    pond_type: document.getElementById('pondType').value,
+                    area_sqm: parseFloat(document.getElementById('pondArea').value) || 0,
+                    biomass_kg: parseFloat(document.getElementById('algaeBiomass').value) || 0,
+                    photo: document.getElementById('algaePhoto').files[0] ? document.getElementById('algaePhoto').files[0].name : null,
+                    timestamp: new Date().toISOString()
+                };
+                localStorage.setItem('algaeData', JSON.stringify(algaeData));
+                return algaeData;
+            }
+            return null;
         }
 
         function initMap() {
@@ -531,6 +646,48 @@
         }
 
         async function saveLandAndContinue() {
+            const assetType = document.getElementById('assetType').value;
+            
+            // Save algae data if selected
+            if (assetType === 'algae') {
+                const algaeData = saveAlgaeData();
+                
+                if (!algaeData.area_sqm || algaeData.area_sqm <= 0) {
+                    showMessage('Please enter algae pond area', 'error');
+                    return;
+                }
+                
+                if (selectedLat === null || selectedLng === null) {
+                    showMessage('Please select or draw your land on the map first', 'error');
+                    return;
+                }
+                
+                // For algae, we still need to save land data
+                const landData = {
+                    surveyNumber: `ALGAE_${Date.now()}`,
+                    landType: 'Microalgae Pond',
+                    waterSource: 'Pond Water',
+                    soilType: 'Water',
+                    areaAcres: selectedAreaAcres,
+                    latitude: selectedLat,
+                    longitude: selectedLng,
+                    asset_type: 'algae',
+                    algae_data: algaeData
+                };
+                
+                localStorage.setItem('landData', JSON.stringify(landData));
+                localStorage.setItem('landId', `ALGAE_${Date.now()}`);
+                localStorage.setItem('algaeData', JSON.stringify(algaeData));
+                
+                showMessage(`🧫 Algae pond saved! Your microalgae will capture carbon 50x faster than trees!`, 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'crops.html';
+                }, 1500);
+                return;
+            }
+            
+            // Regular land registration (farmland/solar)
             const surveyNumber = document.getElementById('surveyNumber').value.trim();
             if (!surveyNumber) {
                 showMessage('Please enter Survey Number', 'error');
@@ -549,7 +706,8 @@
                 soilType: document.getElementById('soilType').value,
                 areaAcres: selectedAreaAcres,
                 latitude: selectedLat,
-                longitude: selectedLng
+                longitude: selectedLng,
+                asset_type: assetType
             };
 
             try {
@@ -587,6 +745,7 @@
         }
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqee2CkQaBhdjFmQilQzO31P_Rpgwi7gI&callback=initMap&libraries=drawing,geometry" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqee2CkQaBhdjFmQilQzO31P_Rpgwi7gI&callback=initMap&libraries=drawing,geometry" async defer>
+    </script>
 </body>
 </html>

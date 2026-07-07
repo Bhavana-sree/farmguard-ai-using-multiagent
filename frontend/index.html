@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FarmGuard AI - Intelligent Carbon Credit Platform</title>
+    <title>FarmGuard AI | 6 Intelligent Agents + PrithviBio</title>
     <style>
         * {
             margin: 0;
@@ -21,8 +21,71 @@
             scroll-behavior: smooth;
         }
 
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 5%;
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2e7d32;
+        }
+
+        .logo-sub {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #2e7d32;
+        }
+
+        .login-btn {
+            background: #2e7d32;
+            color: white !important;
+            padding: 10px 25px;
+            border-radius: 30px;
+        }
+
+        .login-btn:hover {
+            background: #1b5e20;
+        }
+
+        /* Hero Section */
         .hero {
-            min-height: 100vh;
+            min-height: 90vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -82,6 +145,10 @@
             text-shadow: 0 5px 15px rgba(0,0,0,0.25);
         }
 
+        .hero h1 span {
+            color: #ffd966;
+        }
+
         .hero p {
             font-size: 20px;
             margin-bottom: 18px;
@@ -92,16 +159,15 @@
             line-height: 1.6;
         }
 
-        .hero-subline {
+        .product-badge {
             display: inline-block;
             margin-bottom: 34px;
-            background: rgba(255,255,255,0.14);
-            border: 1px solid rgba(255,255,255,0.25);
+            background: #ff9800;
             color: white;
-            padding: 10px 18px;
+            padding: 10px 24px;
             border-radius: 999px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .hero-buttons {
@@ -143,6 +209,7 @@
             transform: translateY(-5px);
         }
 
+        /* Agents Section - KEPT! */
         .agents {
             padding: 90px 20px;
             background: white;
@@ -205,60 +272,153 @@
             font-size: 15px;
         }
 
-        .how-it-works {
-            padding: 90px 20px;
-            background: linear-gradient(135deg, #f5f7fa, #e8f5e8);
+        /* Calculator Section */
+        .calculator-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f0f8f0, #e8f5e9);
         }
 
-        .steps {
+        .calculator-card {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .calculator-card h2 {
+            text-align: center;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .calculator-card > p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .calc-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-group input, .input-group select {
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .calc-results {
+            background: #f0f8f0;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #c8e6c9;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .result-value {
+            font-weight: 700;
+            color: #2e7d32;
+            font-size: 18px;
+        }
+
+        .total-value {
+            font-size: 28px;
+            color: #ff9800;
+        }
+
+        .btn-calc {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .btn-calc:hover {
+            background: #1b5e20;
+        }
+
+        /* Steps Section */
+        .steps-section {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .steps-container {
             max-width: 1100px;
             margin: 55px auto 0;
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 18px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
         }
 
-        .step {
+        .step-card {
             text-align: center;
-            position: relative;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            padding: 35px 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
         }
 
-        .step:not(:last-child)::after {
-            content: '→';
-            position: absolute;
-            right: -12px;
-            top: 26px;
-            font-size: 24px;
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .step-card h3 {
+            font-size: 22px;
             color: #2e7d32;
-            font-weight: bold;
+            margin-bottom: 12px;
         }
 
-        .step-number {
-            width: 58px;
-            height: 58px;
-            background: #2e7d32;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 23px;
-            font-weight: bold;
-            margin: 0 auto 18px;
-        }
-
-        .step h4 {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .step p {
+        .step-card p {
             color: #666;
-            font-size: 14px;
+            font-size: 15px;
             line-height: 1.5;
         }
 
+        /* Stats Section */
         .stats {
             padding: 70px 20px;
             background: #2e7d32;
@@ -289,6 +449,48 @@
             opacity: 0.92;
         }
 
+        /* Trust Section */
+        .trust-section {
+            padding: 60px 20px;
+            background: #e8f5e9;
+            text-align: center;
+        }
+
+        .trust-badge {
+            display: inline-block;
+            background: #2e7d32;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 40px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .trust-grid {
+            max-width: 1000px;
+            margin: 30px auto 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .trust-item {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+        }
+
+        .trust-item .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .trust-item h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        /* CTA Section */
         .cta {
             padding: 100px 20px;
             background: white;
@@ -352,9 +554,10 @@
             transform: translateY(-5px);
         }
 
+        /* Footer */
         .footer {
             padding: 40px 20px;
-            background: #333;
+            background: #1a2e1a;
             color: white;
             text-align: center;
         }
@@ -382,24 +585,22 @@
         }
 
         @media (max-width: 900px) {
-            .agents-grid {
+            .agents-grid, .stats-grid, .trust-grid, .steps-container {
                 grid-template-columns: 1fr;
             }
-
-            .steps {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .step::after {
-                display: none;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
             .hero h1 {
                 font-size: 42px;
+            }
+            .calc-inputs {
+                grid-template-columns: 1fr;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
 
@@ -407,39 +608,44 @@
             .hero-logo {
                 font-size: 88px;
             }
-
             .hero h1 {
                 font-size: 34px;
             }
-
-            .hero p {
-                font-size: 17px;
-            }
-
-            .section-title,
-            .cta h2 {
+            .section-title, .cta h2 {
                 font-size: 30px;
-            }
-
-            .steps,
-            .stats-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon">🌱</span>
+            <div>
+                <div class="logo-text">FarmGuard AI</div>
+                <div class="logo-sub">6 Intelligent Agents + PrithviBio</div>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="#agents">AI Agents</a>
+            <a href="#calculator">Calculator</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#trust">Safety</a>
+            <a href="role-selection.html" class="login-btn">Farmer Login</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <div class="hero-logo">🌱</div>
-            <h1>FarmGuard AI</h1>
+            <h1>FarmGuard AI <span>+ PrithviBio</span></h1>
             <p>
-                An intelligent carbon credit platform where 6 AI agents help farmers measure, verify,
-                and monetize carbon credits while enabling companies to buy trusted climate assets.
+                6 Intelligent AI Agents work together to help you measure, verify, and monetize carbon credits.
+                Plus, PrithviBio liquid algae boosts your crop yields naturally.
             </p>
-            <div class="hero-subline">
-                Sentinel Hub + NDVI + Multi-Agent AI + Blockchain-based verification
-            </div>
+            <div class="product-badge">🤖 6 AI Agents | 🌱 PrithviBio Fertilizer | 💰 Carbon Credits</div>
             <div class="hero-buttons">
                 <a href="role-selection.html" class="btn btn-primary">Get Started →</a>
                 <a href="#agents" class="btn btn-outline">Meet Our Agents</a>
@@ -447,97 +653,132 @@
         </div>
     </section>
 
+    <!-- 6 AI Agents Section - KEPT! -->
     <section class="agents" id="agents">
         <h2 class="section-title">🤖 Our 6 Intelligent AI Agents</h2>
         <p class="section-subtitle">
             FarmGuard AI uses a coordinated multi-agent workflow to analyze vegetation, calculate carbon,
-            validate results, match buyers, and create trusted carbon records for farmers and companies.
+            validate results, match buyers, and create trusted carbon records — all without Microsoft dependencies.
         </p>
 
         <div class="agents-grid">
             <div class="agent-card">
                 <div class="agent-icon">📡</div>
                 <h3>Vision Agent</h3>
-                <p>Analyzes Sentinel Hub satellite imagery, NDVI vegetation health, and land coordinates to estimate tree density and vegetation coverage.</p>
+                <p>Analyzes satellite imagery and NDVI vegetation health to estimate tree density and land coverage using free Sentinel Hub data.</p>
             </div>
-
             <div class="agent-card">
                 <div class="agent-icon">🧮</div>
                 <h3>Carbon Analyst</h3>
-                <p>Calculates biomass, carbon storage, CO₂ removal, and total carbon credits using scientific carbon estimation logic.</p>
+                <p>Calculates biomass, carbon storage, CO₂ removal, and total carbon credits using scientific formulas (IPCC standards).</p>
             </div>
-
             <div class="agent-card">
                 <div class="agent-icon">🔍</div>
                 <h3>Validation Agent</h3>
-                <p>Checks whether vegetation estimates and carbon outputs are realistic, consistent, and suitable for trusted reporting.</p>
+                <p>Checks whether vegetation estimates and carbon outputs are realistic using rule-based validation (no AI needed).</p>
             </div>
-
             <div class="agent-card">
                 <div class="agent-icon">🤝</div>
                 <h3>Market Agent</h3>
                 <p>Finds potential buyers, estimates carbon credit value, and prepares verified farmer credits for marketplace listing.</p>
             </div>
-
             <div class="agent-card">
                 <div class="agent-icon">🔗</div>
                 <h3>Blockchain Agent</h3>
-                <p>Creates tamper-resistant transaction records and verification hashes to improve trust and transparency.</p>
+                <p>Creates tamper-resistant transaction records and verification hashes for transparency and trust.</p>
             </div>
-
             <div class="agent-card">
                 <div class="agent-icon">🚀</div>
                 <h3>Orchestrator Agent</h3>
-                <p>Coordinates all agents in the correct sequence so the entire workflow runs automatically from land input to final report.</p>
+                <p>Coordinates all agents in the correct sequence so the entire workflow runs automatically from start to finish.</p>
             </div>
         </div>
     </section>
 
-    <section class="how-it-works">
-        <h2 class="section-title">📋 How FarmGuard AI Works</h2>
-        <p class="section-subtitle">
-            The platform simplifies carbon credit creation into a guided workflow for both farmers and companies.
-        </p>
-
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h4>Choose Role</h4>
-                <p>Select Farmer or Company</p>
+    <!-- PrithviBio Calculator Section -->
+    <section class="calculator-section" id="calculator">
+        <div class="calculator-card">
+            <h2>📊 PrithviBio Benefits Calculator</h2>
+            <p>See how much you can earn from extra crop yield + carbon credits</p>
+            
+            <div class="calc-inputs">
+                <div class="input-group">
+                    <label>🌾 Farm Size (in Acres)</label>
+                    <input type="number" id="farmSize" value="2" step="0.5">
+                </div>
+                <div class="input-group">
+                    <label>🌱 Select Crop Type</label>
+                    <select id="cropType">
+                        <option value="tomato">Tomatoes (₹30/kg)</option>
+                        <option value="rice">Rice (₹25/kg)</option>
+                        <option value="wheat">Wheat (₹28/kg)</option>
+                        <option value="maize">Maize (₹22/kg)</option>
+                        <option value="cotton">Cotton (₹65/kg)</option>
+                        <option value="vegetables">Mixed Vegetables (₹35/kg)</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="step">
-                <div class="step-number">2</div>
-                <h4>Register</h4>
-                <p>Create your account and basic profile</p>
+            <div class="calc-results" id="calcResults">
+                <div class="result-row">
+                    <span class="result-label">🌾 Yield Increase</span>
+                    <span class="result-value" id="yieldBoost">+15%</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">📈 Extra Crop Income</span>
+                    <span class="result-value" id="extraIncome">₹18,000</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">🧫 Carbon Credits Earned</span>
+                    <span class="result-value" id="carbonCredits">5.0 Credits</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">💰 Carbon Credit Value</span>
+                    <span class="result-value" id="creditValue">₹6,225</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">🌍 CO₂ Removed</span>
+                    <span class="result-value" id="co2Removed">5,000 kg</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">🌳 Trees Equivalent</span>
+                    <span class="result-value" id="treesEq">222 trees</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">💵 TOTAL EXTRA EARNINGS</span>
+                    <span class="result-value total-value" id="totalBonus">₹24,225</span>
+                </div>
             </div>
 
-            <div class="step">
-                <div class="step-number">3</div>
-                <h4>AI Analysis</h4>
-                <p>Satellite + AI agents analyze land and trees</p>
-            </div>
+            <button class="btn-calc" onclick="calculateBenefits()">🔄 Calculate My Benefits</button>
+        </div>
+    </section>
 
-            <div class="step">
-                <div class="step-number">4</div>
-                <h4>Validate</h4>
-                <p>Results are checked and verified</p>
-            </div>
+    <!-- 3-Step Process -->
+    <section class="steps-section" id="how-it-works">
+        <h2 class="section-title" style="text-align: center;">🍃 How It Works</h2>
+        <p class="section-subtitle" style="text-align: center; color: #666; margin-bottom: 30px;">6 AI Agents + PrithviBio in 3 simple steps</p>
 
-            <div class="step">
-                <div class="step-number">5</div>
-                <h4>Trade</h4>
-                <p>Credits are prepared for marketplace sale</p>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-icon">📡</div>
+                <h3>AI Agents Analyze</h3>
+                <p>Vision Agent analyzes satellite data. Carbon Analyst calculates credits. Validation Agent verifies results.</p>
             </div>
-
-            <div class="step">
-                <div class="step-number">6</div>
-                <h4>Impact</h4>
-                <p>Track earnings and climate benefit</p>
+            <div class="step-card">
+                <div class="step-icon">🧫</div>
+                <h3>Apply PrithviBio</h3>
+                <p>Mix and spray our liquid green algae fertilizer on your crops to boost yield by 15-30%.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-icon">💰</div>
+                <h3>Collect Carbon Cash</h3>
+                <p>Market Agent matches buyers. Blockchain Agent records transaction. You get paid.</p>
             </div>
         </div>
     </section>
 
+    <!-- Stats Section -->
     <section class="stats">
         <div class="stats-grid">
             <div class="stat-item">
@@ -545,42 +786,114 @@
                 <div class="stat-label">AI Agents</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Automated Analysis</div>
+                <div class="stat-number">15-30%</div>
+                <div class="stat-label">Yield Increase</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">NDVI</div>
-                <div class="stat-label">Vegetation Intelligence</div>
+                <div class="stat-number">2.5</div>
+                <div class="stat-label">Credits/Acre/Year</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">PDF</div>
-                <div class="stat-label">Audit-Ready Reports</div>
+                <div class="stat-number">₹24k+</div>
+                <div class="stat-label">Extra Income/Acre</div>
             </div>
         </div>
     </section>
 
-    <section class="cta">
-        <h2>Ready to Start?</h2>
-        <p>
-            Whether you are a farmer who wants to earn from trees or a company looking to buy trusted
-            carbon credits, FarmGuard AI helps you begin in a guided way.
-        </p>
+    <!-- Trust & Safety Section -->
+    <section class="trust-section" id="trust">
+        <div class="trust-badge">🛡️ 100% Non-Toxic & Cyanobacteria-Free</div>
+        <h2 class="section-title" style="text-align: center;">Safe for Your Soil, Crops & Livestock</h2>
+        
+        <div class="trust-grid">
+            <div class="trust-item">
+                <div class="icon">🌿</div>
+                <h4>Pure Plant Origin</h4>
+                <p>Made strictly from premium Chlorella cells — the gold standard in agricultural microalgae.</p>
+            </div>
+            <div class="trust-item">
+                <div class="icon">🔬</div>
+                <h4>Zero Toxins</h4>
+                <p>Completely free from dangerous pond-scum bacteria (cyanobacteria) and microcystins.</p>
+            </div>
+            <div class="trust-item">
+                <div class="icon">🚜</div>
+                <h4>Machinery Safe</h4>
+                <p>Smooth liquid formula that never clogs drip irrigation, spray nozzles, or drone tanks.</p>
+            </div>
+        </div>
+    </section>
 
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>Ready to Transform Your Farm?</h2>
+        <p>
+            Join thousands of farmers already using FarmGuard AI's 6 intelligent agents and PrithviBio
+            to boost yields and earn carbon credits.
+        </p>
         <div class="cta-buttons">
             <a href="role-selection.html" class="btn-green">Get Started →</a>
-            <a href="#agents" class="btn-outline-green">Learn More</a>
+            <a href="#calculator" class="btn-outline-green">Calculate Your Earnings</a>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-links">
-            <a href="#agents">Agents</a>
-            <a href="#agents">How It Works</a>
+            <a href="#agents">AI Agents</a>
+            <a href="#calculator">Calculator</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#trust">Safety</a>
             <a href="role-selection.html">Get Started</a>
         </div>
         <div class="copyright">
-            © 2026 FarmGuard AI • Intelligent carbon credit platform for farmers and companies
+            © 2026 FarmGuard AI • 6 Intelligent Agents + PrithviBio • Empowering sustainable farmers globally
         </div>
     </footer>
+
+    <script>
+        // Crop data for calculator
+        const cropData = {
+            tomato: { name: "Tomatoes", price: 30, baseYield: 2000, revenuePerAcre: 60000 },
+            rice: { name: "Rice", price: 25, baseYield: 2500, revenuePerAcre: 62500 },
+            wheat: { name: "Wheat", price: 28, baseYield: 2200, revenuePerAcre: 61600 },
+            maize: { name: "Maize", price: 22, baseYield: 3000, revenuePerAcre: 66000 },
+            cotton: { name: "Cotton", price: 65, baseYield: 800, revenuePerAcre: 52000 },
+            vegetables: { name: "Mixed Vegetables", price: 35, baseYield: 1800, revenuePerAcre: 63000 }
+        };
+
+        function calculateBenefits() {
+            const acres = parseFloat(document.getElementById('farmSize').value) || 0;
+            const cropKey = document.getElementById('cropType').value;
+            const crop = cropData[cropKey];
+            
+            const YIELD_INCREASE = 15;
+            const CARBON_CREDITS_PER_ACRE = 2.5;
+            const PRICE_PER_CREDIT_INR = 1245; // $15 × ₹83
+            
+            // Calculations
+            const currentRevenue = acres * crop.revenuePerAcre;
+            const extraCropRevenue = currentRevenue * (YIELD_INCREASE / 100);
+            const totalCarbonCredits = acres * CARBON_CREDITS_PER_ACRE;
+            const carbonRevenue = totalCarbonCredits * PRICE_PER_CREDIT_INR;
+            const totalBonus = extraCropRevenue + carbonRevenue;
+            const co2Removed = totalCarbonCredits * 1000;
+            const treesEquivalent = Math.round(co2Removed / 22.5);
+            
+            // Update display
+            document.getElementById('yieldBoost').innerHTML = `+${YIELD_INCREASE}% (${Math.round(acres * crop.baseYield * (YIELD_INCREASE/100)).toLocaleString()} kg extra)`;
+            document.getElementById('extraIncome').innerHTML = `₹${Math.round(extraCropRevenue).toLocaleString()}`;
+            document.getElementById('carbonCredits').innerHTML = `${totalCarbonCredits.toFixed(1)} Credits`;
+            document.getElementById('creditValue').innerHTML = `₹${Math.round(carbonRevenue).toLocaleString()}`;
+            document.getElementById('co2Removed').innerHTML = `${co2Removed.toLocaleString()} kg`;
+            document.getElementById('treesEq').innerHTML = `${treesEquivalent.toLocaleString()} trees`;
+            document.getElementById('totalBonus').innerHTML = `₹${Math.round(totalBonus).toLocaleString()}`;
+        }
+
+        // Calculate on page load
+        window.onload = function() {
+            calculateBenefits();
+        };
+    </script>
 </body>
 </html>

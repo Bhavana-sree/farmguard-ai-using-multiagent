@@ -1,2 +1,49 @@
-backend/.env 
-backend/.env.template 
+# ===========================
+# Environment Files
+# ===========================
+backend/.env
+backend/.env.template
+
+# ===========================
+# Python Cache
+# ===========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ===========================
+# Database
+# ===========================
+*.db
+*.sqlite
+*.sqlite3
+
+# ===========================
+# Reports
+# ===========================
+backend/generated_reports/
+backend/reports/
+
+# ===========================
+# Python Virtual Environment
+# ===========================
+venv/
+.venv/
+env/
+
+# ===========================
+# IDE Files
+# ===========================
+.vscode/
+.idea/
+
+# ===========================
+# OS Files
+# ===========================
+.DS_Store
+Thumbs.db
+
+# ===========================
+# Logs
+# ===========================
+*.log

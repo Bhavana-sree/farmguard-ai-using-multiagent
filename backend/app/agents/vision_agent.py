@@ -21,7 +21,36 @@ from app.config import (
     AZURE_VISION_ENDPOINT,
     AZURE_VISION_KEY,
 )
+"""
+Vision Agent - Analyzes images (trees, crops, and algae)
+"""
 
+class VisionAgent:
+    # Your existing methods...
+    
+    # NEW: Analyze algae health from uploaded photo
+    def analyze_algae_health(self, image_url):
+        """
+        Check if algae is healthy by analyzing color
+        Healthy Chlorella = Vibrant GREEN
+        Unhealthy/Crashed = BROWN or CLEAR
+        """
+        
+        # In real implementation, this would use Azure AI Vision
+        # For demo, we'll simulate the analysis
+        
+        # Simulate color analysis (in production, use Azure AI Vision)
+        # Healthy algae: RGB values where Green > Red and Green > Blue
+        # Unhealthy algae: Brown/Reddish or Clear
+        
+        # For demo, we'll return a sample result
+        return {
+            "health_status": "HEALTHY",
+            "confidence": 0.92,
+            "message": "✅ Algae culture is healthy and actively photosynthesizing!",
+            "color_detected": "Vibrant Green",
+            "recommendation": "Continue current maintenance. Ready for harvest in 3-4 days."
+        }
 
 class VisionAgent:
     def __init__(self):

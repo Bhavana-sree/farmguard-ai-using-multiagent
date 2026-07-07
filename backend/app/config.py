@@ -1,69 +1,79 @@
 """
 Configuration for FarmGuard AI Backend
-Loads from .env file automatically
+Loads configuration from .env
 """
 
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+# Load .env
 load_dotenv()
 
-# ===========================================
-# Azure OpenAI Configuration
-# ===========================================
-AZURE_API_KEY = os.environ.get("AZURE_API_KEY")
-AZURE_BASE_URL = os.environ.get("AZURE_BASE_URL")
-AZURE_MODEL = os.environ.get("AZURE_MODEL", "gpt-4")
+# ==================================================
+# AI Configuration (Currently Azure - will migrate later)
+# ==================================================
 
-# ===========================================
-# Azure Vision Configuration (ADD THIS)
-# ===========================================
-AZURE_VISION_ENDPOINT = os.environ.get("AZURE_VISION_ENDPOINT", "https://farmguard-vision.cognitiveservices.azure.com/")
-AZURE_VISION_KEY = os.environ.get("AZURE_VISION_KEY", AZURE_API_KEY)  # Use same key if not specified
+AZURE_API_KEY = os.getenv("AZURE_API_KEY", "")
+AZURE_BASE_URL = os.getenv("AZURE_BASE_URL", "")
+AZURE_MODEL = os.getenv("AZURE_MODEL", "gpt-4")
 
-# ===========================================
-# Google API Configuration (Maps & Solar)
-# ===========================================
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+# ==================================================
+# Vision Configuration
+# ==================================================
 
-# ===========================================
-# Sentinel Hub Configuration (for satellite imagery)
-# ===========================================
-SENTINELHUB_CLIENT_ID = os.environ.get("SENTINELHUB_CLIENT_ID", "sentinel-demo-client")
-SENTINELHUB_CLIENT_SECRET = os.environ.get("SENTINELHUB_CLIENT_SECRET", "sentinel-demo-secret")
-SENTINELHUB_INSTANCE_ID = os.environ.get("SENTINELHUB_INSTANCE_ID", "default-instance")
+AZURE_VISION_ENDPOINT = os.getenv(
+    "AZURE_VISION_ENDPOINT",
+    "https://farmguard-vision.cognitiveservices.azure.com/"
+)
 
-# ===========================================
-# Database Configuration
-# ===========================================
-DB_PATH = os.environ.get("DB_PATH", "farmguard.db")
+AZURE_VISION_KEY = os.getenv(
+    "AZURE_VISION_KEY",
+    AZURE_API_KEY
+)
 
-# ===========================================
-# Validation - Check required variables
-# ===========================================
-print("\n" + "="*50)
+# ==================================================
+# Google APIs
+# ==================================================
+
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
+
+# ==================================================
+# Sentinel Hub
+# ==================================================
+
+SENTINELHUB_CLIENT_ID = os.getenv(
+    "SENTINELHUB_CLIENT_ID",
+    "sentinel-demo-client"
+)
+
+SENTINELHUB_CLIENT_SECRET = os.getenv(
+    "SENTINELHUB_CLIENT_SECRET",
+    "sentinel-demo-secret"
+)
+
+SENTINELHUB_INSTANCE_ID = os.getenv(
+    "SENTINELHUB_INSTANCE_ID",
+    "default-instance"
+)
+
+# ==================================================
+# Database
+# ==================================================
+
+DB_PATH = os.getenv("DB_PATH", "farmguard.db")
+
+# ==================================================
+# Status Display
+# ==================================================
+
+print("\n" + "=" * 50)
 print("🔧 FARMGUARD AI CONFIGURATION")
-print("="*50)
+print("=" * 50)
 
-missing_vars = []
-if not AZURE_API_KEY:
-    missing_vars.append("AZURE_API_KEY")
-if not AZURE_BASE_URL:
-    missing_vars.append("AZURE_BASE_URL")
+print(f"Azure OpenAI      : {'Configured' if AZURE_API_KEY else 'Not Configured'}")
+print(f"Azure Vision      : {'Configured' if AZURE_VISION_KEY else 'Not Configured'}")
+print(f"Google API        : {'Configured' if GOOGLE_API_KEY else 'Not Configured'}")
+print("Sentinel Hub      : Demo Mode")
+print(f"Database          : {DB_PATH}")
 
-if missing_vars:
-    print("⚠️  Warning: Missing required Azure variables:", ", ".join(missing_vars))
-else:
-    print("✅ Azure OpenAI: Configured")
-
-# Vision config status
-print(f"✅ Azure Vision: {'Using default endpoint' if AZURE_VISION_ENDPOINT else 'Not configured'}")
-
-# Google config status
-print(f"✅ Google API: {'Configured' if GOOGLE_API_KEY else 'Not configured'}")
-
-# Sentinel config status
-print(f"✅ Sentinel Hub: Demo mode enabled")
-
-print("="*50 + "\n")
+print("=" * 50 + "\n")
